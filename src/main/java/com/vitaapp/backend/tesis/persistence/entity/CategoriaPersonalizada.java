@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +23,16 @@ public class CategoriaPersonalizada {
 	private Integer idCuidador;
 	@Column(name = "id_categoria")
 	private Integer idCategoria;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_cuidador", updatable = false, insertable = false)
+	private Cuidador cuidador;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_categoria", updatable = false, insertable = false)
+	private Categoria categoria;
+	
+	
 	public Integer getIdCategoriaPersonalizada() {
 		return idCategoriaPersonalizada;
 	}
@@ -57,5 +69,18 @@ public class CategoriaPersonalizada {
 	public void setIdCategoria(Integer idCategoria) {
 		this.idCategoria = idCategoria;
 	}
+	public Cuidador getCuidador() {
+		return cuidador;
+	}
+	public void setCuidador(Cuidador cuidador) {
+		this.cuidador = cuidador;
+	}
+	public Categoria getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+	
 	
 }

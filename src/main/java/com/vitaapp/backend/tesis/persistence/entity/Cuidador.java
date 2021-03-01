@@ -19,13 +19,22 @@ public class Cuidador {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_cuidador")
 	private Integer idCuidador;
+	@Column(length = 40)
 	private String nombre;
+	@Column(length = 40)
 	private String apellido;
+	@Column(length = 40)
 	private String email;
 	private String password;
 	
 	@OneToMany(mappedBy = "cuidador")
 	private List<Adulto> adultos;
+	
+	@OneToMany(mappedBy = "cuidador")
+	private List<Mensaje> mensajes;
+	
+	@OneToMany(mappedBy = "cuidador")
+	private List<CategoriaPersonalizada> categoriasPersonalizadas;
 	
 	public Integer getIdCuidador() {
 		return idCuidador;
@@ -63,5 +72,18 @@ public class Cuidador {
 	public void setAdultos(List<Adulto> adultos) {
 		this.adultos = adultos;
 	}
+	public List<Mensaje> getMensajes() {
+		return mensajes;
+	}
+	public void setMensajes(List<Mensaje> mensajes) {
+		this.mensajes = mensajes;
+	}
+	public List<CategoriaPersonalizada> getCategoriasPersonalizadas() {
+		return categoriasPersonalizadas;
+	}
+	public void setCategoriasPersonalizadas(List<CategoriaPersonalizada> categoriasPersonalizadas) {
+		this.categoriasPersonalizadas = categoriasPersonalizadas;
+	}
+	
 	
 }

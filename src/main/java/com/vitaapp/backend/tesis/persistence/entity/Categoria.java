@@ -23,6 +23,9 @@ public class Categoria {
 	@OneToMany(mappedBy = "categoria")
 	private List<Subcategoria> subcategorias;
 	
+	@OneToMany(mappedBy = "categoria")
+	private List<CategoriaPersonalizada> categoriasPersonalizadas;
+	
 	public Integer getIdCategoria() {
 		return idCategoria;
 	}
@@ -53,6 +56,13 @@ public class Categoria {
 	public void setSubcategorias(List<Subcategoria> subcategorias) {
 		this.subcategorias = subcategorias;
 	}
+	public List<CategoriaPersonalizada> getCategoriasPersonalizadas() {
+		return categoriasPersonalizadas;
+	}
+	public void setCategoriasPersonalizadas(List<CategoriaPersonalizada> categoriasPersonalizadas) {
+		this.categoriasPersonalizadas = categoriasPersonalizadas;
+	}
+	
 	
 	
 }
