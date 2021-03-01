@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,7 +21,13 @@ public class Categoria {
 	private Integer idCategoria;
 	private String nombre;
 	private String descripcion;
-	private String color;
+	@Column(name = "id_color")
+	private Integer idColor;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_color", updatable = false, insertable = false)
+	private Color color;
+	
 	@OneToMany(mappedBy = "categoria")
 	private List<Subcategoria> subcategorias;
 	
@@ -44,12 +52,6 @@ public class Categoria {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public String getColor() {
-		return color;
-	}
-	public void setColor(String color) {
-		this.color = color;
-	}
 	public List<Subcategoria> getSubcategorias() {
 		return subcategorias;
 	}
@@ -61,6 +63,18 @@ public class Categoria {
 	}
 	public void setCategoriasPersonalizadas(List<CategoriaPersonalizada> categoriasPersonalizadas) {
 		this.categoriasPersonalizadas = categoriasPersonalizadas;
+	}
+	public Integer getIdColor() {
+		return idColor;
+	}
+	public void setIdColor(Integer idColor) {
+		this.idColor = idColor;
+	}
+	public Color getColor() {
+		return color;
+	}
+	public void setColor(Color color) {
+		this.color = color;
 	}
 	
 	

@@ -29,6 +29,9 @@ public class Adulto {
 	private String codigo;
 	@Column(name = "id_cuidador")
 	private Integer idCuidador;
+	private char genero;
+	private String escolaridad;
+	private String laterabilidad;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_cuidador", insertable = false, updatable = false)
@@ -80,6 +83,24 @@ public class Adulto {
 	}
 	public void setMensajes(List<Mensaje> mensajes) {
 		this.mensajes = mensajes;
+	}
+	public char getGenero() {
+		return genero;
+	}
+	public void setGenero(char genero) {
+		this.genero = genero;
+	}
+	public String getEscolaridad() {
+		return escolaridad;
+	}
+	public void setEscolaridad(String escolaridad) {
+		this.escolaridad = escolaridad;
+	}
+	public String getLaterabilidad() {
+		return laterabilidad;
+	}
+	public void setLaterabilidad(String laterabilidad) {
+		this.laterabilidad = laterabilidad;
 	}
 	
 	

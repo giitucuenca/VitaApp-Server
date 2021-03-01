@@ -18,7 +18,8 @@ public class CategoriaPersonalizada {
 	private Integer idCategoriaPersonalizada;
 	private String nombre;
 	private String descripcion;
-	private String color;
+	@Column(name = "id_color")
+	private Integer idColor;
 	@Column(name = "id_cuidador")
 	private Integer idCuidador;
 	@Column(name = "id_categoria")
@@ -32,6 +33,9 @@ public class CategoriaPersonalizada {
 	@JoinColumn(name = "id_categoria", updatable = false, insertable = false)
 	private Categoria categoria;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_color", updatable = false, insertable = false)
+	private Color color;
 	
 	public Integer getIdCategoriaPersonalizada() {
 		return idCategoriaPersonalizada;
@@ -50,12 +54,6 @@ public class CategoriaPersonalizada {
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-	public String getColor() {
-		return color;
-	}
-	public void setColor(String color) {
-		this.color = color;
 	}
 	public Integer getIdCuidador() {
 		return idCuidador;
@@ -81,6 +79,19 @@ public class CategoriaPersonalizada {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+	public Integer getIdColor() {
+		return idColor;
+	}
+	public void setIdColor(Integer idColor) {
+		this.idColor = idColor;
+	}
+	public Color getColor() {
+		return color;
+	}
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
 	
 	
 }
