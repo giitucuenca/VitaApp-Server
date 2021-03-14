@@ -6,37 +6,53 @@ public class Category {
 	private String description;
 	private Integer colorId;
 	private ColorM colorM;
-	
+	private String imageURL;
+
 	public Integer getCategoryId() {
 		return categoryId;
 	}
+
 	public void setCategoryId(Integer categoryId) {
 		this.categoryId = categoryId;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public Integer getColorId() {
 		return colorId;
 	}
+
 	public void setColorId(Integer colorId) {
 		this.colorId = colorId;
 	}
+
 	public ColorM getColorM() {
 		return colorM;
 	}
+
 	public void setColorM(ColorM colorM) {
 		this.colorM = colorM;
 	}
-	
-	
+
+	public String getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
+	}
 }
