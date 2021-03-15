@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class VitaappUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        System.out.println(s);
         return new User("christian", "{noop}vitaapp", new ArrayList<>());
     }
 }

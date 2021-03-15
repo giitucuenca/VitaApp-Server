@@ -3,7 +3,7 @@ package com.vitaapp.backend.tesis.web.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.vitaapp.backend.tesis.domain.message.Message;
+import com.vitaapp.backend.tesis.domain.message.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +33,12 @@ public class CategoryController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Message> updateCategory(@PathVariable Integer id, @RequestBody Category category) {
+	public ResponseEntity<Response> updateCategory(@PathVariable Integer id, @RequestBody Category category) {
 		return categoryService.updateCategory(id, category);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Message> delete(@PathVariable Integer id) {
+	public ResponseEntity<Response> delete(@PathVariable Integer id) {
 		return  categoryService.delete(id);
 	}
 }

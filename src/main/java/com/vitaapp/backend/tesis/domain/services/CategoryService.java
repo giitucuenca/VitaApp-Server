@@ -3,7 +3,7 @@ package com.vitaapp.backend.tesis.domain.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.vitaapp.backend.tesis.domain.message.Message;
+import com.vitaapp.backend.tesis.domain.message.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,13 +21,13 @@ public class CategoryService {
 	public Optional<Category> getByIdCategory(int id) {
 		return categoryRepository.getByIdCategory(id);
 	}
-	public ResponseEntity<Message> delete(Integer id) {
+	public ResponseEntity<Response> delete(Integer id) {
 		return categoryRepository.delete(id);
 	}
 	public ResponseEntity<String> save(Category category) {
 		return categoryRepository.save(category);
 	}
-	public ResponseEntity<Message> updateCategory(Integer id, Category category) {
+	public ResponseEntity<Response> updateCategory(Integer id, Category category) {
 		return categoryRepository.updateCategory(id, category);
 	}
 	

@@ -1,6 +1,6 @@
 package com.vitaapp.backend.tesis.domain.message;
 
-public class Message {
+public class Response {
     private Integer code;
 
     private String message;
