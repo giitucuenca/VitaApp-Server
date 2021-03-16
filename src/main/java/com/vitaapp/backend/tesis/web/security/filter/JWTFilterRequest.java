@@ -1,5 +1,6 @@
 package com.vitaapp.backend.tesis.web.security.filter;
 
+import com.vitaapp.backend.tesis.domain.services.AdminService;
 import com.vitaapp.backend.tesis.domain.services.VitaappUserDetailsService;
 import com.vitaapp.backend.tesis.web.security.JWTUtil;
 import org.hibernate.internal.build.AllowSysOut;
@@ -22,8 +23,11 @@ public class JWTFilterRequest extends OncePerRequestFilter {
     @Autowired
     private JWTUtil jwtUtil;
 
+    // @Autowired
+    // private VitaappUserDetailsService vitaappUserDetailsService;
+
     @Autowired
-    private VitaappUserDetailsService vitaappUserDetailsService;
+    private AdminService adminService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -31,8 +35,9 @@ public class JWTFilterRequest extends OncePerRequestFilter {
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
             String jwt = authorizationHeader.substring(7);
             String username = jwtUtil.extractUsername(jwt);
+            System.out.println(username);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = vitaappUserDetailsService.loadUserByUsername(username);
+                UserDetails userDetails = adminService.loadUserByUsername(username);
 
                 if(jwtUtil.validateToken(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
