@@ -1,7 +1,7 @@
 package com.vitaapp.backend.tesis.persistence;
 
 import com.vitaapp.backend.tesis.domain.Category;
-import com.vitaapp.backend.tesis.domain.message.Response;
+import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.CategoryRepository;
 import com.vitaapp.backend.tesis.persistence.crud.CategoriaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.entity.Categoria;
@@ -44,15 +44,15 @@ public class CategoriaRepository implements CategoryRepository {
     }
 
     @Override
-    public ResponseEntity<Response> delete(Integer id) {
+    public ResponseEntity<ResponsePersonalized> delete(Integer id) {
         return getByIdCategory(id).map(category -> {
             categoriaCrudRepository.deleteById(id);
-            Response response = new Response();
+            ResponsePersonalized response = new ResponsePersonalized();
             response.setCode(200);
             response.setMessage("Categoria Eliminada Correctamente");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }).orElseGet(() -> {
-			Response response = new Response();
+			ResponsePersonalized response = new ResponsePersonalized();
 			response.setCode(404);
 			response.setMessage("Categoria no encontrada");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
@@ -60,7 +60,7 @@ public class CategoriaRepository implements CategoryRepository {
     }
 
     @Override
-    public ResponseEntity<Response> updateCategory(Integer id, Category category) {
+    public ResponseEntity<ResponsePersonalized> updateCategory(Integer id, Category category) {
         Optional<Categoria> categoriaData = categoriaCrudRepository.findById(id);
         Categoria categoria = mapper.toCategoria(category);
         if (categoriaData.isPresent()) {
@@ -70,7 +70,7 @@ public class CategoriaRepository implements CategoryRepository {
             _categoria.setImagenURL(categoria.getImagenURL());
             _categoria.setIdColor(categoria.getIdColor());
             mapper.toCategory(categoriaCrudRepository.save(_categoria));
-            Response response = new Response();
+            ResponsePersonalized response = new ResponsePersonalized();
             response.setCode(200);
             response.setMessage("Categoria Modificada Correctamente");
             return new ResponseEntity<>(response, HttpStatus.OK);

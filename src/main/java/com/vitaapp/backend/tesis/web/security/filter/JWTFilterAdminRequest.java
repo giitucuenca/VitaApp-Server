@@ -19,12 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class JWTFilterRequest extends OncePerRequestFilter {
+public class JWTFilterAdminRequest extends OncePerRequestFilter {
     @Autowired
     private JWTUtil jwtUtil;
-
-    // @Autowired
-    // private VitaappUserDetailsService vitaappUserDetailsService;
 
     @Autowired
     private AdminService adminService;

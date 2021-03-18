@@ -3,7 +3,7 @@ package com.vitaapp.backend.tesis.web.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.vitaapp.backend.tesis.domain.message.Response;
+import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,18 +27,18 @@ public class CategoryController {
 		return categoryService.getByIdCategory(id);
 	}
 
-	@PostMapping("/add")
+	@PostMapping("/admin/add")
 	public ResponseEntity<String> save(@RequestBody Category category) {
 		return categoryService.save(category);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Response> updateCategory(@PathVariable Integer id, @RequestBody Category category) {
+	@PutMapping("/admin/{id}")
+	public ResponseEntity<ResponsePersonalized> updateCategory(@PathVariable Integer id, @RequestBody Category category) {
 		return categoryService.updateCategory(id, category);
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Response> delete(@PathVariable Integer id) {
+	@DeleteMapping("/admin/{id}")
+	public ResponseEntity<ResponsePersonalized> delete(@PathVariable Integer id) {
 		return  categoryService.delete(id);
 	}
 }

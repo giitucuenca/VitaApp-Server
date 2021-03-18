@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import com.vitaapp.backend.tesis.domain.Category;
-import com.vitaapp.backend.tesis.domain.message.Response;
+import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import org.springframework.http.ResponseEntity;
 
 public interface CategoryRepository {
 	List<Category> getAll();
 	Optional<Category> getByIdCategory(int id);
 	ResponseEntity<String> save(Category category);
-	ResponseEntity<Response> delete(Integer id);
-	ResponseEntity<Response> updateCategory(Integer id, Category category);
+	ResponseEntity<ResponsePersonalized> delete(Integer id);
+	ResponseEntity<ResponsePersonalized> updateCategory(Integer id, Category category);
 }

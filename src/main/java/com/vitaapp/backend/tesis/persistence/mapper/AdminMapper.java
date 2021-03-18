@@ -15,7 +15,9 @@ public interface AdminMapper {
     @Mappings( {
             @Mapping(source = "idAdministrador", target = "adminId"),
             @Mapping(source = "correo", target = "email"),
-            @Mapping(source = "contrasena", target = "password")
+            @Mapping(source = "contrasena", target = "password"),
+            @Mapping(source = "nombre", target = "name"),
+            @Mapping(source = "apellido", target = "surname"),
     })
     Admin toAdmin(Administrador administrador);
 

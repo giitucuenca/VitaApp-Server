@@ -1,11 +1,8 @@
 package com.vitaapp.backend.tesis.web.controller;
 
-import com.vitaapp.backend.tesis.domain.Admin;
 import com.vitaapp.backend.tesis.domain.dto.AuthenticationRequest;
 import com.vitaapp.backend.tesis.domain.dto.AuthenticationResponse;
-import com.vitaapp.backend.tesis.domain.message.Response;
 import com.vitaapp.backend.tesis.domain.services.AdminService;
-import com.vitaapp.backend.tesis.domain.services.VitaappUserDetailsService;
 import com.vitaapp.backend.tesis.web.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,13 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
-public class AuthController {
+@RequestMapping("/admin")
+public class AuthAdminController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    //@Autowired
-    //private VitaappUserDetailsService vitaappUserDetailsService;
     @Autowired
     private AdminService adminService;
 
@@ -45,8 +40,5 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<Response> save(@RequestBody Admin admin) {
-        return  adminService.save(admin);
-    }
+
 }

@@ -1,8 +1,7 @@
 package com.vitaapp.backend.tesis.web.security;
 
 import com.vitaapp.backend.tesis.domain.services.AdminService;
-import com.vitaapp.backend.tesis.domain.services.VitaappUserDetailsService;
-import com.vitaapp.backend.tesis.web.security.filter.JWTFilterRequest;
+import com.vitaapp.backend.tesis.web.security.filter.JWTFilterAdminRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,16 +16,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    // @Autowired
-   // private VitaappUserDetailsService vitaappUserDetailsService;
+public class SecurityAdminConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AdminService adminService;
 
     @Autowired
-    private JWTFilterRequest jwtFilterRequest;
+    private JWTFilterAdminRequest jwtFilterRequest;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,7 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/**/auth","/**/register").permitAll()
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/**/auth","/**/register").permitAll()
+                .antMatchers("/**/admin", "/**/admin/**/").hasAnyAuthority("ADMIN")
+                .antMatchers("/**/category/all", "/**/category/{id}", "/**/subcategory/category/**","/**/subcategory/all", "/**/subcategory/{id}").hasAnyAuthority("CARER", "ADMIN")
                 .anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);
@@ -61,13 +60,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
-
-    /* @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authProvider());
-    } */
-
-
-
 
 }

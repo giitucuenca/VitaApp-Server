@@ -1,7 +1,7 @@
 package com.vitaapp.backend.tesis.persistence;
 
 import com.vitaapp.backend.tesis.domain.Admin;
-import com.vitaapp.backend.tesis.domain.message.Response;
+import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.AdminRepository;
 import com.vitaapp.backend.tesis.persistence.crud.AdministradorCrudRepository;
 import com.vitaapp.backend.tesis.persistence.mapper.AdminMapper;
@@ -20,17 +20,17 @@ public class AdministradorRepository implements AdminRepository {
     AdministradorCrudRepository administradorCrudRepository;
 
     @Override
-    public ResponseEntity<Response> save(Admin admin) {
+    public ResponseEntity<ResponsePersonalized> save(Admin admin) {
         System.out.println(admin.getEmail());
         administradorCrudRepository.findByCorreoOrderByCorreoAsc(admin.getEmail()).isEmpty();
         if(administradorCrudRepository.findByCorreoOrderByCorreoAsc(admin.getEmail()).isEmpty()) {
-            Response response = new Response();
+            ResponsePersonalized response = new ResponsePersonalized();
             response.setMessage("Administrador creado correctamente.");
             response.setCode(200);
             administradorCrudRepository.save(adminMapper.toAdministrador(admin));
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } else {
-            Response response = new Response();
+            ResponsePersonalized response = new ResponsePersonalized();
             response.setMessage("El email ya existe.");
             response.setCode(404);
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
@@ -39,17 +39,17 @@ public class AdministradorRepository implements AdminRepository {
     }
 
     @Override
-    public ResponseEntity<Response> delete(Integer id) {
+    public ResponseEntity<ResponsePersonalized> delete(Integer id) {
         return administradorCrudRepository.findById(id)
                 .map(admin -> {
                    administradorCrudRepository.deleteById(id);
-                   Response  mensaje = new Response();
+                   ResponsePersonalized mensaje = new ResponsePersonalized();
                    mensaje.setMessage("Administrador eliminado correctamento.");
                    mensaje.setCode(200);
                    return new ResponseEntity<>(mensaje, HttpStatus.OK);
                 })
                 .orElseGet(() -> {
-                    Response  mensaje = new Response();
+                    ResponsePersonalized mensaje = new ResponsePersonalized();
                     mensaje.setMessage("Administrador no encontrado.");
                     mensaje.setCode(404);
                     return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
