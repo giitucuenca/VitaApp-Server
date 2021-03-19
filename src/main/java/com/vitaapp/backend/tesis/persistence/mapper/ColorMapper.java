@@ -8,6 +8,8 @@ import org.mapstruct.Mappings;
 import com.vitaapp.backend.tesis.domain.ColorM;
 import com.vitaapp.backend.tesis.persistence.entity.Color;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface ColorMapper {
 	@Mappings({
@@ -16,6 +18,7 @@ public interface ColorMapper {
 			@Mapping(source = "nombre", target = "name"),
 	})
 	ColorM colorMTo(Color color);
+	List<ColorM> colorsMTo(List<Color> colores);
 	
 	@InheritInverseConfiguration
 	@Mappings({

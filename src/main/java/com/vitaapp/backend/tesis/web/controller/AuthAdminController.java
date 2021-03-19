@@ -1,5 +1,6 @@
 package com.vitaapp.backend.tesis.web.controller;
 
+import com.vitaapp.backend.tesis.domain.Admin;
 import com.vitaapp.backend.tesis.domain.dto.AuthenticationRequest;
 import com.vitaapp.backend.tesis.domain.dto.AuthenticationResponse;
 import com.vitaapp.backend.tesis.domain.services.AdminService;
@@ -11,10 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin")
@@ -30,6 +28,10 @@ public class AuthAdminController {
 
     @PostMapping("/auth")
     public ResponseEntity<AuthenticationResponse> createToken(@RequestBody AuthenticationRequest request) {
+        Admin admin = adminService.getByEmail(request.getUsername());
+        if(admin == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
             UserDetails userDetails = adminService.loadUserByUsername(request.getUsername());
@@ -40,5 +42,8 @@ public class AuthAdminController {
         }
     }
 
-
+    @GetMapping("/valid")
+    public ResponseEntity<Boolean> validateToken() {
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
 }

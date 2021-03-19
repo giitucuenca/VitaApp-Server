@@ -33,11 +33,11 @@ public class CategoriaRepository implements CategoryRepository {
     }
 
     @Override
-    public ResponseEntity<String> save(Category category) {
+    public ResponseEntity<ResponsePersonalized> save(Category category) {
         // TODO Auto-generated method stub
         try {
             mapper.toCategory(categoriaCrudRepository.save(mapper.toCategoria(category)));
-            return new ResponseEntity<>("Categoria Agregada Correctamente", HttpStatus.CREATED);
+            return new ResponseEntity<>( new ResponsePersonalized(200, "Categoria Agregada Correctamente"), HttpStatus.CREATED);
         } catch (Exception exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

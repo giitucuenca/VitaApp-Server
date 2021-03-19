@@ -28,7 +28,7 @@ public class CategoryController {
 	}
 
 	@PostMapping("/admin/add")
-	public ResponseEntity<String> save(@RequestBody Category category) {
+	public ResponseEntity<ResponsePersonalized> save(@RequestBody Category category) {
 		return categoryService.save(category);
 	}
 

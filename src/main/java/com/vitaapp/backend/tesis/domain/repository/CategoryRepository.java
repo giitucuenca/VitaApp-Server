@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 public interface CategoryRepository {
 	List<Category> getAll();
 	Optional<Category> getByIdCategory(int id);
-	ResponseEntity<String> save(Category category);
+	ResponseEntity<ResponsePersonalized> save(Category category);
 	ResponseEntity<ResponsePersonalized> delete(Integer id);
 	ResponseEntity<ResponsePersonalized> updateCategory(Integer id, Category category);
 }

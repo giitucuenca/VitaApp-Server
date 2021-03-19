@@ -40,5 +40,10 @@ public class AdminService implements UserDetailsService {
         return new AdminDetails(admin);
     }
 
+    public Admin getByEmail(String email) {
+        return this.adminRepository.getByEmail(email);
+    }
+
+
 
 }
