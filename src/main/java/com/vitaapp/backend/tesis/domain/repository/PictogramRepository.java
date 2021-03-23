@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface PictogramRepository {
     List<Pictogram> getAll();
     Optional<Pictogram> getById(int id);
+    List<Pictogram> getAllByIdSubcategory(int id);
     ResponseEntity<Pictogram> save(Pictogram pictogram);
     ResponseEntity<ResponsePersonalized> delete(int id);
     ResponseEntity<Pictogram> update(int id, Pictogram pictogram);

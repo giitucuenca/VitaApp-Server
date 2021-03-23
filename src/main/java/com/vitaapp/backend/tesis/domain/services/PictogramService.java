@@ -30,4 +30,8 @@ public class PictogramService {
     public ResponseEntity<Pictogram> update(int id, Pictogram pictogram) {
         return pictogramRepository.update(id, pictogram);
     }
+
+    public List<Pictogram> getAllByIdSubcategory(int id) {
+        return pictogramRepository.getAllByIdSubcategory(id);
+    }
 }

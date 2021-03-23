@@ -9,21 +9,19 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {SubcategoryMapper.class})
 public interface PictogramMapper {
 
     @Mappings({
+            @Mapping(source = "idPictograma", target = "pictogramId"),
             @Mapping(source = "nombre", target = "name"),
             @Mapping(source = "imagenURL", target = "imageURL"),
-            @Mapping(source = "idSubcategoria", target = "subcategoryId"),
+            @Mapping(source = "subcategoria", target = "subcategory"),
+            @Mapping(source = "idSubcategoria", target = "subcategoryId")
     })
     Pictogram toPictogram(Pictograma pictograma);
-
     List<Pictogram> toPictograms(List<Pictograma> pictogramas);
 
     @InheritInverseConfiguration
-    @Mappings({
-            @Mapping(target = "subcategoria", ignore = true)
-    })
     Pictograma toPictograma(Pictogram pictogram);
 }

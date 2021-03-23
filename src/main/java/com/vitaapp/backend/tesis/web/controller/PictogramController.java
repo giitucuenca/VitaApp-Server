@@ -21,21 +21,25 @@ public class PictogramController {
         return pictogramService.getAll();
     }
 
+    @GetMapping("subcategory/{id}")
+    public List<Pictogram> getAllByIdSubcategory(@PathVariable int id) {
+        return pictogramService.getAllByIdSubcategory(id);
+    }
     @GetMapping("/{id}")
     public Optional<Pictogram> getById(@PathVariable int id) {
         return pictogramService.getById(id);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/admin/add")
     public ResponseEntity<Pictogram> save(@RequestBody Pictogram pictogram) {
         return  pictogramService.save(pictogram);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<ResponsePersonalized> delete(@PathVariable int id) {
         return pictogramService.delete(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public ResponseEntity<Pictogram> update(@PathVariable int id, @RequestBody Pictogram pictogram) {
         return pictogramService.update(id, pictogram);
     }

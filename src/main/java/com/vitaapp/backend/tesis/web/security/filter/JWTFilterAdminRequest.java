@@ -28,11 +28,13 @@ public class JWTFilterAdminRequest extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println(request.getRequestURI());
+        String requestURI = request.getRequestURI();
+
         String authorizationHeader = request.getHeader("Authorization");
-        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer") && !(requestURI.contains("/auth")) ) {
             String jwt = authorizationHeader.substring(7);
             String username = jwtUtil.extractUsername(jwt);
-            System.out.println(username);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = adminService.loadUserByUsername(username);
 

@@ -36,6 +36,11 @@ public class PictogramaRepository implements PictogramRepository {
     }
 
     @Override
+    public List<Pictogram> getAllByIdSubcategory(int id) {
+        return pictogramMapper.toPictograms((List<Pictograma>) pictogramaCrudRepository.findByIdSubcategoriaOrderByNombreAsc(id));
+    }
+
+    @Override
     public ResponseEntity<Pictogram> save(Pictogram pictogram) {
         try {
            Pictogram _pictogram = pictogramMapper

@@ -5,6 +5,7 @@ public class Pictogram {
     private String name;
     private String imageURL;
     private Integer subcategoryId;
+    private Subcategory subcategory;
 
     public Integer getPictogramId() {
         return pictogramId;
@@ -36,5 +37,13 @@ public class Pictogram {
 
     public void setSubcategoryId(Integer subcategoryId) {
         this.subcategoryId = subcategoryId;
+    }
+
+    public Subcategory getSubcategory() {
+        return subcategory;
+    }
+
+    public void setSubcategory(Subcategory subcategory) {
+        this.subcategory = subcategory;
     }
 }
