@@ -56,7 +56,6 @@ public class SecurityAdminConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);
-
     }
 
     @Override
