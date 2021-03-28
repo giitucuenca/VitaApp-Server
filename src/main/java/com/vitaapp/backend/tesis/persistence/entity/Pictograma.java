@@ -1,13 +1,7 @@
 package com.vitaapp.backend.tesis.persistence.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "pictogramas")
@@ -21,7 +15,7 @@ public class Pictograma {
 	private String nombre;
 
 	@Column(name = "imagen_url")
-	private String imagenURL;
+	private String imagenUrl;
 
 	@Column(name = "id_subcategoria")
 	private Integer idSubcategoria;
@@ -29,6 +23,20 @@ public class Pictograma {
 	@ManyToOne
 	@JoinColumn(name = "id_subcategoria", insertable = false, updatable = false)
 	private Subcategoria subcategoria;
+
+	@OneToMany(mappedBy = "pictograma")
+	List<PictogramaPersonalizado> pictogramasPersonalizados;
+
+	@OneToMany(mappedBy = "pictograma")
+	private List<ImagenPictograma> imagenesPictogramas;
+
+	public List<ImagenPictograma> getImagenesPictogramas() {
+		return imagenesPictogramas;
+	}
+
+	public void setImagenesPictogramas(List<ImagenPictograma> imagenesPictogramas) {
+		this.imagenesPictogramas = imagenesPictogramas;
+	}
 
 	public Integer getIdPictograma() {
 		return idPictograma;
@@ -46,12 +54,12 @@ public class Pictograma {
 		this.nombre = nombre;
 	}
 
-	public String getImagenURL() {
-		return imagenURL;
+	public String getImagenUrl() {
+		return imagenUrl;
 	}
 
-	public void setImagenURL(String imagenURL) {
-		this.imagenURL = imagenURL;
+	public void setImagenUrl(String imagenUrl) {
+		this.imagenUrl = imagenUrl;
 	}
 
 	public Integer getIdSubcategoria() {
@@ -68,5 +76,13 @@ public class Pictograma {
 
 	public void setSubcategoria(Subcategoria subcategoria) {
 		this.subcategoria = subcategoria;
+	}
+
+	public List<PictogramaPersonalizado> getPictogramasPersonalizados() {
+		return pictogramasPersonalizados;
+	}
+
+	public void setPictogramasPersonalizados(List<PictogramaPersonalizado> pictogramasPersonalizados) {
+		this.pictogramasPersonalizados = pictogramasPersonalizados;
 	}
 }

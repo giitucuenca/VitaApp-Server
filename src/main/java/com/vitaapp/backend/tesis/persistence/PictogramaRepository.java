@@ -3,7 +3,6 @@ package com.vitaapp.backend.tesis.persistence;
 import com.vitaapp.backend.tesis.domain.Pictogram;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.PictogramRepository;
-import com.vitaapp.backend.tesis.persistence.crud.CategoriaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.crud.PictogramaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.entity.Pictograma;
 import com.vitaapp.backend.tesis.persistence.mapper.PictogramMapper;
@@ -72,7 +71,7 @@ public class PictogramaRepository implements PictogramRepository {
             Pictograma _pictograma = pictogramaData.get();
             _pictograma.setNombre(pictograma.getNombre());
             _pictograma.setIdSubcategoria(pictograma.getIdSubcategoria());
-            _pictograma.setImagenURL(pictogram.getImageURL());
+            _pictograma.setImagenUrl(pictogram.getImageUrl());
             pictogramaCrudRepository.save(_pictograma);
             return new ResponseEntity<>(getById(id).get(), HttpStatus.OK);
         } else {

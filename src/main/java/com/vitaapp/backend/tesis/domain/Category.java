@@ -1,5 +1,7 @@
 package com.vitaapp.backend.tesis.domain;
 
+import java.util.List;
+
 public class Category {
 	private Integer categoryId;
 
@@ -11,7 +13,10 @@ public class Category {
 
 	private ColorM colorM;
 
-	private String imageURL;
+	private String imageUrl;
+
+	private List<ImageCategory> imagesCategories;
+
 
 	public Integer getCategoryId() {
 		return categoryId;
@@ -53,11 +58,19 @@ public class Category {
 		this.colorM = colorM;
 	}
 
-	public String getImageURL() {
-		return imageURL;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
-	public void setImageURL(String imageURL) {
-		this.imageURL = imageURL;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public List<ImageCategory> getImagesCategories() {
+		return imagesCategories;
+	}
+
+	public void setImagesCategories(List<ImageCategory> imagesCategories) {
+		this.imagesCategories = imagesCategories;
 	}
 }

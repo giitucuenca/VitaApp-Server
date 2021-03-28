@@ -9,7 +9,7 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {ColorMapper.class})
+@Mapper(componentModel = "spring", uses = {ColorMapper.class, ImagenCategoriaMapper.class})
 public interface CategoryMapper {
     @Mappings({
             @Mapping(source = "idCategoria", target = "categoryId"),
@@ -17,7 +17,8 @@ public interface CategoryMapper {
             @Mapping(source = "descripcion", target = "description"),
             @Mapping(source = "idColor", target = "colorId"),
             @Mapping(source = "color", target = "colorM"),
-			@Mapping(source = "imagenURL", target = "imageURL")
+			@Mapping(source = "imagenUrl", target = "imageUrl"),
+            @Mapping(source = "imagenesCategorias", target = "imagesCategories")
     })
     Category toCategory(Categoria categoria);
 

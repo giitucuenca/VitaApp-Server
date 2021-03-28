@@ -2,7 +2,6 @@ package com.vitaapp.backend.tesis.persistence.mapper;
 
 
 import com.vitaapp.backend.tesis.domain.Admin;
-import com.vitaapp.backend.tesis.domain.Category;
 import com.vitaapp.backend.tesis.persistence.entity.Administrador;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

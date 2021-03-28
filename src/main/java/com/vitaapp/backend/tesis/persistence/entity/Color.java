@@ -21,9 +21,7 @@ public class Color {
  private String nombre;
  @OneToMany(mappedBy = "color")
  private List<Categoria> categorias; 
- 
- @OneToMany(mappedBy = "color")
- private List<CategoriaPersonalizada> categoriasPersonalizadas; 
+
  
 public Integer getIdColor() {
 	return idColor;
@@ -44,13 +42,6 @@ public void setCategorias(List<Categoria> categorias) {
 	this.categorias = categorias;
 }
 
-    public List<CategoriaPersonalizada> getCategoriasPersonalizadas() {
-        return categoriasPersonalizadas;
-    }
-
-    public void setCategoriasPersonalizadas(List<CategoriaPersonalizada> categoriasPersonalizadas) {
-        this.categoriasPersonalizadas = categoriasPersonalizadas;
-    }
 
     public String getNombre() {
         return nombre;

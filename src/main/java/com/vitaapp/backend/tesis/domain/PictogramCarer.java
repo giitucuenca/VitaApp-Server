@@ -1,21 +1,36 @@
 package com.vitaapp.backend.tesis.domain;
 
-import java.util.List;
+public class PictogramCarer {
+    private Integer pictogramCarerId;
 
-public class Pictogram {
-    private Integer pictogramId;
     private String name;
-    private String imageUrl;
-    private Integer subcategoryId;
-    private Subcategory subcategory;
-    private List<ImagePictogram> imagesPictograms;
 
-    public List<ImagePictogram> getImagesPictograms() {
-        return imagesPictograms;
+    private String imageUrl;
+
+    private Integer position;
+
+    private Integer subcategoryId;
+
+    private boolean show;
+
+    private Integer pictogramId;
+
+    private SubcategoryCarer subcategory;
+
+    public boolean isShow() {
+        return show;
     }
 
-    public void setImagesPictograms(List<ImagePictogram> imagesPictograms) {
-        this.imagesPictograms = imagesPictograms;
+    public void setShow(boolean show) {
+        this.show = show;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
     public Integer getPictogramId() {
@@ -50,11 +65,19 @@ public class Pictogram {
         this.subcategoryId = subcategoryId;
     }
 
-    public Subcategory getSubcategory() {
+    public SubcategoryCarer getSubcategory() {
         return subcategory;
     }
 
-    public void setSubcategory(Subcategory subcategory) {
+    public void setSubcategory(SubcategoryCarer subcategory) {
         this.subcategory = subcategory;
+    }
+
+    public Integer getPictogramCarerId() {
+        return pictogramCarerId;
+    }
+
+    public void setPictogramCarerId(Integer pictogramCarerId) {
+        this.pictogramCarerId = pictogramCarerId;
     }
 }

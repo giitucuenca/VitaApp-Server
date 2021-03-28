@@ -4,7 +4,6 @@ import com.vitaapp.backend.tesis.domain.Subcategory;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.SubcategoryRepository;
 import com.vitaapp.backend.tesis.persistence.crud.SubcategoriaCrudRepository;
-import com.vitaapp.backend.tesis.persistence.entity.Categoria;
 import com.vitaapp.backend.tesis.persistence.entity.Subcategoria;
 import com.vitaapp.backend.tesis.persistence.mapper.SubcategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +62,7 @@ public class SubcategoriaRepository implements SubcategoryRepository {
             Subcategoria _subcategoria = subcategoriaData.get();
             _subcategoria.setNombre(subcategoria.getNombre());
             _subcategoria.setDescripcion(subcategoria.getDescripcion());
-            _subcategoria.setImagenURL(subcategoria.getImagenURL());
+            _subcategoria.setImagenUrl(subcategoria.getImagenUrl());
             _subcategoria.setIdCategoria(subcategoria.getIdCategoria());
             subcategoryMapper.toSubcategory(subcategoriaCrudRepository.save(_subcategoria));
             return new ResponseEntity<>(getByIdSubcategory(id).get(), HttpStatus.OK);

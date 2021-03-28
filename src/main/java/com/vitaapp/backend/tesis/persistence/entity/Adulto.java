@@ -31,15 +31,23 @@ public class Adulto {
 	private Integer idCuidador;
 	private char genero;
 	private String escolaridad;
-	private String laterabilidad;
-	
+	private char lateralidad;
+
 	@ManyToOne
 	@JoinColumn(name = "id_cuidador", insertable = false, updatable = false)
 	private Cuidador cuidador;
 	
 	@OneToMany(mappedBy = "adulto", cascade = CascadeType.ALL)
 	private List<Mensaje> mensajes;
-	
+
+	public char getLateralidad() {
+		return lateralidad;
+	}
+
+	public void setLateralidad(char lateralidad) {
+		this.lateralidad = lateralidad;
+	}
+
 	public Integer getIdAdulto() {
 		return idAdulto;
 	}
@@ -96,14 +104,6 @@ public class Adulto {
 	public void setEscolaridad(String escolaridad) {
 		this.escolaridad = escolaridad;
 	}
-	public String getLaterabilidad() {
-		return laterabilidad;
-	}
-	public void setLaterabilidad(String laterabilidad) {
-		this.laterabilidad = laterabilidad;
-	}
-	
-	
-	
+
 	
 }

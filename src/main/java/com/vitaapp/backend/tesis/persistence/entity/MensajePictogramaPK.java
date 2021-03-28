@@ -9,19 +9,22 @@ import javax.persistence.Embeddable;
 public class MensajePictogramaPK implements Serializable {
 	@Column(name = "id_mensaje")
 	private Integer idMensaje;
-	@Column(name = "id_pictograma")
-	private Integer idPictograma;
+	@Column(name = "id_pictograma_personalizado")
+	private Integer idPictogramaPersonalizado;
+
 	public Integer getIdMensaje() {
 		return idMensaje;
 	}
+
 	public void setIdMensaje(Integer idMensaje) {
 		this.idMensaje = idMensaje;
 	}
-	public Integer getIdPictograma() {
-		return idPictograma;
+
+	public Integer getIdPictogramaPersonalizado() {
+		return idPictogramaPersonalizado;
 	}
-	public void setIdPictograma(Integer idPictograma) {
-		this.idPictograma = idPictograma;
+
+	public void setIdPictogramaPersonalizado(Integer idPictogramaPersonalizado) {
+		this.idPictogramaPersonalizado = idPictogramaPersonalizado;
 	}
-	
 }

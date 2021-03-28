@@ -27,7 +27,7 @@ public class Subcategoria {
 	private String descripcion;
 
 	@Column(name = "imagen_url")
-	private String imagenURL;
+	private String imagenUrl;
 
 	@Column(name = "id_categoria")
 	private Integer idCategoria;
@@ -39,6 +39,20 @@ public class Subcategoria {
 
 	@OneToMany(mappedBy = "subcategoria")
 	private List<Pictograma> pictogramas;
+
+	@OneToMany(mappedBy = "subcategoria")
+	private List<SubcategoriaPersonalizada> subcategoriasPersonalizadas;
+
+	@OneToMany(mappedBy = "subcategoria")
+	private List<ImagenSubcategoria> imagenesSubcategorias;
+
+	public List<SubcategoriaPersonalizada> getSubcategoriasPersonalizadas() {
+		return subcategoriasPersonalizadas;
+	}
+
+	public void setSubcategoriasPersonalizadas(List<SubcategoriaPersonalizada> subcategoriasPersonalizadas) {
+		this.subcategoriasPersonalizadas = subcategoriasPersonalizadas;
+	}
 
 	public Integer getIdSubcategoria() {
 		return idSubcategoria;
@@ -64,12 +78,12 @@ public class Subcategoria {
 		this.descripcion = descripcion;
 	}
 
-	public String getImagenURL() {
-		return imagenURL;
+	public String getImagenUrl() {
+		return imagenUrl;
 	}
 
-	public void setImagenURL(String imagenURL) {
-		this.imagenURL = imagenURL;
+	public void setImagenUrl(String imagenUrl) {
+		this.imagenUrl = imagenUrl;
 	}
 
 	public Integer getIdCategoria() {
@@ -95,4 +109,14 @@ public class Subcategoria {
 	public void setPictogramas(List<Pictograma> pictogramas) {
 		this.pictogramas = pictogramas;
 	}
+
+	public List<ImagenSubcategoria> getImagenesSubcategorias() {
+		return imagenesSubcategorias;
+	}
+
+	public void setImagenesSubcategorias(List<ImagenSubcategoria> imagenesSubcategorias) {
+		this.imagenesSubcategorias = imagenesSubcategorias;
+	}
+
+
 }

@@ -29,6 +29,7 @@ public class CategoryController {
 
 	@PostMapping("/admin/add")
 	public ResponseEntity<ResponsePersonalized> save(@RequestBody Category category) {
+		category.getImagesCategories().stream().forEach(imageCategory -> System.out.println(imageCategory.getName()));
 		return categoryService.save(category);
 	}
 

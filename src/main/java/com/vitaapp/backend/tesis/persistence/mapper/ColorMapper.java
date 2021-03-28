@@ -23,7 +23,6 @@ public interface ColorMapper {
 	@InheritInverseConfiguration
 	@Mappings({
 		@Mapping(target = "categorias", ignore = true),
-		@Mapping(target = "categoriasPersonalizadas", ignore = true)		
 	})
 	Color toColor(ColorM colorM);
 

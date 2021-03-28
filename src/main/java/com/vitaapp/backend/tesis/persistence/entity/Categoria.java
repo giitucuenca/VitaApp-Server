@@ -29,7 +29,7 @@ public class Categoria {
 	private Integer idColor;
 
 	@Column(name= "imagen_url")
-	private String imagenURL;
+	private String imagenUrl;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_color",insertable = false, updatable = false)
@@ -40,6 +40,9 @@ public class Categoria {
 	
 	@OneToMany(mappedBy = "categoria")
 	private List<CategoriaPersonalizada> categoriasPersonalizadas;
+
+	@OneToMany(mappedBy = "categoria")
+	private List<ImagenCategoria> imagenesCategorias;
 
 	public Integer getIdCategoria() {
 		return idCategoria;
@@ -73,12 +76,12 @@ public class Categoria {
 		this.idColor = idColor;
 	}
 
-	public String getImagenURL() {
-		return imagenURL;
+	public String getImagenUrl() {
+		return imagenUrl;
 	}
 
-	public void setImagenURL(String imagenURL) {
-		this.imagenURL = imagenURL;
+	public void setImagenUrl(String imagenUrl) {
+		this.imagenUrl = imagenUrl;
 	}
 
 	public Color getColor() {
@@ -103,5 +106,13 @@ public class Categoria {
 
 	public void setCategoriasPersonalizadas(List<CategoriaPersonalizada> categoriasPersonalizadas) {
 		this.categoriasPersonalizadas = categoriasPersonalizadas;
+	}
+
+	public List<ImagenCategoria> getImagenesCategorias() {
+		return imagenesCategorias;
+	}
+
+	public void setImagenesCategorias(List<ImagenCategoria> imagenesCategorias) {
+		this.imagenesCategorias = imagenesCategorias;
 	}
 }

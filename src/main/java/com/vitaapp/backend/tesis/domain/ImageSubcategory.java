@@ -1,29 +1,18 @@
 package com.vitaapp.backend.tesis.domain;
 
-import java.util.List;
-
-public class Pictogram {
-    private Integer pictogramId;
+public class ImageSubcategory {
+    private Integer imageId;
     private String name;
     private String imageUrl;
     private Integer subcategoryId;
     private Subcategory subcategory;
-    private List<ImagePictogram> imagesPictograms;
 
-    public List<ImagePictogram> getImagesPictograms() {
-        return imagesPictograms;
+    public Integer getImageId() {
+        return imageId;
     }
 
-    public void setImagesPictograms(List<ImagePictogram> imagesPictograms) {
-        this.imagesPictograms = imagesPictograms;
-    }
-
-    public Integer getPictogramId() {
-        return pictogramId;
-    }
-
-    public void setPictogramId(Integer pictogramId) {
-        this.pictogramId = pictogramId;
+    public void setImageId(Integer imageId) {
+        this.imageId = imageId;
     }
 
     public String getName() {

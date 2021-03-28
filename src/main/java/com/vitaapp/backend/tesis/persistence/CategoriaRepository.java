@@ -21,6 +21,9 @@ public class CategoriaRepository implements CategoryRepository {
     @Autowired
     private CategoryMapper mapper;
 
+    @Autowired
+    private ImagenCategoriaRepository imagen;
+
     @Override
     public List<Category> getAll() {
         // TODO Auto-generated method stub
@@ -36,7 +39,11 @@ public class CategoriaRepository implements CategoryRepository {
     public ResponseEntity<ResponsePersonalized> save(Category category) {
         // TODO Auto-generated method stub
         try {
-            mapper.toCategory(categoriaCrudRepository.save(mapper.toCategoria(category)));
+            Categoria categoria = categoriaCrudRepository.save(mapper.toCategoria(category));
+            category.getImagesCategories().forEach(image -> {
+                image.setCategoryId(categoria.getIdCategoria());
+                imagen.save(image);
+            });
             return new ResponseEntity<>( new ResponsePersonalized(200, "Categoria Agregada Correctamente"), HttpStatus.CREATED);
         } catch (Exception exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -67,8 +74,11 @@ public class CategoriaRepository implements CategoryRepository {
             Categoria _categoria = categoriaData.get();
             _categoria.setNombre(categoria.getNombre());
             _categoria.setDescripcion(categoria.getDescripcion());
-            _categoria.setImagenURL(categoria.getImagenURL());
+            _categoria.setImagenUrl(categoria.getImagenUrl());
             _categoria.setIdColor(categoria.getIdColor());
+            category.getImagesCategories().forEach(image -> {
+                imagen.put(image);
+            });
             mapper.toCategory(categoriaCrudRepository.save(_categoria));
             ResponsePersonalized response = new ResponsePersonalized();
             response.setCode(200);
