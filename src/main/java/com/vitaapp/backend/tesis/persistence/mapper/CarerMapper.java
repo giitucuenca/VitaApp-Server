@@ -13,7 +13,7 @@ public interface CarerMapper {
             @Mapping(source = "idCuidador", target = "carerId"),
             @Mapping(source = "nombre", target = "name"),
             @Mapping(source = "apellido", target = "surname"),
-            @Mapping(source = "email", target = "email"),
+            @Mapping(source = "correo", target = "email"),
             @Mapping(source = "password", target = "password"),
     })
     Carer toCarer(Cuidador cuidador);

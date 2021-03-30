@@ -1,10 +1,7 @@
 package com.vitaapp.backend.tesis.web.security.filter;
 
-import com.vitaapp.backend.tesis.domain.services.AdminService;
 import com.vitaapp.backend.tesis.domain.services.CarerService;
-import com.vitaapp.backend.tesis.domain.services.VitaappUserDetailsService;
 import com.vitaapp.backend.tesis.web.security.JWTUtil;
-import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,15 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class JWTFilterAdminRequest extends OncePerRequestFilter {
+public class JWTFilterCarerRequest extends OncePerRequestFilter {
     @Autowired
     private JWTUtil jwtUtil;
 
     @Autowired
-    private AdminService adminService;
-
-    @Autowired
-    private CarerService carerService;
+    private CarerService adminService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -41,13 +35,13 @@ public class JWTFilterAdminRequest extends OncePerRequestFilter {
             String username = jwtUtil.extractUsername(jwt);
             System.out.println(username);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = carerService.loadUserByUsername(username);
+                UserDetails userDetails = adminService.loadUserByUsername(username);
 
                 if(jwtUtil.validateToken(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                      authToken.setDetails((new WebAuthenticationDetailsSource().buildDetails(request)));
+                    authToken.setDetails((new WebAuthenticationDetailsSource().buildDetails(request)));
 
-                      SecurityContextHolder.getContext().setAuthentication(authToken);
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
         }

@@ -24,7 +24,7 @@ public class Cuidador {
 	@Column(length = 40)
 	private String apellido;
 	@Column(length = 40)
-	private String email;
+	private String correo;
 	private String password;
 	
 	@OneToMany(mappedBy = "cuidador")
@@ -54,11 +54,11 @@ public class Cuidador {
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-	public String getEmail() {
-		return email;
+	public String getCorreo() {
+		return correo;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setCorreo(String correo) {
+		this.correo = correo;
 	}
 	public String getPassword() {
 		return password;
