@@ -5,6 +5,7 @@ import com.vitaapp.backend.tesis.domain.AdminDetails;
 import com.vitaapp.backend.tesis.domain.Carer;
 import com.vitaapp.backend.tesis.domain.CarerDetails;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
+import com.vitaapp.backend.tesis.domain.repository.AdminRepository;
 import com.vitaapp.backend.tesis.domain.repository.CarerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +21,29 @@ public class CarerService implements UserDetailsService {
     CarerRepository carerRepository;
 
     @Autowired
+    AdminRepository adminRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
 
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Carer carer = carerRepository.getByEmail(s);
-        return new CarerDetails(carer);
+        String user = s;
+        if(s.contains("carer-"))
+        {
+            user = s.substring(6);
+            Carer carer = carerRepository.getByEmail(user);
+            carer.setEmail(s);
+            return new CarerDetails(carer);
+        } else {
+            user = s.substring(6);
+            Admin admin = adminRepository.getByEmail(user);
+            admin.setEmail(s);
+            return new AdminDetails(admin);
+        }
+
     }
 
     public ResponseEntity<ResponsePersonalized> save(Carer carer) {

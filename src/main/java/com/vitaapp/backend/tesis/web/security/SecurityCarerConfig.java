@@ -1,15 +1,19 @@
 package com.vitaapp.backend.tesis.web.security;
 
-import com.vitaapp.backend.tesis.domain.services.CarerService;
-import com.vitaapp.backend.tesis.web.security.filter.JWTFilterCarerRequest;
+import com.vitaapp.backend.tesis.domain.services.VitaappUserDetailsService;
+import com.vitaapp.backend.tesis.web.security.filter.JWTFilterAdminRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -22,18 +26,14 @@ import java.util.Arrays;
 public class SecurityCarerConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private CarerService carerService;
+    private VitaappUserDetailsService adminService;
 
     @Autowired
-    private JWTFilterCarerRequest jwtFilterRequest;
+    private JWTFilterAdminRequest jwtFilterRequest;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(carerService);
-    }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSourceCarer() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
@@ -45,14 +45,39 @@ public class SecurityCarerConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(adminService);
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/**/carer/auth","/**/register").permitAll()
+                .antMatchers("/**/auth","/**/register").permitAll()
                 .antMatchers("/**/admin", "/**/admin/**/").hasAnyAuthority("ADMIN")
                 .antMatchers("/**/color/all","/**/category/all", "/**/category/{id}", "/**/subcategory/category/**","/**/subcategory/all", "/**/subcategory/{id}").hasAnyAuthority("CARER", "ADMIN")
                 .anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(adminService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
     }
 
 

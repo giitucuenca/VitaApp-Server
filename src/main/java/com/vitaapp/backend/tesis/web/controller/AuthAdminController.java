@@ -4,6 +4,7 @@ import com.vitaapp.backend.tesis.domain.Admin;
 import com.vitaapp.backend.tesis.domain.dto.AuthenticationRequest;
 import com.vitaapp.backend.tesis.domain.dto.AuthenticationResponse;
 import com.vitaapp.backend.tesis.domain.services.AdminService;
+import com.vitaapp.backend.tesis.domain.services.VitaappUserDetailsService;
 import com.vitaapp.backend.tesis.web.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ public class AuthAdminController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
+    private VitaappUserDetailsService userDetailsService;
+
+    @Autowired
     private AdminService adminService;
 
     @Autowired
@@ -29,12 +33,14 @@ public class AuthAdminController {
     @PostMapping("/auth")
     public ResponseEntity<AuthenticationResponse> createToken(@RequestBody AuthenticationRequest request) {
         Admin admin = adminService.getByEmail(request.getUsername());
+        String userName = request.getUsername();
         if(admin == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-            UserDetails userDetails = adminService.loadUserByUsername(request.getUsername());
+            userName = "admin-" + userName;
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, request.getPassword()));
+            UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
             String jwt = jwtUtil.generateToken(userDetails);
             return new ResponseEntity<>(new AuthenticationResponse(jwt), HttpStatus.OK);
         } catch (BadCredentialsException exception) {

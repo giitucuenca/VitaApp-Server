@@ -25,14 +25,10 @@ public class JWTFilterAdminRequest extends OncePerRequestFilter {
     private JWTUtil jwtUtil;
 
     @Autowired
-    private AdminService adminService;
-
-    @Autowired
-    private CarerService carerService;
+    private VitaappUserDetailsService carerService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println(request.getRequestURI());
         String requestURI = request.getRequestURI();
 
         String authorizationHeader = request.getHeader("Authorization");
