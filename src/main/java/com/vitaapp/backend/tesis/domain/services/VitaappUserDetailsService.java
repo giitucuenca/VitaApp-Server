@@ -27,13 +27,13 @@ public class VitaappUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         String user = s;
-        if(s.contains("carer-"))
-        {
+        if(s.contains("carer-")) {
             user = s.substring(6);
             Carer carer = carerRepository.getByEmail(user);
             carer.setEmail(s);
             return new CarerDetails(carer);
-        } else {
+        }
+        else {
             user = s.substring(6);
             Admin admin = adminRepository.getByEmail(user);
             admin.setEmail(s);

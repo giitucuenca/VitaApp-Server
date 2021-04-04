@@ -1,5 +1,7 @@
 package com.vitaapp.backend.tesis.domain;
 
+import java.util.List;
+
 public class SubcategoryCarer {
     private Integer subcategoryCarerId;
 
@@ -14,6 +16,7 @@ public class SubcategoryCarer {
     private CategoryCarer category;
 
     private String imageUrl;
+
 
     public Integer getSubcategoryId() {
         return subcategoryId;
@@ -70,4 +73,6 @@ public class SubcategoryCarer {
     public void setSubcategoryCarerId(Integer subcategoryCarerId) {
         this.subcategoryCarerId = subcategoryCarerId;
     }
+
+
 }

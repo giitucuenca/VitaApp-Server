@@ -1,6 +1,8 @@
 package com.vitaapp.backend.tesis.domain;
 
 
+import java.util.List;
+
 public class Subcategory {
 
 	private Integer subcategoryId;
@@ -11,9 +13,15 @@ public class Subcategory {
 	
 	private Integer categoryId;
 
-	private Category category;
 
 	private String imageUrl;
+
+	private String color;
+
+	private boolean show;
+
+	private List<ImageSubcategory> imagesSubcategories;
+
 
 	public String getImageUrl() {
 		return imageUrl;
@@ -55,11 +63,28 @@ public class Subcategory {
 		this.categoryId = categoryId;
 	}
 
-	public Category getCategory() {
-		return category;
+
+	public List<ImageSubcategory> getImagesSubcategories() {
+		return imagesSubcategories;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setImagesSubcategories(List<ImageSubcategory> imagesSubcategories) {
+		this.imagesSubcategories = imagesSubcategories;
+	}
+
+	public boolean isShow() {
+		return show;
+	}
+
+	public void setShow(boolean show) {
+		this.show = show;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 }

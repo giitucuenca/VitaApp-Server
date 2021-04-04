@@ -20,6 +20,10 @@ public class Elderly {
 
     private char laterality;
 
+    private String email;
+
+    private String password;
+
     public Integer getElderlyId() {
         return elderlyId;
     }
@@ -82,5 +86,21 @@ public class Elderly {
 
     public void setLaterality(char laterality) {
         this.laterality = laterality;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -27,6 +27,8 @@ public class Adulto {
 	@Column(length = 40)
 	private String apellido;
 	private String codigo;
+	private String correo;
+	private String contrasena;
 	@Column(name = "id_cuidador")
 	private Integer idCuidador;
 	private char genero;
@@ -105,5 +107,19 @@ public class Adulto {
 		this.escolaridad = escolaridad;
 	}
 
-	
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getContrasena() {
+		return contrasena;
+	}
+
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
+	}
 }

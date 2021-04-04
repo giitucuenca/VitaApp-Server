@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CarerService implements UserDetailsService {
+public class CarerService {
     @Autowired
     CarerRepository carerRepository;
 
@@ -26,25 +26,6 @@ public class CarerService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
-
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        String user = s;
-        if(s.contains("carer-"))
-        {
-            user = s.substring(6);
-            Carer carer = carerRepository.getByEmail(user);
-            carer.setEmail(s);
-            return new CarerDetails(carer);
-        } else {
-            user = s.substring(6);
-            Admin admin = adminRepository.getByEmail(user);
-            admin.setEmail(s);
-            return new AdminDetails(admin);
-        }
-
-    }
 
     public ResponseEntity<ResponsePersonalized> save(Carer carer) {
         carer.setPassword(passwordEncoder.encode(carer.getPassword()));

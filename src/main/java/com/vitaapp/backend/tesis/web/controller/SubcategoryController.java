@@ -28,7 +28,7 @@ public class SubcategoryController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Subcategory> getByIdSubcategory(@PathVariable int id){
+    public ResponseEntity<Subcategory> getByIdSubcategory(@PathVariable int id){
         return  subcategoryService.getByIdSubcategory(id);
     }
 

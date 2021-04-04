@@ -23,7 +23,7 @@ public class SubcategoryService {
         return subcategoryRepository.getByCategory(categoryId);
     }
 
-    public Optional<Subcategory> getByIdSubcategory(int id){
+    public ResponseEntity<Subcategory> getByIdSubcategory(int id){
         return  subcategoryRepository.getByIdSubcategory(id);
     }
 

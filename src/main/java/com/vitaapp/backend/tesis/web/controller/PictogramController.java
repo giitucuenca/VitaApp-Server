@@ -26,7 +26,7 @@ public class PictogramController {
         return pictogramService.getAllByIdSubcategory(id);
     }
     @GetMapping("/{id}")
-    public Optional<Pictogram> getById(@PathVariable int id) {
+    public ResponseEntity<Pictogram> getById(@PathVariable int id) {
         return pictogramService.getById(id);
     }
 

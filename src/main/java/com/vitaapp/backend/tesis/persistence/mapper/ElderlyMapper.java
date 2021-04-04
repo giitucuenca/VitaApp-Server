@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface ElderlyMapper {
     @Mappings( {
@@ -20,8 +22,11 @@ public interface ElderlyMapper {
             @Mapping(source = "genero", target = "gender"),
             @Mapping(source = "escolaridad", target = "scholarship"),
             @Mapping(source = "lateralidad", target = "laterality"),
+            @Mapping(source = "correo", target = "email"),
+            @Mapping(source = "contrasena", target = "password")
     })
     Elderly toElderly(Adulto adulto);
+    List<Elderly> toElderlies(List<Adulto> adultos);
 
     @InheritInverseConfiguration
     @Mappings({

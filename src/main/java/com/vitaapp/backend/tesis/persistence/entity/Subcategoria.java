@@ -26,6 +26,8 @@ public class Subcategoria {
 
 	private String descripcion;
 
+	private boolean mostrar;
+
 	@Column(name = "imagen_url")
 	private String imagenUrl;
 
@@ -118,5 +120,11 @@ public class Subcategoria {
 		this.imagenesSubcategorias = imagenesSubcategorias;
 	}
 
+	public boolean isMostrar() {
+		return mostrar;
+	}
 
+	public void setMostrar(boolean mostrar) {
+		this.mostrar = mostrar;
+	}
 }

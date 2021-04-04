@@ -9,7 +9,7 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {CategoryMapper.class})
+@Mapper(componentModel = "spring", uses = {CategoryMapper.class, ImagenSubcategoriaMapper.class})
 public interface SubcategoryMapper {
 
     @Mappings({
@@ -17,14 +17,20 @@ public interface SubcategoryMapper {
             @Mapping(source = "nombre", target = "name"),
             @Mapping(source = "descripcion", target = "description"),
             @Mapping(source = "idCategoria", target = "categoryId"),
-            @Mapping(source = "categoria", target = "category"),
 			@Mapping(source = "imagenUrl", target = "imageUrl"),
+            @Mapping(source = "imagenesSubcategorias", target = "imagesSubcategories"),
+            @Mapping(source = "mostrar", target = "show"),
+            @Mapping(target = "color", ignore = true)
     })
     Subcategory toSubcategory(Subcategoria subcategoria);
 
     List<Subcategory> toSubcategories(List<Subcategoria> subcategorias);
 
     @InheritInverseConfiguration
-    @Mapping(target = "pictogramas", ignore = true)
+    @Mappings({
+            @Mapping(target = "pictogramas", ignore = true),
+            @Mapping(target = "subcategoriasPersonalizadas", ignore = true),
+            @Mapping(target = "categoria", ignore = true)
+    })
     Subcategoria toSubcategoria(Subcategory subcategory);
 }

@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminService implements UserDetailsService {
+public class AdminService {
     @Autowired
     AdminRepository adminRepository;
 
@@ -34,11 +34,7 @@ public class AdminService implements UserDetailsService {
         return adminRepository.getByIdAdmin(id);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Admin admin = adminRepository.getByEmail(s);
-        return new AdminDetails(admin);
-    }
+
 
     public Admin getByEmail(String email) {
         return this.adminRepository.getByEmail(email);

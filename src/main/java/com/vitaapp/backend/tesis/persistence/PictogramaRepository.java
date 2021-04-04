@@ -4,6 +4,7 @@ import com.vitaapp.backend.tesis.domain.Pictogram;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.PictogramRepository;
 import com.vitaapp.backend.tesis.persistence.crud.PictogramaCrudRepository;
+import com.vitaapp.backend.tesis.persistence.entity.ImagenPictograma;
 import com.vitaapp.backend.tesis.persistence.entity.Pictograma;
 import com.vitaapp.backend.tesis.persistence.mapper.PictogramMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +23,25 @@ public class PictogramaRepository implements PictogramRepository {
     @Autowired
     private PictogramMapper pictogramMapper;
 
+    @Autowired
+    private ImagenPictogramaRepository imagen;
+
     @Override
     public List<Pictogram> getAll() {
         return  pictogramMapper.toPictograms((List<Pictograma>) pictogramaCrudRepository.findAll());
     }
 
     @Override
-    public Optional<Pictogram> getById(int id) {
-        return pictogramaCrudRepository
-                .findById(id)
-                .map(pictograma -> pictogramMapper.toPictogram(pictograma));
+    public ResponseEntity<Pictogram> getById(int id) {
+        Optional<Pictograma> pictograma = pictogramaCrudRepository.findById(id);
+        if(pictograma.isPresent()) {
+            Pictograma _pictograma = pictograma.get();
+            Pictogram pictogram = pictogramMapper.toPictogram(_pictograma);
+            pictogram.setColor(_pictograma.getSubcategoria().getCategoria().getColor().getColor());
+            return new ResponseEntity<>(pictogram, HttpStatus.OK);
+        } else {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override
@@ -44,7 +54,11 @@ public class PictogramaRepository implements PictogramRepository {
         try {
            Pictogram _pictogram = pictogramMapper
                     .toPictogram(pictogramaCrudRepository.save(pictogramMapper.toPictograma(pictogram)));
-           return new ResponseEntity<>(_pictogram, HttpStatus.OK);
+           pictogram.getImagesPictograms().forEach(image -> {
+               image.setPictogramId(_pictogram.getPictogramId());
+               imagen.save(image);
+           });
+           return new ResponseEntity<>(pictogramMapper.toPictogram(pictogramaCrudRepository.findById(_pictogram.getPictogramId()).get()) , HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -53,7 +67,7 @@ public class PictogramaRepository implements PictogramRepository {
 
     @Override
     public ResponseEntity<ResponsePersonalized> delete(int id) {
-        return getById(id).map(pictograma -> {
+        return pictogramaCrudRepository.findById(id).map(pictograma -> {
             pictogramaCrudRepository.deleteById(id);
             ResponsePersonalized response = new ResponsePersonalized(200, "Pictograma Eliminado");
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -72,8 +86,12 @@ public class PictogramaRepository implements PictogramRepository {
             _pictograma.setNombre(pictograma.getNombre());
             _pictograma.setIdSubcategoria(pictograma.getIdSubcategoria());
             _pictograma.setImagenUrl(pictogram.getImageUrl());
+            imagen.delete(pictogram.getPictogramId());
+            pictogram.getImagesPictograms().forEach(image -> {
+                imagen.save(image);
+            });
             pictogramaCrudRepository.save(_pictograma);
-            return new ResponseEntity<>(getById(id).get(), HttpStatus.OK);
+            return getById(id);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -18,7 +18,7 @@ public class PictogramService {
     public List<Pictogram> getAll() {
        return pictogramRepository.getAll();
     }
-    public Optional<Pictogram> getById(int id) {
+    public ResponseEntity<Pictogram> getById(int id) {
         return pictogramRepository.getById(id);
     }
     public ResponseEntity<Pictogram> save(Pictogram pictogram) {

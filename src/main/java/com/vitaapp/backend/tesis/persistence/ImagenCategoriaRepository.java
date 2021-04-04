@@ -36,4 +36,10 @@ public class ImagenCategoriaRepository {
             return null;
         }
     }
+
+    public void delete(Integer categoryId) {
+        imagenCrud.findByIdCategoria(categoryId).forEach(imagen -> {
+            imagenCrud.delete(imagen);
+        });
+    }
 }

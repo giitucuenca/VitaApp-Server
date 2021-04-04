@@ -27,7 +27,7 @@ public class CategoriaRepository implements CategoryRepository {
     @Override
     public List<Category> getAll() {
         // TODO Auto-generated method stub
-        return mapper.toCategories((List<Categoria>) categoriaCrudRepository.findAll());
+        return mapper.toCategories(categoriaCrudRepository.findByMostrarOrderByNombreAsc(true));
     }
 
     @Override
@@ -38,6 +38,7 @@ public class CategoriaRepository implements CategoryRepository {
     @Override
     public ResponseEntity<ResponsePersonalized> save(Category category) {
         // TODO Auto-generated method stub
+        category.setShow(true);
         try {
             Categoria categoria = categoriaCrudRepository.save(mapper.toCategoria(category));
             category.getImagesCategories().forEach(image -> {
@@ -52,18 +53,11 @@ public class CategoriaRepository implements CategoryRepository {
 
     @Override
     public ResponseEntity<ResponsePersonalized> delete(Integer id) {
-        return getByIdCategory(id).map(category -> {
-            categoriaCrudRepository.deleteById(id);
-            ResponsePersonalized response = new ResponsePersonalized();
-            response.setCode(200);
-            response.setMessage("Categoria Eliminada Correctamente");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }).orElseGet(() -> {
-			ResponsePersonalized response = new ResponsePersonalized();
-			response.setCode(404);
-			response.setMessage("Categoria no encontrada");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        });
+        return categoriaCrudRepository.findById(id).map(categoria -> {
+            categoria.setMostrar(false);
+            categoriaCrudRepository.save(categoria);
+            return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria Eliminada Correctamente"), HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(new ResponsePersonalized(404, "Categoria no encontrada"), HttpStatus.NOT_FOUND));
     }
 
     @Override
@@ -76,8 +70,10 @@ public class CategoriaRepository implements CategoryRepository {
             _categoria.setDescripcion(categoria.getDescripcion());
             _categoria.setImagenUrl(categoria.getImagenUrl());
             _categoria.setIdColor(categoria.getIdColor());
+            imagen.delete(_categoria.getIdCategoria());
             category.getImagesCategories().forEach(image -> {
-                imagen.put(image);
+                image.setCategoryId(_categoria.getIdCategoria());
+                imagen.save(image);
             });
             mapper.toCategory(categoriaCrudRepository.save(_categoria));
             ResponsePersonalized response = new ResponsePersonalized();

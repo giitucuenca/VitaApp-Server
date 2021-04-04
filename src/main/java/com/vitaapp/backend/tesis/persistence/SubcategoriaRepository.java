@@ -6,6 +6,7 @@ import com.vitaapp.backend.tesis.domain.repository.SubcategoryRepository;
 import com.vitaapp.backend.tesis.persistence.crud.SubcategoriaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.entity.Subcategoria;
 import com.vitaapp.backend.tesis.persistence.mapper.SubcategoryMapper;
+import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,30 +23,62 @@ public class SubcategoriaRepository implements SubcategoryRepository {
     @Autowired
     private SubcategoryMapper subcategoryMapper;
 
+    @Autowired
+    private ImagenSubcategoriaRepository imagen;
+
     @Override
     public List<Subcategory> getAll() {
-        return subcategoryMapper.toSubcategories((List<Subcategoria>) subcategoriaCrudRepository.findAll());
+        List<Subcategoria> subcategorias = subcategoriaCrudRepository.findByMostrarOrderByNombreAsc(true);
+        List<Subcategory> subcategories = subcategoryMapper.toSubcategories(subcategorias);
+        return subcategories;
     }
 
     @Override
     public List<Subcategory> getByCategory(int categoryId) {
-        return subcategoryMapper.toSubcategories(subcategoriaCrudRepository.findByIdCategoriaOrderByNombreAsc(categoryId));
+        List<Subcategoria> subcategorias = subcategoriaCrudRepository.findByIdCategoriaAndMostrarOrderByNombreAsc(categoryId, true);
+        List<Subcategory> subcategories = subcategoryMapper.toSubcategories(subcategorias);
+        if(subcategorias.size() > 0) {
+            String color = subcategorias.get(0).getCategoria().getColor().getColor();
+            subcategories.forEach(subcategory -> {
+                subcategory.setColor(color);
+            });
+        }
+        return subcategories;
     }
 
     @Override
-    public Optional<Subcategory> getByIdSubcategory(int id) {
-        return subcategoriaCrudRepository.findById(id).map(subcategoria -> subcategoryMapper.toSubcategory(subcategoria));
+    public ResponseEntity<Subcategory> getByIdSubcategory(int id) {
+        Optional<Subcategoria> subcategoria =  subcategoriaCrudRepository.findById(id);
+        if(subcategoria.isPresent()) {
+            Subcategoria _subcategoria = subcategoria.get();
+            Subcategory subcategory = subcategoryMapper.toSubcategory(_subcategoria);
+            subcategory.setColor(_subcategoria.getCategoria().getColor().getColor());
+            return new ResponseEntity<>(subcategory, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override
     public ResponseEntity<Subcategory> save(Subcategory subcategory) {
-        return new ResponseEntity<>(subcategoryMapper.toSubcategory(subcategoriaCrudRepository.save(subcategoryMapper.toSubcategoria(subcategory))), HttpStatus.OK);
+        subcategory.setShow(true);
+        try {
+            Subcategoria subcategoria = subcategoriaCrudRepository.save(subcategoryMapper.toSubcategoria(subcategory));
+            subcategory.getImagesSubcategories().forEach(images -> {
+                images.setSubcategoryId(subcategoria.getIdSubcategoria());
+                imagen.save(images);
+            });
+            return new ResponseEntity<>(subcategoryMapper.toSubcategory(subcategoriaCrudRepository.findById(subcategoria.getIdSubcategoria()).get()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override
     public ResponseEntity<ResponsePersonalized> deleteSubcategory(int id) {
-        return getByIdSubcategory(id).map(subcategory -> {
-            subcategoriaCrudRepository.deleteById(id);
+        return subcategoriaCrudRepository.findById(id).map(subcategoria -> {
+            subcategoria.setMostrar(false);
+            subcategoriaCrudRepository.save(subcategoria);
             ResponsePersonalized response = new ResponsePersonalized(200, "Eliminada Correctamente");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }).orElseGet(() -> {
@@ -64,8 +97,12 @@ public class SubcategoriaRepository implements SubcategoryRepository {
             _subcategoria.setDescripcion(subcategoria.getDescripcion());
             _subcategoria.setImagenUrl(subcategoria.getImagenUrl());
             _subcategoria.setIdCategoria(subcategoria.getIdCategoria());
+            imagen.delete(_subcategoria.getIdSubcategoria());
+            subcategory.getImagesSubcategories().forEach(images -> {
+                imagen.save(images);
+            });
             subcategoryMapper.toSubcategory(subcategoriaCrudRepository.save(_subcategoria));
-            return new ResponseEntity<>(getByIdSubcategory(id).get(), HttpStatus.OK);
+            return getByIdSubcategory(id);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

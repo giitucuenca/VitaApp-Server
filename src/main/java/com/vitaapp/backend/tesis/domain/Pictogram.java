@@ -9,6 +9,7 @@ public class Pictogram {
     private Integer subcategoryId;
     private Subcategory subcategory;
     private List<ImagePictogram> imagesPictograms;
+    private String color;
 
     public List<ImagePictogram> getImagesPictograms() {
         return imagesPictograms;
@@ -56,5 +57,13 @@ public class Pictogram {
 
     public void setSubcategory(Subcategory subcategory) {
         this.subcategory = subcategory;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

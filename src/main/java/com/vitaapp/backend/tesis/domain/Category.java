@@ -15,6 +15,8 @@ public class Category {
 
 	private String imageUrl;
 
+	private boolean show;
+
 	private List<ImageCategory> imagesCategories;
 
 
@@ -72,5 +74,13 @@ public class Category {
 
 	public void setImagesCategories(List<ImageCategory> imagesCategories) {
 		this.imagesCategories = imagesCategories;
+	}
+
+	public boolean isShow() {
+		return show;
+	}
+
+	public void setShow(boolean show) {
+		this.show = show;
 	}
 }

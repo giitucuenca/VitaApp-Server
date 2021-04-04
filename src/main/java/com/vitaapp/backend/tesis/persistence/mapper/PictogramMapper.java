@@ -18,7 +18,8 @@ public interface PictogramMapper {
             @Mapping(source = "nombre", target = "name"),
             @Mapping(source = "imagenUrl", target = "imageUrl"),
             @Mapping(source = "idSubcategoria", target = "subcategoryId"),
-            @Mapping(source = "imagenesPictogramas", target = "imagesPictograms")
+            @Mapping(source = "imagenesPictogramas", target = "imagesPictograms"),
+            @Mapping(target = "color", ignore = true)
     })
     Pictogram toPictogram(Pictograma pictograma);
     List<Pictogram> toPictograms(List<Pictograma> pictogramas);

@@ -25,6 +25,8 @@ public class Categoria {
 
 	private String descripcion;
 
+	private boolean mostrar;
+
 	@Column(name = "id_color")
 	private Integer idColor;
 
@@ -114,5 +116,13 @@ public class Categoria {
 
 	public void setImagenesCategorias(List<ImagenCategoria> imagenesCategorias) {
 		this.imagenesCategorias = imagenesCategorias;
+	}
+
+	public boolean isMostrar() {
+		return mostrar;
+	}
+
+	public void setMostrar(boolean mostrar) {
+		this.mostrar = mostrar;
 	}
 }

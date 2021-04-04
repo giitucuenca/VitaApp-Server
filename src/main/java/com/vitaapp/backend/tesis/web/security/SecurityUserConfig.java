@@ -1,7 +1,7 @@
 package com.vitaapp.backend.tesis.web.security;
 
 import com.vitaapp.backend.tesis.domain.services.VitaappUserDetailsService;
-import com.vitaapp.backend.tesis.web.security.filter.JWTFilterAdminRequest;
+import com.vitaapp.backend.tesis.web.security.filter.JWTFilterUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,13 +23,13 @@ import java.util.Arrays;
 
 @Configuration
 @Order(1)
-public class SecurityCarerConfig extends WebSecurityConfigurerAdapter {
+public class SecurityUserConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private VitaappUserDetailsService adminService;
 
     @Autowired
-    private JWTFilterAdminRequest jwtFilterRequest;
+    private JWTFilterUserRequest jwtFilterRequest;
 
 
     @Bean
@@ -54,7 +54,7 @@ public class SecurityCarerConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers("/**/auth","/**/register").permitAll()
                 .antMatchers("/**/admin", "/**/admin/**/").hasAnyAuthority("ADMIN")
-                .antMatchers("/**/color/all","/**/category/all", "/**/category/{id}", "/**/subcategory/category/**","/**/subcategory/all", "/**/subcategory/{id}").hasAnyAuthority("CARER", "ADMIN")
+                .antMatchers("/**/color/all","/**/category/all", "/**/category/{id}", "/**/subcategory/category/**","/**/subcategory/all", "/**/subcategory/{id}", "/**/valid").hasAnyAuthority("CARER", "ADMIN")
                 .anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);

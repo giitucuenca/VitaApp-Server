@@ -8,5 +8,6 @@ import com.vitaapp.backend.tesis.persistence.entity.CategoriaPersonalizada;
 import com.vitaapp.backend.tesis.persistence.entity.Subcategoria;
 
 public interface SubcategoriaCrudRepository extends CrudRepository<Subcategoria, Integer> {
-	List<Subcategoria> findByIdCategoriaOrderByNombreAsc(Integer idCategoria);
+	List<Subcategoria> findByIdCategoriaAndMostrarOrderByNombreAsc(Integer idCategoria, Boolean mostrar);
+	List<Subcategoria> findByMostrarOrderByNombreAsc(Boolean mostrar);
 }
