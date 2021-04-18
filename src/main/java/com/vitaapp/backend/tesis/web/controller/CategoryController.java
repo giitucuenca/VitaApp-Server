@@ -17,19 +17,18 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
-	@GetMapping("/all")
+	@GetMapping("/any/all")
 	public List<Category> getAll() {
 		return categoryService.getAll();
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/any/{id}")
 	public Optional<Category> getByIdCategory(@PathVariable Integer id) {
 		return categoryService.getByIdCategory(id);
 	}
 
 	@PostMapping("/admin/add")
 	public ResponseEntity<ResponsePersonalized> save(@RequestBody Category category) {
-		category.getImagesCategories().stream().forEach(imageCategory -> System.out.println(imageCategory.getName()));
 		return categoryService.save(category);
 	}
 

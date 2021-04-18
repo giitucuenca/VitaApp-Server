@@ -29,9 +29,10 @@ public class PictogramaPersonalizadoRepository implements PictogramCarerReposito
     }
 
     @Override
-    public Optional<PictogramCarer> getById(int id) {
+    public ResponseEntity<PictogramCarer> getById(int id) {
         return pictogramaCrud.findById(id)
-                .map(pictograma -> pictogramMapper.toPictogram(pictograma));
+                .map(pictograma -> new ResponseEntity<>(pictogramMapper.toPictogram(pictograma), HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @Override

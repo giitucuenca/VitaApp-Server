@@ -18,7 +18,7 @@ public interface SubcategoryMapper {
             @Mapping(source = "descripcion", target = "description"),
             @Mapping(source = "idCategoria", target = "categoryId"),
 			@Mapping(source = "imagenUrl", target = "imageUrl"),
-            @Mapping(source = "imagenesSubcategorias", target = "imagesSubcategories"),
+            @Mapping(source = "imagenesSubcategorias", target = "images"),
             @Mapping(source = "mostrar", target = "show"),
             @Mapping(target = "color", ignore = true)
     })

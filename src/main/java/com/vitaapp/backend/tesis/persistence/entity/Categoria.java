@@ -1,5 +1,8 @@
 package com.vitaapp.backend.tesis.persistence.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -44,6 +47,7 @@ public class Categoria {
 	private List<CategoriaPersonalizada> categoriasPersonalizadas;
 
 	@OneToMany(mappedBy = "categoria")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<ImagenCategoria> imagenesCategorias;
 
 	public Integer getIdCategoria() {

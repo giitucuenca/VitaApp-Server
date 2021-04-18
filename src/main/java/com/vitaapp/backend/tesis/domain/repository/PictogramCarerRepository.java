@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface PictogramCarerRepository {
     List<PictogramCarer> getAll();
-    Optional<PictogramCarer> getById(int id);
+    ResponseEntity<PictogramCarer> getById(int id);
     List<PictogramCarer> getAllByIdSubcategory(int id);
     ResponseEntity<PictogramCarer> save(PictogramCarer pictogram);
     ResponseEntity<ResponsePersonalized> delete(int id);

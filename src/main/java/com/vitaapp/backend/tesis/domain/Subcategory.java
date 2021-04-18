@@ -20,7 +20,7 @@ public class Subcategory {
 
 	private boolean show;
 
-	private List<ImageSubcategory> imagesSubcategories;
+	private List<ImageSubcategory> images;
 
 
 	public String getImageUrl() {
@@ -63,13 +63,12 @@ public class Subcategory {
 		this.categoryId = categoryId;
 	}
 
-
-	public List<ImageSubcategory> getImagesSubcategories() {
-		return imagesSubcategories;
+	public List<ImageSubcategory> getImages() {
+		return images;
 	}
 
-	public void setImagesSubcategories(List<ImageSubcategory> imagesSubcategories) {
-		this.imagesSubcategories = imagesSubcategories;
+	public void setImages(List<ImageSubcategory> images) {
+		this.images = images;
 	}
 
 	public boolean isShow() {

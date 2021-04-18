@@ -16,16 +16,16 @@ public class PictogramController {
     @Autowired
     private PictogramService pictogramService;
 
-    @GetMapping("/all")
+    @GetMapping("/any/all")
     public List<Pictogram> getAll() {
         return pictogramService.getAll();
     }
 
-    @GetMapping("subcategory/{id}")
+    @GetMapping("/any/subcategory/{id}")
     public List<Pictogram> getAllByIdSubcategory(@PathVariable int id) {
         return pictogramService.getAllByIdSubcategory(id);
     }
-    @GetMapping("/{id}")
+    @GetMapping("/any/{id}")
     public ResponseEntity<Pictogram> getById(@PathVariable int id) {
         return pictogramService.getById(id);
     }

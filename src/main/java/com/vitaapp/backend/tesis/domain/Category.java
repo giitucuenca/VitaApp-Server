@@ -17,7 +17,7 @@ public class Category {
 
 	private boolean show;
 
-	private List<ImageCategory> imagesCategories;
+	private List<ImageCategory> images;
 
 
 	public Integer getCategoryId() {
@@ -68,12 +68,12 @@ public class Category {
 		this.imageUrl = imageUrl;
 	}
 
-	public List<ImageCategory> getImagesCategories() {
-		return imagesCategories;
+	public List<ImageCategory> getImages() {
+		return images;
 	}
 
-	public void setImagesCategories(List<ImageCategory> imagesCategories) {
-		this.imagesCategories = imagesCategories;
+	public void setImages(List<ImageCategory> images) {
+		this.images = images;
 	}
 
 	public boolean isShow() {

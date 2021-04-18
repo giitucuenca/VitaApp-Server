@@ -33,8 +33,8 @@ public class SubcategoriaPersonalizadaRepository implements SubcategoryCarerRepo
     }
 
     @Override
-    public Optional<SubcategoryCarer> getByIdSubcategory(int id) {
-        return subcategoriaCrudRepository.findById(id).map(subcategoria -> subcategoryMapper.toSubcategory(subcategoria));
+    public ResponseEntity<SubcategoryCarer> getByIdSubcategory(int id) {
+        return subcategoriaCrudRepository.findById(id).map(subcategoria -> new ResponseEntity<>(subcategoryMapper.toSubcategory(subcategoria), HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class SubcategoriaPersonalizadaRepository implements SubcategoryCarerRepo
             _subcategoria.setImagenUrl(subcategory.getImageUrl());
             _subcategoria.setIdCategoriaPersonalizada(subcategory.getCategoryId());
             subcategoriaCrudRepository.save(_subcategoria);
-            return new ResponseEntity<>(getByIdSubcategory(id).get(), HttpStatus.OK);
+            return getByIdSubcategory(id);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
             //return new ResponseEntity(new ResponsePersonalized(404, "No se encontro el elemento a eliminar"), HttpStatus.NOT_FOUND);

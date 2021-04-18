@@ -54,7 +54,7 @@ public class SecurityUserConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers("/**/auth","/**/register").permitAll()
                 .antMatchers("/**/admin", "/**/admin/**/").hasAnyAuthority("ADMIN")
-                .antMatchers("/**/color/all","/**/category/all", "/**/category/{id}", "/**/subcategory/category/**","/**/subcategory/all", "/**/subcategory/{id}", "/**/valid").hasAnyAuthority("CARER", "ADMIN")
+                .antMatchers("/**/any/**/", "/**/carer", "/**/carer/**/").hasAnyAuthority("CARER", "ADMIN", "OLDER")
                 .anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);

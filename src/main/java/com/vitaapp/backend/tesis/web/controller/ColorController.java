@@ -15,7 +15,7 @@ public class ColorController {
     @Autowired
     private ColorService colorService;
 
-    @GetMapping("/all")
+    @GetMapping("/any/all")
     public List<ColorM> getAll() {
         return colorService.getAll();
     }

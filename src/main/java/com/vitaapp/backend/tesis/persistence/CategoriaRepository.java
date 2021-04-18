@@ -39,16 +39,21 @@ public class CategoriaRepository implements CategoryRepository {
     public ResponseEntity<ResponsePersonalized> save(Category category) {
         // TODO Auto-generated method stub
         category.setShow(true);
-        try {
-            Categoria categoria = categoriaCrudRepository.save(mapper.toCategoria(category));
-            category.getImagesCategories().forEach(image -> {
-                image.setCategoryId(categoria.getIdCategoria());
-                imagen.save(image);
-            });
-            return new ResponseEntity<>( new ResponsePersonalized(200, "Categoria Agregada Correctamente"), HttpStatus.CREATED);
-        } catch (Exception exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if(category.getImages() != null && !category.getImages().isEmpty()) {
+            try {
+                Categoria categoria = categoriaCrudRepository.save(mapper.toCategoria(category));
+                category.getImages().forEach(image -> {
+                    image.setCategoryId(categoria.getIdCategoria());
+                    imagen.save(image);
+                });
+                return new ResponseEntity<>( new ResponsePersonalized(200, "Categoria Agregada Correctamente"), HttpStatus.CREATED);
+            } catch (Exception exception) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } else {
+            return new ResponseEntity<>(new ResponsePersonalized(404, "Tiene que ingresar al menos una imagen"), HttpStatus.NOT_FOUND);
         }
+
     }
 
     @Override
@@ -56,6 +61,8 @@ public class CategoriaRepository implements CategoryRepository {
         return categoriaCrudRepository.findById(id).map(categoria -> {
             categoria.setMostrar(false);
             categoriaCrudRepository.save(categoria);
+            // this.imagen.delete(id);
+            // categoriaCrudRepository.deleteById(id);
             return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria Eliminada Correctamente"), HttpStatus.OK);
         }).orElse(new ResponseEntity<>(new ResponsePersonalized(404, "Categoria no encontrada"), HttpStatus.NOT_FOUND));
     }
@@ -71,7 +78,7 @@ public class CategoriaRepository implements CategoryRepository {
             _categoria.setImagenUrl(categoria.getImagenUrl());
             _categoria.setIdColor(categoria.getIdColor());
             imagen.delete(_categoria.getIdCategoria());
-            category.getImagesCategories().forEach(image -> {
+            category.getImages().forEach(image -> {
                 image.setCategoryId(_categoria.getIdCategoria());
                 imagen.save(image);
             });

@@ -8,15 +8,15 @@ public class Pictogram {
     private String imageUrl;
     private Integer subcategoryId;
     private Subcategory subcategory;
-    private List<ImagePictogram> imagesPictograms;
+    private List<ImagePictogram> images;
     private String color;
 
-    public List<ImagePictogram> getImagesPictograms() {
-        return imagesPictograms;
+    public List<ImagePictogram> getImages() {
+        return images;
     }
 
-    public void setImagesPictograms(List<ImagePictogram> imagesPictograms) {
-        this.imagesPictograms = imagesPictograms;
+    public void setImages(List<ImagePictogram> images) {
+        this.images = images;
     }
 
     public Integer getPictogramId() {

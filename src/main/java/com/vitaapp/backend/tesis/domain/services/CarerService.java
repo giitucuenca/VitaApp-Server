@@ -21,11 +21,7 @@ public class CarerService {
     CarerRepository carerRepository;
 
     @Autowired
-    AdminRepository adminRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
-
 
     public ResponseEntity<ResponsePersonalized> save(Carer carer) {
         carer.setPassword(passwordEncoder.encode(carer.getPassword()));
@@ -35,4 +31,14 @@ public class CarerService {
     public Carer getByEmail(String email) {
         return this.carerRepository.getByEmail(email);
     }
+
+    ResponseEntity<ResponsePersonalized> delete(Integer id) {
+        return this.carerRepository.delete(id);
+    }
+
+    ResponseEntity<Carer> getByIdCarer(Integer id) {
+        return this.carerRepository.getByIdCarer(id);
+    }
+
 }
+

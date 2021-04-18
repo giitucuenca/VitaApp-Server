@@ -46,20 +46,30 @@ public class PictogramaRepository implements PictogramRepository {
 
     @Override
     public List<Pictogram> getAllByIdSubcategory(int id) {
-        return pictogramMapper.toPictograms((List<Pictograma>) pictogramaCrudRepository.findByIdSubcategoriaOrderByNombreAsc(id));
+        List<Pictograma> pictogramas = pictogramaCrudRepository.findByIdSubcategoriaOrderByNombreAsc(id);
+        List<Pictogram> pictograms = pictogramMapper.toPictograms(pictogramas);
+        if(!pictogramas.isEmpty()) {
+            String color = pictogramas.get(0).getSubcategoria().getCategoria().getColor().getColor();
+            pictograms.forEach(pictogram -> pictogram.setColor(color));
+        }
+        return pictograms;
     }
 
     @Override
     public ResponseEntity<Pictogram> save(Pictogram pictogram) {
-        try {
-           Pictogram _pictogram = pictogramMapper
-                    .toPictogram(pictogramaCrudRepository.save(pictogramMapper.toPictograma(pictogram)));
-           pictogram.getImagesPictograms().forEach(image -> {
-               image.setPictogramId(_pictogram.getPictogramId());
-               imagen.save(image);
-           });
-           return new ResponseEntity<>(pictogramMapper.toPictogram(pictogramaCrudRepository.findById(_pictogram.getPictogramId()).get()) , HttpStatus.OK);
-        } catch (Exception e) {
+        if(pictogram.getImages() != null && !pictogram.getImages().isEmpty()) {
+            try {
+               Pictogram _pictogram = pictogramMapper
+                        .toPictogram(pictogramaCrudRepository.save(pictogramMapper.toPictograma(pictogram)));
+               pictogram.getImages().forEach(image -> {
+                   image.setPictogramId(_pictogram.getPictogramId());
+                   imagen.save(image);
+               });
+               return new ResponseEntity<>(pictogramMapper.toPictogram(pictogramaCrudRepository.findById(_pictogram.getPictogramId()).get()) , HttpStatus.OK);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -87,7 +97,7 @@ public class PictogramaRepository implements PictogramRepository {
             _pictograma.setIdSubcategoria(pictograma.getIdSubcategoria());
             _pictograma.setImagenUrl(pictogram.getImageUrl());
             imagen.delete(pictogram.getPictogramId());
-            pictogram.getImagesPictograms().forEach(image -> {
+            pictogram.getImages().forEach(image -> {
                 imagen.save(image);
             });
             pictogramaCrudRepository.save(_pictograma);

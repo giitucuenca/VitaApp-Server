@@ -18,7 +18,7 @@ public interface CategoryMapper {
             @Mapping(source = "idColor", target = "colorId"),
             @Mapping(source = "color", target = "colorM"),
 			@Mapping(source = "imagenUrl", target = "imageUrl"),
-            @Mapping(source = "imagenesCategorias", target = "imagesCategories"),
+            @Mapping(source = "imagenesCategorias", target = "images"),
             @Mapping(source = "mostrar", target = "show")
     })
     Category toCategory(Categoria categoria);

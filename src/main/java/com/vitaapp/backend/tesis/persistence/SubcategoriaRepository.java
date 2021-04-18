@@ -62,14 +62,18 @@ public class SubcategoriaRepository implements SubcategoryRepository {
     @Override
     public ResponseEntity<Subcategory> save(Subcategory subcategory) {
         subcategory.setShow(true);
+        if(subcategory.getImages() != null && !subcategory.getImages().isEmpty()) {
         try {
             Subcategoria subcategoria = subcategoriaCrudRepository.save(subcategoryMapper.toSubcategoria(subcategory));
-            subcategory.getImagesSubcategories().forEach(images -> {
+            subcategory.getImages().forEach(images -> {
                 images.setSubcategoryId(subcategoria.getIdSubcategoria());
                 imagen.save(images);
             });
             return new ResponseEntity<>(subcategoryMapper.toSubcategory(subcategoriaCrudRepository.findById(subcategoria.getIdSubcategoria()).get()), HttpStatus.OK);
         } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -98,7 +102,7 @@ public class SubcategoriaRepository implements SubcategoryRepository {
             _subcategoria.setImagenUrl(subcategoria.getImagenUrl());
             _subcategoria.setIdCategoria(subcategoria.getIdCategoria());
             imagen.delete(_subcategoria.getIdSubcategoria());
-            subcategory.getImagesSubcategories().forEach(images -> {
+            subcategory.getImages().forEach(images -> {
                 imagen.save(images);
             });
             subcategoryMapper.toSubcategory(subcategoriaCrudRepository.save(_subcategoria));

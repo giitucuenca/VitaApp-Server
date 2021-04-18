@@ -17,17 +17,17 @@ public class SubcategoryController {
     @Autowired
     private SubcategoryService subcategoryService;
 
-    @GetMapping("/all")
+    @GetMapping("/any/all")
     public List<Subcategory> getAll(){
         return subcategoryService.getAll();
     }
 
-    @GetMapping("/category/{categoryId}")
+    @GetMapping("/any/category/{categoryId}")
     public List<Subcategory> getByCategory(@PathVariable int categoryId){
         return subcategoryService.getByCategory(categoryId);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/any/{id}")
     public ResponseEntity<Subcategory> getByIdSubcategory(@PathVariable int id){
         return  subcategoryService.getByIdSubcategory(id);
     }
