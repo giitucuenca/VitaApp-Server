@@ -61,8 +61,6 @@ public class CategoriaRepository implements CategoryRepository {
         return categoriaCrudRepository.findById(id).map(categoria -> {
             categoria.setMostrar(false);
             categoriaCrudRepository.save(categoria);
-            // this.imagen.delete(id);
-            // categoriaCrudRepository.deleteById(id);
             return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria Eliminada Correctamente"), HttpStatus.OK);
         }).orElse(new ResponseEntity<>(new ResponsePersonalized(404, "Categoria no encontrada"), HttpStatus.NOT_FOUND));
     }

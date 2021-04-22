@@ -32,12 +32,19 @@ public class Adulto {
 	@Column(name = "id_cuidador")
 	private Integer idCuidador;
 	private char genero;
-	private String escolaridad;
+
+	@Column(name = "id_escolaridad")
+	private Integer idEscolaridad;
+
 	private char lateralidad;
 
 	@ManyToOne
 	@JoinColumn(name = "id_cuidador", insertable = false, updatable = false)
 	private Cuidador cuidador;
+
+	@ManyToOne
+	@JoinColumn(name = "id_escolaridad", insertable = false, updatable = false)
+	private NivelEscolaridad escolaridad;
 	
 	@OneToMany(mappedBy = "adulto", cascade = CascadeType.ALL)
 	private List<Mensaje> mensajes;
@@ -100,10 +107,20 @@ public class Adulto {
 	public void setGenero(char genero) {
 		this.genero = genero;
 	}
-	public String getEscolaridad() {
+
+	public Integer getIdEscolaridad() {
+		return idEscolaridad;
+	}
+
+	public void setIdEscolaridad(Integer idEscolaridad) {
+		this.idEscolaridad = idEscolaridad;
+	}
+
+	public NivelEscolaridad getEscolaridad() {
 		return escolaridad;
 	}
-	public void setEscolaridad(String escolaridad) {
+
+	public void setEscolaridad(NivelEscolaridad escolaridad) {
 		this.escolaridad = escolaridad;
 	}
 

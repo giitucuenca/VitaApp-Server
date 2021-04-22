@@ -16,7 +16,7 @@ public class Elderly {
 
     private char gender;
 
-    private String scholarship;
+    private Integer scholarityId;
 
     private char laterality;
 
@@ -72,12 +72,12 @@ public class Elderly {
         this.gender = gender;
     }
 
-    public String getScholarship() {
-        return scholarship;
+    public Integer getScholarityId() {
+        return scholarityId;
     }
 
-    public void setScholarship(String scholarship) {
-        this.scholarship = scholarship;
+    public void setScholarityId(Integer scholarityId) {
+        this.scholarityId = scholarityId;
     }
 
     public char getLaterality() {

@@ -20,7 +20,7 @@ public interface ElderlyMapper {
             @Mapping(source = "codigo", target = "code"),
             @Mapping(source = "idCuidador", target = "carerId"),
             @Mapping(source = "genero", target = "gender"),
-            @Mapping(source = "escolaridad", target = "scholarship"),
+            @Mapping(source = "idEscolaridad", target = "scholarityId"),
             @Mapping(source = "lateralidad", target = "laterality"),
             @Mapping(source = "correo", target = "email"),
             @Mapping(source = "contrasena", target = "password")
@@ -32,6 +32,7 @@ public interface ElderlyMapper {
     @Mappings({
             @Mapping(target = "cuidador", ignore = true),
             @Mapping(target = "mensajes", ignore = true),
+            @Mapping(target = "escolaridad", ignore = true)
     })
     Adulto toAdulto(Elderly elderly);
 }
