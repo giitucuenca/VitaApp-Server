@@ -2,11 +2,14 @@ package com.vitaapp.backend.tesis.domain;
 
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Admin {
     private Integer adminId;
 
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     private String name;

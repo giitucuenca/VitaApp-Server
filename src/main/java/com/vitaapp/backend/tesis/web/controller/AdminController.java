@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
@@ -15,7 +17,7 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("/register")
-    public ResponseEntity<ResponsePersonalized> save(@RequestBody Admin admin) {
+    public ResponseEntity<?> save(@Valid @RequestBody Admin admin) {
         return adminService.save(admin);
     }
 

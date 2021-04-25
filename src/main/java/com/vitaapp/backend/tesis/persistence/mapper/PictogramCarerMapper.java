@@ -32,4 +32,5 @@ public interface PictogramCarerMapper {
             @Mapping(target = "subcategoriaPersonalizada", ignore = true),
     })
     PictogramaPersonalizado toPictograma(PictogramCarer pictogram);
+    List<PictogramaPersonalizado> toPictogramas(List<PictogramCarer> pictograms);
 }

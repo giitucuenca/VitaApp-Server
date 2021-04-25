@@ -1,5 +1,8 @@
 package com.vitaapp.backend.tesis.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Carer {
     private Integer carerId;
 
@@ -8,8 +11,9 @@ public class Carer {
     private String surname;
 
     private String email;
-
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+    private String token;
 
     public Integer getCarerId() {
         return carerId;
@@ -49,5 +53,13 @@ public class Carer {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

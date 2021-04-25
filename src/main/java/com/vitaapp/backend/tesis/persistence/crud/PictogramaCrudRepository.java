@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface PictogramaCrudRepository extends CrudRepository<Pictograma, Integer> {
     List<Pictograma> findByIdSubcategoriaOrderByNombreAsc(Integer idSubcategoria);
+    List<Pictograma> findBySubcategoriaCategoriaIdCategoria(Integer idCategoria);
 }

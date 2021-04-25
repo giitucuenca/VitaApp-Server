@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,8 +27,18 @@ public class PictogramCarerController {
         return pictogramCarer.getAllByIdSubcategory(id);
     }
     @PostMapping("/add")
-    public ResponseEntity<PictogramCarer> save(@RequestBody PictogramCarer pictogram){
+    public ResponseEntity<?> save(@Valid @RequestBody PictogramCarer pictogram){
         return pictogramCarer.save(pictogram);
+    }
+
+    @PostMapping("/add/list")
+    public ResponseEntity<?> saveList(@Valid @RequestBody List<PictogramCarer> pictograms){
+        return pictogramCarer.saveList(pictograms);
+    }
+
+    @PutMapping("/update-position")
+    public ResponseEntity<?> updatePosition(@Valid @RequestBody List<PictogramCarer> pictograms){
+        return pictogramCarer.updatePosition(pictograms);
     }
 
     @DeleteMapping("/{id}")
@@ -36,7 +47,7 @@ public class PictogramCarerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PictogramCarer> update(@PathVariable int id, @RequestBody PictogramCarer pictogram){
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody PictogramCarer pictogram){
         return pictogramCarer.update(id, pictogram);
     }
 

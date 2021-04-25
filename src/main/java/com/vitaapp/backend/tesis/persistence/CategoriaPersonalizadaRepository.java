@@ -20,7 +20,7 @@ import java.util.Optional;
 public class CategoriaPersonalizadaRepository implements CategoryCarerRepository {
 
     @Autowired
-    private CategoriaPersonalizadaCrudRepository categoriaCrudRepository;
+    private CategoriaPersonalizadaCrudRepository crud;
 
     @Autowired
     private CuidadorCrudRepository cuidadorCrud;
@@ -28,17 +28,23 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
     @Autowired
     private CategoryCarerMapper mapper;
 
+    @Autowired
+    private SubcategoriaPersonalizadaRepository subcategoria;
+
+    @Autowired
+    private PictogramaPersonalizadoRepository pictograma;
+
 
     @Override
     public List<CategoryCarer> getAll() {
-        return mapper.toCategories((List<CategoriaPersonalizada>) categoriaCrudRepository.findAll());
+        return mapper.toCategories((List<CategoriaPersonalizada>) crud.findAll());
     }
 
     @Override
-    public ResponseEntity<List<CategoryCarer>> getCategoryByCarerId(int carerId) {
+    public ResponseEntity<?> getCategoryByCarerId(int carerId) {
         Optional<Cuidador> cuidador = cuidadorCrud.findById(carerId);
         if (cuidador.isPresent()) {
-            return new ResponseEntity<>(mapper.toCategories(categoriaCrudRepository.findByIdCuidadorOrderByNombreAsc(carerId)), HttpStatus.OK);
+            return new ResponseEntity<>(mapper.toCategories(crud.findByIdCuidadorOrderByNombreAsc(carerId)), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -46,7 +52,7 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
 
     @Override
     public ResponseEntity<CategoryCarer> getByIdCategory(int id) {
-        return categoriaCrudRepository
+        return crud
                 .findById(id)
                 .map(categoriaPersonalizada -> new ResponseEntity<>(mapper.toCategory(categoriaPersonalizada), HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -54,30 +60,37 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
 
     @Override
     public ResponseEntity<ResponsePersonalized> save(CategoryCarer category) {
-        try {
-            categoriaCrudRepository.save(mapper.toCategoria(category));
+            crud.save(mapper.toCategoria(category));
             return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria creada"), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(
-                    new ResponsePersonalized(404, "Cateogoria no creada"),
-                    HttpStatus.NOT_FOUND);
-        }
-
     }
 
     @Override
-    public ResponseEntity<ResponsePersonalized> delete(Integer id) {
-        return categoriaCrudRepository.findById(id).map(categoria -> {
-            categoriaCrudRepository.deleteById(id);
+    public ResponseEntity<?> delete(Integer id) {
+        if(crud.findById(id).isPresent()) {
+            pictograma.deletePictogramsByCategoryId(id);
+            subcategoria.deleteSubcategoriesByCategoryId(id);
+            crud.deleteById(id);
+            ResponsePersonalized response = new ResponsePersonalized(200, "Categoria Eliminada Correctamente");
+            response.setMessage("Categoria Eliminada Correctamente");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            ResponsePersonalized response = new ResponsePersonalized(404, "No existe la categoria");
+            response.setMessage("No existe la categoria");
+            response.getErrors().add("No existe la categoria");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+
+        /* return crud.findById(id).map(categoria -> {
+            crud.deleteById(id);
             return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria Eliminada"), HttpStatus.OK);
         }).orElseGet(() -> {
             return new ResponseEntity<>(new ResponsePersonalized(404, "Categoria no encontrada"), HttpStatus.NOT_FOUND);
-        });
+        }); */
     }
 
     @Override
     public ResponseEntity<ResponsePersonalized> updateCategory(Integer id, CategoryCarer category) {
-        Optional<CategoriaPersonalizada> categoriaData = categoriaCrudRepository.findById(id);
+        Optional<CategoriaPersonalizada> categoriaData = crud.findById(id);
         CategoriaPersonalizada categoria = mapper.toCategoria(category);
         if (categoriaData.isPresent()) {
             CategoriaPersonalizada _categoria = categoriaData.get();
@@ -85,10 +98,18 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
             _categoria.setDescripcion(categoria.getDescripcion());
             _categoria.setImagenUrl(categoria.getImagenUrl());
             _categoria.setColor(categoria.getColor());
-            categoriaCrudRepository.save(_categoria);
+            crud.save(_categoria);
             return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria Modificada Correctamente"), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @Override
+    public ResponseEntity<?> saveList(List<CategoryCarer> categories) {
+        List<CategoriaPersonalizada> categorias = (List<CategoriaPersonalizada>) crud.saveAll(mapper.toCategorias(categories));
+        ResponsePersonalized response = new ResponsePersonalized(200, "Categorias creadas correctamente");
+        response.setData(mapper.toCategories(categorias));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

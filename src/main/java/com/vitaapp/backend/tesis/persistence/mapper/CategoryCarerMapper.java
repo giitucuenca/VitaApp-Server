@@ -32,4 +32,5 @@ public interface CategoryCarerMapper {
 
     })
     CategoriaPersonalizada toCategoria(CategoryCarer category);
+    List<CategoriaPersonalizada> toCategorias(List<CategoryCarer> categories);
 }

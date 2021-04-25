@@ -1,6 +1,7 @@
 package com.vitaapp.backend.tesis.persistence.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "imagenes_categorias")
@@ -10,8 +11,10 @@ public class ImagenCategoria {
     @Column(name = "id_imagen")
     private Integer idImagen;
 
+    @NotBlank(message = "Debe ingresar un nombre de la imagen")
     private String nombre;
 
+    @NotBlank(message = "Debe ingresar un URL de la imagen")
     private String imagenUrl;
 
     @Column(name = "id_categoria")

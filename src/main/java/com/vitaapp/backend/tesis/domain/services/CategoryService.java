@@ -36,16 +36,16 @@ public class CategoryService {
 		 */
 		return categoryRepository.getAll();
 	}
-	public Optional<Category> getByIdCategory(int id) {
+	public ResponseEntity<?> getByIdCategory(int id) {
 		return categoryRepository.getByIdCategory(id);
 	}
-	public ResponseEntity<ResponsePersonalized> delete(Integer id) {
+	public ResponseEntity<?> delete(Integer id) {
 		return categoryRepository.delete(id);
 	}
-	public ResponseEntity<ResponsePersonalized> save(Category category) {
+	public ResponseEntity<?> save(Category category) {
 		return categoryRepository.save(category);
 	}
-	public ResponseEntity<ResponsePersonalized> updateCategory(Integer id, Category category) {
+	public ResponseEntity<?> updateCategory(Integer id, Category category) {
 		return categoryRepository.updateCategory(id, category);
 	}
 	

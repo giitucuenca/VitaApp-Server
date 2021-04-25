@@ -2,7 +2,9 @@ package com.vitaapp.backend.tesis.web.security;
 
 import com.vitaapp.backend.tesis.domain.services.VitaappUserDetailsService;
 import com.vitaapp.backend.tesis.web.security.filter.JWTFilterUserRequest;
+import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -15,21 +17,29 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.Arrays;
 
+
 @Configuration
-@Order(1)
 public class SecurityUserConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private VitaappUserDetailsService adminService;
 
+
+
     @Autowired
     private JWTFilterUserRequest jwtFilterRequest;
+
 
 
     @Bean

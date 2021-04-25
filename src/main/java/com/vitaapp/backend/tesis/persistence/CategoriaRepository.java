@@ -1,6 +1,8 @@
 package com.vitaapp.backend.tesis.persistence;
 
 import com.vitaapp.backend.tesis.domain.Category;
+import com.vitaapp.backend.tesis.domain.ImageCategory;
+import com.vitaapp.backend.tesis.domain.ImageSubcategory;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.CategoryRepository;
 import com.vitaapp.backend.tesis.persistence.crud.CategoriaCrudRepository;
@@ -13,11 +15,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class CategoriaRepository implements CategoryRepository {
     @Autowired
-    private CategoriaCrudRepository categoriaCrudRepository;
+    private CategoriaCrudRepository crud;
     @Autowired
     private CategoryMapper mapper;
 
@@ -27,12 +30,29 @@ public class CategoriaRepository implements CategoryRepository {
     @Override
     public List<Category> getAll() {
         // TODO Auto-generated method stub
-        return mapper.toCategories(categoriaCrudRepository.findByMostrarOrderByNombreAsc(true));
+        List<Categoria> categorias = crud.findByMostrarOrderByNombreAsc(true);
+        List<Category> categories = categorias.stream().map(categoria -> {
+            Category category = mapper.toCategory(categoria);
+            category.setColor(categoria.getColor().getColor());
+            return category;
+        }).collect(Collectors.toList());
+        return categories;
     }
 
     @Override
-    public Optional<Category> getByIdCategory(int id) {
-        return categoriaCrudRepository.findById(id).map(categoria -> mapper.toCategory(categoria));
+    public ResponseEntity<?> getByIdCategory(int id) {
+        return crud.findById(id)
+                .map(categoria -> {
+                    Category category =  mapper.toCategory(categoria);
+                    category.setColor(categoria.getColor().getColor());
+                    return new ResponseEntity(category, HttpStatus.OK);
+                }
+                ).orElseGet(() -> {
+            ResponsePersonalized response = new ResponsePersonalized(404, "No existe la categoria");
+            response.getErrors().add("No existe la categoria");
+            ResponseEntity responseEntity = new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            return responseEntity;
+        });
     }
 
     @Override
@@ -40,34 +60,32 @@ public class CategoriaRepository implements CategoryRepository {
         // TODO Auto-generated method stub
         category.setShow(true);
         if(category.getImages() != null && !category.getImages().isEmpty()) {
-            try {
-                Categoria categoria = categoriaCrudRepository.save(mapper.toCategoria(category));
+
+                Categoria categoria = crud.save(mapper.toCategoria(category));
                 category.getImages().forEach(image -> {
                     image.setCategoryId(categoria.getIdCategoria());
                     imagen.save(image);
                 });
                 return new ResponseEntity<>( new ResponsePersonalized(200, "Categoria Agregada Correctamente"), HttpStatus.CREATED);
-            } catch (Exception exception) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+
         } else {
-            return new ResponseEntity<>(new ResponsePersonalized(404, "Tiene que ingresar al menos una imagen"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponsePersonalized(404, "Debe ingresar al menos una imagen"), HttpStatus.NOT_FOUND);
         }
 
     }
 
     @Override
     public ResponseEntity<ResponsePersonalized> delete(Integer id) {
-        return categoriaCrudRepository.findById(id).map(categoria -> {
+        return crud.findById(id).map(categoria -> {
             categoria.setMostrar(false);
-            categoriaCrudRepository.save(categoria);
+            crud.save(categoria);
             return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria Eliminada Correctamente"), HttpStatus.OK);
         }).orElse(new ResponseEntity<>(new ResponsePersonalized(404, "Categoria no encontrada"), HttpStatus.NOT_FOUND));
     }
 
     @Override
     public ResponseEntity<ResponsePersonalized> updateCategory(Integer id, Category category) {
-        Optional<Categoria> categoriaData = categoriaCrudRepository.findById(id);
+        Optional<Categoria> categoriaData = crud.findById(id);
         Categoria categoria = mapper.toCategoria(category);
         if (categoriaData.isPresent()) {
             Categoria _categoria = categoriaData.get();
@@ -75,12 +93,25 @@ public class CategoriaRepository implements CategoryRepository {
             _categoria.setDescripcion(categoria.getDescripcion());
             _categoria.setImagenUrl(categoria.getImagenUrl());
             _categoria.setIdColor(categoria.getIdColor());
-            imagen.delete(_categoria.getIdCategoria());
+            // imagen.delete(_categoria.getIdCategoria());
+            List<ImageCategory> images = imagen.getImagesByCategoryId(id);
+            images.forEach(image -> {
+                boolean delete = true;
+                for(ImageCategory imagePut : category.getImages()) {
+                    if(imagePut.getImageId() != null && imagePut.getImageId() == image.getImageId()) {
+                        delete = false;
+                        break;
+                    }
+                }
+                if (delete) {
+                    imagen.deleteById(image.getImageId());
+                }
+            });
             category.getImages().forEach(image -> {
                 image.setCategoryId(_categoria.getIdCategoria());
                 imagen.save(image);
             });
-            mapper.toCategory(categoriaCrudRepository.save(_categoria));
+            mapper.toCategory(crud.save(_categoria));
             ResponsePersonalized response = new ResponsePersonalized();
             response.setCode(200);
             response.setMessage("Categoria Modificada Correctamente");

@@ -13,10 +13,17 @@ public class SubcategoryCarer {
 
     private Integer categoryId;
 
-    private CategoryCarer category;
+    private String color;
 
     private String imageUrl;
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public Integer getSubcategoryId() {
         return subcategoryId;
@@ -50,13 +57,6 @@ public class SubcategoryCarer {
         this.categoryId = categoryId;
     }
 
-    public CategoryCarer getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryCarer category) {
-        this.category = category;
-    }
 
     public String getImageUrl() {
         return imageUrl;

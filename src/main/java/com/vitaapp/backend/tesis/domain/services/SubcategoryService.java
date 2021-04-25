@@ -27,7 +27,7 @@ public class SubcategoryService {
         return  subcategoryRepository.getByIdSubcategory(id);
     }
 
-    public ResponseEntity<Subcategory> save(Subcategory subcategory){
+    public ResponseEntity<?> save(Subcategory subcategory){
         return subcategoryRepository.save(subcategory);
     }
 

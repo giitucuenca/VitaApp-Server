@@ -2,6 +2,7 @@ package com.vitaapp.backend.tesis.persistence.entity;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "categorias")
@@ -24,8 +26,14 @@ public class Categoria {
 	@Column(name = "id_categoria")
 	private Integer idCategoria;
 
+	@Column(length = 15)
+	@Length(max = 15, message = "Longitud maxima del campo nombre max 15 caracteres")
+	@NotBlank(message = "Debe ingresar un nombre de la categoria")
 	private String nombre;
 
+	@Column(length = 40)
+	@Length(max = 40, message = "Longitud maxima del campo descripción max 40 caracteres")
+	@NotBlank(message = "Debe ingresar un nombre de la categoria")
 	private String descripcion;
 
 	private boolean mostrar;
@@ -34,6 +42,7 @@ public class Categoria {
 	private Integer idColor;
 
 	@Column(name= "imagen_url")
+	@NotBlank(message = "Debe ingresar una imagen")
 	private String imagenUrl;
 	
 	@ManyToOne

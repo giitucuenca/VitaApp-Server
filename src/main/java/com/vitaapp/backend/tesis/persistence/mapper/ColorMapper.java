@@ -14,7 +14,6 @@ import java.util.List;
 public interface ColorMapper {
 	@Mappings({
 			@Mapping(source = "idColor", target = "colorId"),
-			@Mapping(source = "color", target = "colorCode"),
 			@Mapping(source = "nombre", target = "name"),
 	})
 	ColorM colorMTo(Color color);

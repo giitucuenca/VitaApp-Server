@@ -33,7 +33,7 @@ public class SubcategoryController {
     }
 
     @PostMapping("/admin/add")
-    public ResponseEntity<Subcategory> save(@RequestBody Subcategory subcategory){
+    public ResponseEntity<?> save(@RequestBody Subcategory subcategory){
         return subcategoryService.save(subcategory);
     }
 

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ImagenSubcategoriaCrudRepository extends CrudRepository<ImagenSubcategoria, Integer> {
     List<ImagenSubcategoria> findByIdSubcategoria(Integer idSubcategoria);
+    List<ImagenSubcategoria> findBySubcategoriaCategoriaIdCategoria(Integer idCategoria);
 }

@@ -3,7 +3,7 @@ package com.vitaapp.backend.tesis.domain;
 public class ColorM {
 	private Integer colorId;
 
-	private String colorCode;
+	private String color;
 
 	private String name;
 
@@ -15,12 +15,12 @@ public class ColorM {
 		this.colorId = colorId;
 	}
 
-	public String getColorCode() {
-		return colorCode;
+	public String getColor() {
+		return color;
 	}
 
-	public void setColorCode(String colorCode) {
-		this.colorCode = colorCode;
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	public String getName() {

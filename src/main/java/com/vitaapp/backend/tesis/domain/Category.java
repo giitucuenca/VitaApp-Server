@@ -11,7 +11,7 @@ public class Category {
 
 	private Integer colorId;
 
-	private ColorM colorM;
+	private String color;
 
 	private String imageUrl;
 
@@ -19,6 +19,13 @@ public class Category {
 
 	private List<ImageCategory> images;
 
+	public Integer getColorId() {
+		return colorId;
+	}
+
+	public void setColorId(Integer colorId) {
+		this.colorId = colorId;
+	}
 
 	public Integer getCategoryId() {
 		return categoryId;
@@ -44,20 +51,12 @@ public class Category {
 		this.description = description;
 	}
 
-	public Integer getColorId() {
-		return colorId;
+	public String getColor() {
+		return color;
 	}
 
-	public void setColorId(Integer colorId) {
-		this.colorId = colorId;
-	}
-
-	public ColorM getColorM() {
-		return colorM;
-	}
-
-	public void setColorM(ColorM colorM) {
-		this.colorM = colorM;
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	public String getImageUrl() {

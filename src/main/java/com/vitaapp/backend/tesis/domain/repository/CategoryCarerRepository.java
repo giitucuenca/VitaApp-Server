@@ -10,9 +10,10 @@ import java.util.Optional;
 
 public interface CategoryCarerRepository {
     List<CategoryCarer> getAll();
-    ResponseEntity<List<CategoryCarer>> getCategoryByCarerId(int carerId);
+    ResponseEntity<?> getCategoryByCarerId(int carerId);
     ResponseEntity<CategoryCarer> getByIdCategory(int id);
     ResponseEntity<ResponsePersonalized> save(CategoryCarer category);
-    ResponseEntity<ResponsePersonalized> delete(Integer id);
+    ResponseEntity<?> delete(Integer id);
     ResponseEntity<ResponsePersonalized> updateCategory(Integer id, CategoryCarer category);
+    ResponseEntity<?> saveList(List<CategoryCarer> categories);
 }

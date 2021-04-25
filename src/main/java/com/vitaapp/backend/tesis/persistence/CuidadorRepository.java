@@ -10,32 +10,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
+import java.util.*;
+
 @Repository
 public class CuidadorRepository implements CarerRepository {
+    @Autowired
+    CarerMapper mapper;
 
     @Autowired
-    CarerMapper carerMapper;
-
-    @Autowired
-    CuidadorCrudRepository cuidadorCrud;
+    CuidadorCrudRepository crud;
 
     @Override
-    public ResponseEntity<ResponsePersonalized> save(Carer carer) {
-        if(cuidadorCrud.findByCorreoOrderByCorreoAsc(carer.getEmail()).isEmpty()) {
-            ResponsePersonalized response = new ResponsePersonalized(200,"cuidador creado correctamente." );
-            cuidadorCrud.save(carerMapper.toCuidador(carer));
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } else {
-            ResponsePersonalized response = new ResponsePersonalized(404, "El email ya existe.");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> save(Carer carer) {
+        if(existsByEmail(carer.getEmail())) {
+            Map<String, List<String>> errors = new HashMap<>();
+            List<String> messages = new ArrayList<>();
+            messages.add("El email ya existe");
+            errors.put("Messages", messages);
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
+        return  new ResponseEntity<>(mapper.toCarer(crud.save(mapper.toCuidador(carer))), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<ResponsePersonalized> delete(Integer id) {
-        return cuidadorCrud.findById(id)
+        return crud.findById(id)
                 .map(carer -> {
-                    cuidadorCrud.deleteById(id);
+                    crud.deleteById(id);
                     ResponsePersonalized mensaje = new ResponsePersonalized(200,"Cuidador eliminado correctamento.");
                     return new ResponseEntity<>(mensaje, HttpStatus.OK);
                 })
@@ -47,15 +48,22 @@ public class CuidadorRepository implements CarerRepository {
 
     @Override
     public ResponseEntity<Carer> getByIdCarer(Integer id) {
-        return cuidadorCrud.findById(id)
-                .map(cuidador -> new ResponseEntity<>(carerMapper.toCarer(cuidador), HttpStatus.OK))
+        return crud.findById(id)
+                .map(cuidador -> new ResponseEntity<>(mapper.toCarer(cuidador), HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @Override
     public Carer getByEmail(String email) {
-        return cuidadorCrud.findByCorreoOrderByCorreoAsc(email).stream().map(cuidador -> {
-            return carerMapper.toCarer(cuidador);
+        return crud.findByCorreoOrderByCorreoAsc(email).stream().map(cuidador -> {
+            return mapper.toCarer(cuidador);
         }).findAny().orElse(null);
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return !this.crud.findByCorreoOrderByCorreoAsc(email).isEmpty();
+    }
+
+
 }

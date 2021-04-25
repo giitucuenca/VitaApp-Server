@@ -11,7 +11,7 @@ public interface SubcategoryRepository {
 	List<Subcategory> getAll();
 	List<Subcategory> getByCategory(int categoryId);
 	ResponseEntity<Subcategory> getByIdSubcategory(int id);
-	ResponseEntity<Subcategory> save(Subcategory subcategory);
+	ResponseEntity<?> save(Subcategory subcategory);
 	ResponseEntity<ResponsePersonalized> deleteSubcategory(int id);
 	ResponseEntity<Subcategory> updateSubcategory(int id, Subcategory subcategory);
 }

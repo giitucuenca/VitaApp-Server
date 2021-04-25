@@ -30,15 +30,23 @@ public class PictogramCarerService {
         return pictogramCarer.getAllByIdSubcategory(id);
     }
 
-    public ResponseEntity<PictogramCarer> save(PictogramCarer pictogram) {
+    public ResponseEntity<?> save(PictogramCarer pictogram) {
         return pictogramCarer.save(pictogram);
+    }
+
+    public ResponseEntity<?> updatePosition(List<PictogramCarer> pictograms) {
+        return pictogramCarer.updatePosition(pictograms);
+    }
+
+    public ResponseEntity<?> saveList(List<PictogramCarer> pictograms) {
+        return pictogramCarer.saveList(pictograms);
     }
 
     public ResponseEntity<ResponsePersonalized> delete(int id) {
         return pictogramCarer.delete(id);
     }
 
-    public ResponseEntity<PictogramCarer> update(int id, PictogramCarer pictogram) {
+    public ResponseEntity<?> update(int id, PictogramCarer pictogram) {
         return pictogramCarer.update(id, pictogram);
     }
 

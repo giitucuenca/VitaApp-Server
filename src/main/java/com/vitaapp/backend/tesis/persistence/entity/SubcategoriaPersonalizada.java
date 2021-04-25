@@ -1,6 +1,10 @@
 package com.vitaapp.backend.tesis.persistence.entity;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -10,14 +14,23 @@ public class SubcategoriaPersonalizada {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_subcategoria_personalizada")
 	private Integer idSubcategoriaPersonalizada;
+    @Column(length = 15)
+    @Length(max = 15, message = "Longitud maxima del campo nombre max 15 caracteres")
+    @NotBlank(message = "Debe ingresar un nombre de la categoria")
     private String nombre;
+    @Column(length = 40)
+    @Length(max = 40, message = "Longitud maxima del campo descripción max 40 caracteres")
+    @NotBlank(message = "Debe ingresar un nombre de la categoria")
     private String descripcion;
+
+    @NotBlank(message = "Debe ingresar una imagen")
     private String imagenUrl;
 
     @Column(name = "id_subcategoria")
     private Integer idSubcategoria;
 
     @Column(name = "id_categoria_personalizada")
+    @NotNull(message = "Debe ingresar el id de la categoria")
 	private Integer idCategoriaPersonalizada;
 
     @ManyToOne

@@ -14,13 +14,13 @@ import java.util.List;
 public class ColorRepository implements ColorMRepository {
 
     @Autowired
-    private ColorMapper colorMapper;
+    private ColorMapper mapper;
 
     @Autowired
     private ColorCrudRepository colorCrud;
 
     @Override
     public List<ColorM> getAll() {
-        return colorMapper.colorsMTo ((List<Color>) colorCrud.findAll());
+        return mapper.colorsMTo ((List<Color>) colorCrud.findAll());
     }
 }

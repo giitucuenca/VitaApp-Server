@@ -15,13 +15,13 @@ public class PictogramService {
 
     @Autowired
     PictogramRepository pictogramRepository;
-    public List<Pictogram> getAll() {
+    public ResponseEntity<?> getAll() {
        return pictogramRepository.getAll();
     }
     public ResponseEntity<Pictogram> getById(int id) {
         return pictogramRepository.getById(id);
     }
-    public ResponseEntity<Pictogram> save(Pictogram pictogram) {
+    public ResponseEntity<?> save(Pictogram pictogram) {
         return  pictogramRepository.save(pictogram);
     }
     public ResponseEntity<ResponsePersonalized> delete(int id) {
@@ -33,5 +33,8 @@ public class PictogramService {
 
     public List<Pictogram> getAllByIdSubcategory(int id) {
         return pictogramRepository.getAllByIdSubcategory(id);
+    }
+    public ResponseEntity<?> getAllByIdCategory(int id) {
+        return pictogramRepository.getAllByIdCategory(id);
     }
 }

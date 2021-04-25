@@ -11,8 +11,9 @@ import java.util.Optional;
 public interface SubcategoryCarerRepository {
     List<SubcategoryCarer> getAll();
     List<SubcategoryCarer> getByCategory(int categoryId);
-    ResponseEntity<SubcategoryCarer> getByIdSubcategory(int id);
-    ResponseEntity<SubcategoryCarer> save(SubcategoryCarer subcategory);
+    ResponseEntity<?> getByIdSubcategory(int id);
+    ResponseEntity<?> save(SubcategoryCarer subcategory);
     ResponseEntity<ResponsePersonalized> deleteSubcategory(int id);
-    ResponseEntity<SubcategoryCarer> updateSubcategory(int id, SubcategoryCarer subcategory);
+    ResponseEntity<?> updateSubcategory(int id, SubcategoryCarer subcategory);
+    ResponseEntity<?> saveList(List<SubcategoryCarer> subcategories);
 }

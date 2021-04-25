@@ -21,6 +21,7 @@ public interface SubcategoryCarerMapper {
             @Mapping(source = "imagenUrl", target = "imageUrl"),
             @Mapping(source = "idSubcategoria", target = "subcategoryId"),
             @Mapping(source = "idCategoriaPersonalizada", target = "categoryId"),
+            @Mapping(target = "color", ignore = true)
     })
     SubcategoryCarer toSubcategory(SubcategoriaPersonalizada subcategoria);
 
@@ -34,4 +35,5 @@ public interface SubcategoryCarerMapper {
 
     })
     SubcategoriaPersonalizada toSubcategoria(SubcategoryCarer subcategory);
+    List<SubcategoriaPersonalizada> toSubcategorias(List<SubcategoryCarer> subcategories);
 }

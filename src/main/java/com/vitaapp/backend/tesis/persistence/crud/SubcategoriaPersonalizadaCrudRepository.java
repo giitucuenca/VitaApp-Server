@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface SubcategoriaPersonalizadaCrudRepository extends CrudRepository<SubcategoriaPersonalizada, Integer> {
     List<SubcategoriaPersonalizada> findByIdCategoriaPersonalizadaOrderByNombreAsc(Integer idCategoria);
+
 }

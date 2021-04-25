@@ -1,5 +1,7 @@
 package com.vitaapp.backend.tesis.persistence.entity;
 
+
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,7 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -20,11 +24,16 @@ public class Cuidador {
 	@Column(name = "id_cuidador")
 	private Integer idCuidador;
 	@Column(length = 40)
+	@NotBlank(message = "Debe ingresar un nombre")
 	private String nombre;
 	@Column(length = 40)
+	@NotBlank(message = "Debe ingresar un apellido")
 	private String apellido;
-	@Column(length = 40)
+	@Column(length = 40, unique = true)
+	@NotBlank(message = "Debe ingresar un correo")
+	@Email(message = "Email no valido")
 	private String correo;
+	@NotBlank(message = "Debe ingresar una contraseña")
 	private String password;
 	
 	@OneToMany(mappedBy = "cuidador")

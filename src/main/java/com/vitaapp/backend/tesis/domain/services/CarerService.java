@@ -14,8 +14,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Validator;
+
 
 @Service
+@Transactional
 public class CarerService {
     @Autowired
     CarerRepository carerRepository;
@@ -23,7 +27,7 @@ public class CarerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public ResponseEntity<ResponsePersonalized> save(Carer carer) {
+    public ResponseEntity<?> save(Carer carer) {
         carer.setPassword(passwordEncoder.encode(carer.getPassword()));
         return carerRepository.save(carer);
     }
@@ -32,13 +36,15 @@ public class CarerService {
         return this.carerRepository.getByEmail(email);
     }
 
-    ResponseEntity<ResponsePersonalized> delete(Integer id) {
+    public ResponseEntity<ResponsePersonalized> delete(Integer id) {
         return this.carerRepository.delete(id);
     }
 
-    ResponseEntity<Carer> getByIdCarer(Integer id) {
+    public ResponseEntity<Carer> getByIdCarer(Integer id) {
         return this.carerRepository.getByIdCarer(id);
     }
+
+    public boolean existsByEmail(String email){ return  this.carerRepository.existsByEmail(email); }
 
 }
 

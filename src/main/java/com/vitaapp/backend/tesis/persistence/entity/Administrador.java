@@ -1,6 +1,8 @@
 package com.vitaapp.backend.tesis.persistence.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "administradores")
@@ -11,12 +13,17 @@ public class Administrador {
     @Column(name = "id_administrador")
     private Integer idAdministrador;
 
+    @NotBlank(message = "Debe ingresar un nombre")
     private String nombre;
 
+    @NotBlank(message = "Debe ingresar un apellido")
     private String apellido;
 
+    @NotBlank(message = "Debe ingresar un correo")
+    @Email(message = "Email no valido")
     private String correo;
 
+    @NotBlank(message = "Debe ingresar una contraseña")
     private String contrasena;
 
     public Integer getIdAdministrador() {

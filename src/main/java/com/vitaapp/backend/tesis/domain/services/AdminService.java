@@ -5,6 +5,7 @@ import com.vitaapp.backend.tesis.domain.AdminDetails;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +21,12 @@ public class AdminService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public ResponseEntity<ResponsePersonalized> save(Admin admin) {
+    public ResponseEntity<?> save(Admin admin) {
+        if(admin.getPassword().length() < 6) {
+            ResponsePersonalized response = new ResponsePersonalized(404, "La Contraseña debe tener minimo 6 caracteres");
+            response.getErrors().add("La Contraseña debe tener minimo 6 caracteres");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         return adminRepository.save(admin);
     }

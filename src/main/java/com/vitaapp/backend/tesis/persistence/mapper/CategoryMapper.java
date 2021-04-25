@@ -15,11 +15,11 @@ public interface CategoryMapper {
             @Mapping(source = "idCategoria", target = "categoryId"),
             @Mapping(source = "nombre", target = "name"),
             @Mapping(source = "descripcion", target = "description"),
-            @Mapping(source = "idColor", target = "colorId"),
-            @Mapping(source = "color", target = "colorM"),
-			@Mapping(source = "imagenUrl", target = "imageUrl"),
+            @Mapping(source = "imagenUrl", target = "imageUrl"),
             @Mapping(source = "imagenesCategorias", target = "images"),
-            @Mapping(source = "mostrar", target = "show")
+            @Mapping(source = "idColor", target = "colorId"),
+            @Mapping(source = "mostrar", target = "show"),
+            @Mapping(target = "color", ignore = true)
     })
     Category toCategory(Categoria categoria);
 
@@ -28,7 +28,8 @@ public interface CategoryMapper {
     @InheritInverseConfiguration
     @Mappings({
             @Mapping(target = "subcategorias", ignore = true),
-            @Mapping(target = "categoriasPersonalizadas", ignore = true)
+            @Mapping(target = "categoriasPersonalizadas", ignore = true),
+            @Mapping(target = "color", ignore = true)
     })
     Categoria toCategoria(Category category);
 }

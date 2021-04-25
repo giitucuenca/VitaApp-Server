@@ -7,9 +7,9 @@ public class Pictogram {
     private String name;
     private String imageUrl;
     private Integer subcategoryId;
-    private Subcategory subcategory;
-    private List<ImagePictogram> images;
     private String color;
+    private List<ImagePictogram> images;
+
 
     public List<ImagePictogram> getImages() {
         return images;
@@ -49,14 +49,6 @@ public class Pictogram {
 
     public void setSubcategoryId(Integer subcategoryId) {
         this.subcategoryId = subcategoryId;
-    }
-
-    public Subcategory getSubcategory() {
-        return subcategory;
-    }
-
-    public void setSubcategory(Subcategory subcategory) {
-        this.subcategory = subcategory;
     }
 
     public String getColor() {

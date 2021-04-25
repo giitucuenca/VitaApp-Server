@@ -14,35 +14,27 @@ import org.springframework.stereotype.Repository;
 public class AdministradorRepository implements AdminRepository {
 
     @Autowired
-    AdminMapper adminMapper;
+    AdminMapper mapper;
 
     @Autowired
-    AdministradorCrudRepository administradorCrudRepository;
+    AdministradorCrudRepository crud;
 
     @Override
-    public ResponseEntity<ResponsePersonalized> save(Admin admin) {
-        System.out.println(admin.getEmail());
-        administradorCrudRepository.findByCorreoOrderByCorreoAsc(admin.getEmail()).isEmpty();
-        if(administradorCrudRepository.findByCorreoOrderByCorreoAsc(admin.getEmail()).isEmpty()) {
-            ResponsePersonalized response = new ResponsePersonalized();
-            response.setMessage("Administrador creado correctamente.");
-            response.setCode(200);
-            administradorCrudRepository.save(adminMapper.toAdministrador(admin));
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public ResponseEntity<?> save(Admin admin) {
+        if(!emailExist(admin.getEmail())) {
+            return new ResponseEntity<>(mapper.toAdmin(crud.save(mapper.toAdministrador(admin))), HttpStatus.CREATED);
         } else {
-            ResponsePersonalized response = new ResponsePersonalized();
-            response.setMessage("El email ya existe.");
-            response.setCode(404);
+            ResponsePersonalized response = new ResponsePersonalized(404,"El email ya existe.");
+            response.getErrors().add("El email ya existe");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-
     }
 
     @Override
     public ResponseEntity<ResponsePersonalized> delete(Integer id) {
-        return administradorCrudRepository.findById(id)
+        return crud.findById(id)
                 .map(admin -> {
-                   administradorCrudRepository.deleteById(id);
+                   crud.deleteById(id);
                    ResponsePersonalized mensaje = new ResponsePersonalized();
                    mensaje.setMessage("Administrador eliminado correctamento.");
                    mensaje.setCode(200);
@@ -58,15 +50,22 @@ public class AdministradorRepository implements AdminRepository {
 
     @Override
     public ResponseEntity<Admin> getByIdAdmin(Integer id) {
-        return administradorCrudRepository.findById(id)
-                .map(admin -> new ResponseEntity<>(adminMapper.toAdmin(admin), HttpStatus.OK))
+        return crud.findById(id)
+                .map(admin -> new ResponseEntity<>(mapper.toAdmin(admin), HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @Override
     public Admin getByEmail(String email) {
-        return administradorCrudRepository.findByCorreoOrderByCorreoAsc(email).stream().map(admin -> {
-            return adminMapper.toAdmin(admin);
+        return crud.findByCorreoOrderByCorreoAsc(email).stream().map(admin -> {
+            return mapper.toAdmin(admin);
         }).findAny().orElse(null);
     }
+
+    @Override
+    public boolean emailExist(String email) {
+        return !crud.findByCorreoOrderByCorreoAsc(email).isEmpty();
+    }
+
+
 }

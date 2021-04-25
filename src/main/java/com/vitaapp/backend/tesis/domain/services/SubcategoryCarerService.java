@@ -1,5 +1,6 @@
-package com.vitaapp.backend.tesis.domain;
+package com.vitaapp.backend.tesis.domain.services;
 
+import com.vitaapp.backend.tesis.domain.SubcategoryCarer;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.SubcategoryCarerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SubcategoryCarerService {
@@ -23,11 +23,11 @@ public class SubcategoryCarerService {
         return subcategoryCarer.getByCategory(categoryId);
     }
 
-    public ResponseEntity<SubcategoryCarer> getByIdSubcategory(int id) {
+    public ResponseEntity<?> getByIdSubcategory(int id) {
         return subcategoryCarer.getByIdSubcategory(id);
     }
 
-    public ResponseEntity<SubcategoryCarer> save(SubcategoryCarer subcategory) {
+    public ResponseEntity<?> save(SubcategoryCarer subcategory) {
         return subcategoryCarer.save(subcategory);
     }
 
@@ -35,7 +35,11 @@ public class SubcategoryCarerService {
         return subcategoryCarer.deleteSubcategory(id);
     }
 
-    public ResponseEntity<SubcategoryCarer> updateSubcategory(int id, SubcategoryCarer subcategory) {
+    public ResponseEntity<?> updateSubcategory(int id, SubcategoryCarer subcategory) {
         return subcategoryCarer.updateSubcategory(id, subcategory);
+    }
+
+    public ResponseEntity<?> saveList(List<SubcategoryCarer> subcategories) {
+        return subcategoryCarer.saveList(subcategories);
     }
 }

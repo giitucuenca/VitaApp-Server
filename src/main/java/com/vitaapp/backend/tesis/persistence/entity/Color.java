@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "colores")
@@ -17,8 +18,13 @@ public class Color {
  @GeneratedValue(strategy = GenerationType.IDENTITY)
  @Column(name = "id_color")
  private Integer idColor;
+
+ @NotBlank(message = "Debe ingresar un color")
  private String color;
+
+ @NotBlank(message = "Debe ingresar un nombre")
  private String nombre;
+
  @OneToMany(mappedBy = "color")
  private List<Categoria> categorias; 
 

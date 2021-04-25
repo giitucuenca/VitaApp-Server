@@ -5,7 +5,7 @@ public class ImagePictogram {
     private String name;
     private String imageUrl;
     private Integer pictogramId;
-    private Pictogram pictogram;
+
 
     public Integer getImageId() {
         return imageId;
@@ -39,11 +39,4 @@ public class ImagePictogram {
         this.pictogramId = pictogramId;
     }
 
-    public Pictogram getPictogram() {
-        return pictogram;
     }
-
-    public void setPictogram(Pictogram pictogram) {
-        this.pictogram = pictogram;
-    }
-}

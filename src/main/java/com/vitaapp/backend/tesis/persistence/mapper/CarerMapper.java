@@ -15,6 +15,7 @@ public interface CarerMapper {
             @Mapping(source = "apellido", target = "surname"),
             @Mapping(source = "correo", target = "email"),
             @Mapping(source = "password", target = "password"),
+            @Mapping(target = "token", ignore = true)
     })
     Carer toCarer(Cuidador cuidador);
 

@@ -5,7 +5,7 @@ public class ImageSubcategory {
     private String name;
     private String imageUrl;
     private Integer subcategoryId;
-    private Subcategory subcategory;
+
 
     public Integer getImageId() {
         return imageId;
@@ -39,11 +39,4 @@ public class ImageSubcategory {
         this.subcategoryId = subcategoryId;
     }
 
-    public Subcategory getSubcategory() {
-        return subcategory;
     }
-
-    public void setSubcategory(Subcategory subcategory) {
-        this.subcategory = subcategory;
-    }
-}

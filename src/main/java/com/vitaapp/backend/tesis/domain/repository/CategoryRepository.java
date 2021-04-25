@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 
 public interface CategoryRepository {
 	List<Category> getAll();
-	Optional<Category> getByIdCategory(int id);
-	ResponseEntity<ResponsePersonalized> save(Category category);
-	ResponseEntity<ResponsePersonalized> delete(Integer id);
-	ResponseEntity<ResponsePersonalized> updateCategory(Integer id, Category category);
+	ResponseEntity<?> getByIdCategory(int id);
+	ResponseEntity<?> save(Category category);
+	ResponseEntity<?> delete(Integer id);
+	ResponseEntity<?> updateCategory(Integer id, Category category);
 }

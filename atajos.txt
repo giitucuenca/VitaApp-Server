@@ -1,0 +1,13 @@
+@NotBlank(message = "Debe ingresar un correo")
+---------------------------------------------
+@Email(message = "Email no valido")
+---------------------------------------------
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+---------------------------------------------
+@Column(length = 40)
+---------------------------------------------
+ResponsePersonalized response = new ResponsePersonalized(404, "La Contraseña debe tener minimo 6 caracteres");
+---------------------------------------------
+ResponsePersonalized response = new ResponsePersonalized(404,"El email ya existe.");
+---------------------------------------------

@@ -1,17 +1,20 @@
 package com.vitaapp.backend.tesis.web.controller;
 
 import com.vitaapp.backend.tesis.domain.SubcategoryCarer;
-import com.vitaapp.backend.tesis.domain.SubcategoryCarerService;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
-import com.vitaapp.backend.tesis.domain.repository.SubcategoryCarerRepository;
+import com.vitaapp.backend.tesis.domain.services.SubcategoryCarerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/carer/subcategory")
 public class SubcategoryCarerController {
+
+    @Autowired
     private SubcategoryCarerService subcategoryCarer;
 
     @GetMapping("/all")
@@ -25,13 +28,18 @@ public class SubcategoryCarerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubcategoryCarer> getByIdSubcategory(@PathVariable int id) {
+    public ResponseEntity<?> getByIdSubcategory(@PathVariable int id) {
         return subcategoryCarer.getByIdSubcategory(id);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<SubcategoryCarer> save(@RequestBody SubcategoryCarer subcategory){
+    public ResponseEntity<?> save(@Valid @RequestBody SubcategoryCarer subcategory){
         return subcategoryCarer.save(subcategory);
+    }
+
+    @PostMapping("/add/list")
+    public ResponseEntity<?> saveList(@Valid @RequestBody List<SubcategoryCarer> subcategories) {
+        return subcategoryCarer.saveList(subcategories);
     }
 
     @DeleteMapping("/{id}")
@@ -40,7 +48,7 @@ public class SubcategoryCarerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SubcategoryCarer> updateSubcategory(@PathVariable int id, @RequestBody SubcategoryCarer subcategory){
+    public ResponseEntity<?> updateSubcategory(@PathVariable int id, @RequestBody SubcategoryCarer subcategory){
         return subcategoryCarer.updateSubcategory(id, subcategory);
     }
 }

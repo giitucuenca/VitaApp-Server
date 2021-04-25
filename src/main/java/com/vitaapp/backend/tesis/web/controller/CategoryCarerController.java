@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class CategoryCarerController {
     }
 
     @GetMapping("/by_carer/{carerId}")
-    public ResponseEntity<List<CategoryCarer>> getCategoryByCarerId(@PathVariable int carerId) {
+    public ResponseEntity<?> getCategoryByCarerId(@PathVariable int carerId) {
         return categoryService.getCategoryByCarerId(carerId);
     }
 
@@ -32,12 +33,12 @@ public class CategoryCarerController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ResponsePersonalized> save(@RequestBody CategoryCarer category) {
+    public ResponseEntity<ResponsePersonalized> save(@Valid  @RequestBody CategoryCarer category) {
         return categoryService.save(category);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponsePersonalized> delete(@PathVariable Integer id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         return categoryService.delete(id);
     }
 
@@ -45,4 +46,10 @@ public class CategoryCarerController {
     public ResponseEntity<ResponsePersonalized> updateCategory(@PathVariable Integer id, @RequestBody CategoryCarer category) {
         return categoryService.updateCategory(id, category);
     }
+
+    @PostMapping("/add/list")
+    public ResponseEntity<?> saveList(@Valid @RequestBody List<CategoryCarer> categories) {
+        return categoryService.saveList(categories);
+    }
+
 }
