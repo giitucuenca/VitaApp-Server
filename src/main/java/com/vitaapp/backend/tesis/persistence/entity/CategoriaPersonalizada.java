@@ -39,6 +39,13 @@ public class CategoriaPersonalizada {
     @NotNull(message = "Debe ingresar el id de la categoria con la que se relaciona")
     private Integer idCategoria;
 
+    @Column(name = "id_ayuda")
+    private Integer idAyuda;
+
+    @ManyToOne
+    @JoinColumn(name = "id_ayuda",insertable = false, updatable = false)
+    private Ayuda ayuda;
+
     @ManyToOne
     @JoinColumn(name = "id_cuidador", updatable = false, insertable = false)
     private Cuidador cuidador;
@@ -46,6 +53,8 @@ public class CategoriaPersonalizada {
     @ManyToOne
     @JoinColumn(name = "id_categoria", updatable = false, insertable = false)
     private Categoria categoria;
+
+
 
     @OneToMany(mappedBy = "categoriaPersonalizada")
     List<SubcategoriaPersonalizada> subcategoriasPersonalizadas;
@@ -129,5 +138,21 @@ public class CategoriaPersonalizada {
 
     public void setSubcategoriasPersonalizadas(List<SubcategoriaPersonalizada> subcategoriasPersonalizadas) {
         this.subcategoriasPersonalizadas = subcategoriasPersonalizadas;
+    }
+
+    public Integer getIdAyuda() {
+        return idAyuda;
+    }
+
+    public void setIdAyuda(Integer idAyuda) {
+        this.idAyuda = idAyuda;
+    }
+
+    public Ayuda getAyuda() {
+        return ayuda;
+    }
+
+    public void setAyuda(Ayuda ayuda) {
+        this.ayuda = ayuda;
     }
 }

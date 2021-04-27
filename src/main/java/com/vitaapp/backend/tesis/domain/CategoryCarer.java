@@ -15,6 +15,16 @@ public class CategoryCarer {
 
     private Integer carerId;
 
+    private Integer helperId;
+
+    public Integer getHelperId() {
+        return helperId;
+    }
+
+    public void setHelperId(Integer helperId) {
+        this.helperId = helperId;
+    }
+
     public Integer getCarerId() {
         return carerId;
     }

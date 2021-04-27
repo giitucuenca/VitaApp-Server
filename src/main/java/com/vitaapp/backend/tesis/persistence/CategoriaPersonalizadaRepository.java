@@ -98,6 +98,7 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
             _categoria.setDescripcion(categoria.getDescripcion());
             _categoria.setImagenUrl(categoria.getImagenUrl());
             _categoria.setColor(categoria.getColor());
+            _categoria.setIdAyuda(categoria.getIdAyuda());
             crud.save(_categoria);
             return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria Modificada Correctamente"), HttpStatus.OK);
         } else {

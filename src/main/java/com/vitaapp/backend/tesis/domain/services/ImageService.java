@@ -22,6 +22,10 @@ public class ImageService {
     private ImageRepository imagePic;
 
     @Autowired
+    @Qualifier("pictogramHelp")
+    private ImageRepository imagePicHelp;
+
+    @Autowired
     private ImageCategoryRepository imageCategorySub;
 
 
@@ -35,6 +39,10 @@ public class ImageService {
 
     public ResponseEntity<?> getImagesByPictogramId(int id) {
         return imagePic.getImageByFatherId(id);
+    }
+
+    public ResponseEntity<?> getImagesByPictogramHelpId(int id) {
+        return imagePicHelp.getImageByFatherId(id);
     }
 
     public ResponseEntity<?> getImagesSubcategoryByCategoryId(int id) {

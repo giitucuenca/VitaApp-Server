@@ -1,36 +1,34 @@
 package com.vitaapp.backend.tesis.persistence.mapper;
 
 import com.vitaapp.backend.tesis.domain.PictogramCarer;
-import com.vitaapp.backend.tesis.domain.SubcategoryCarer;
+import com.vitaapp.backend.tesis.domain.PictogramHelperCarer;
+import com.vitaapp.backend.tesis.persistence.entity.PictogramaAyudaPersonalizado;
 import com.vitaapp.backend.tesis.persistence.entity.PictogramaPersonalizado;
-import com.vitaapp.backend.tesis.persistence.entity.SubcategoriaPersonalizada;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import java.util.List;
-
 @Mapper(componentModel = "spring")
-public interface PictogramCarerMapper {
+public interface PictogramHelperCarerMapper {
     @Mappings({
-            @Mapping(source = "idPictogramaPersonalizado", target = "pictogramCarerId"),
+            @Mapping(source = "idPictograma", target = "pictogramCarerId"),
             @Mapping(source = "nombre", target = "name"),
             @Mapping(source = "imagenUrl", target = "imageUrl"),
             @Mapping(source = "posicion", target = "position"),
             @Mapping(source = "idPictograma", target = "pictogramId"),
-            @Mapping(source = "idSubcategoriaPersonalizada", target = "subcategoryId"),
+            @Mapping(source = "idAyuda", target = "helperId"),
             @Mapping(target = "color", ignore = true)
     })
-    PictogramCarer toPictogram(PictogramaPersonalizado pictograma);
-
-    List<PictogramCarer> toPictograms(List<PictogramaPersonalizado> pictogramas);
+    PictogramHelperCarer toPictogram(PictogramaAyudaPersonalizado pictograma);
+    List<PictogramHelperCarer> toPictograms(List<PictogramaAyudaPersonalizado> pictogramas);
 
     @InheritInverseConfiguration
     @Mappings({
             @Mapping(target = "pictograma", ignore = true),
-            @Mapping(target = "subcategoriaPersonalizada", ignore = true),
+            @Mapping(target = "ayuda", ignore = true),
     })
-    PictogramaPersonalizado toPictograma(PictogramCarer pictogram);
-    List<PictogramaPersonalizado> toPictogramas(List<PictogramCarer> pictograms);
+    PictogramaAyudaPersonalizado toPictograma(PictogramHelperCarer pictogram);
+    List<PictogramaAyudaPersonalizado> toPictogramas(List<PictogramHelperCarer> pictograms);
 }

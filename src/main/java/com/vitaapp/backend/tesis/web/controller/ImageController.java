@@ -29,6 +29,11 @@ public class ImageController {
         return imageService.getImagesByPictogramId(id);
     }
 
+    @GetMapping("/any/pictogram-help/{id}")
+    public ResponseEntity<?> getImagesByPictogramHelpId(@PathVariable int id) {
+        return imageService.getImagesByPictogramHelpId(id);
+    }
+
     @GetMapping("/any/subcategory/category/{id}")
     public ResponseEntity<?> getImagesSubcategoryByCategoryId(@PathVariable int id) {
         return imageService.getImagesSubcategoryByCategoryId(id);

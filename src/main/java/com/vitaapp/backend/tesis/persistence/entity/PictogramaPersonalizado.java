@@ -24,8 +24,6 @@ public class PictogramaPersonalizado {
 
     private Integer posicion;
 
-    private Boolean mostrar;
-
     @Column(name = "id_pictograma")
     @NotNull(message = "Debe ingresar el id del pictograma")
     private Integer idPictograma;
@@ -74,13 +72,6 @@ public class PictogramaPersonalizado {
         this.posicion = posicion;
     }
 
-    public Boolean getMostrar() {
-        return mostrar;
-    }
-
-    public void setMostrar(Boolean mostrar) {
-        this.mostrar = mostrar;
-    }
 
     public Integer getIdPictograma() {
         return idPictograma;

@@ -1,13 +1,11 @@
 package com.vitaapp.backend.tesis.persistence;
 
-import com.vitaapp.backend.tesis.domain.PictogramCarer;
+import com.vitaapp.backend.tesis.domain.PictogramHelperCarer;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
-import com.vitaapp.backend.tesis.domain.repository.PictogramCarerRepository;
-import com.vitaapp.backend.tesis.persistence.crud.PictogramaPersonalizadaCrudRepository;
-import com.vitaapp.backend.tesis.persistence.entity.Pictograma;
-import com.vitaapp.backend.tesis.persistence.entity.PictogramaPersonalizado;
-import com.vitaapp.backend.tesis.persistence.entity.SubcategoriaPersonalizada;
-import com.vitaapp.backend.tesis.persistence.mapper.PictogramCarerMapper;
+import com.vitaapp.backend.tesis.domain.repository.PictogramHelperCarerRepository;
+import com.vitaapp.backend.tesis.persistence.crud.PictogramaAyudaPersonalizadaCrudRepository;
+import com.vitaapp.backend.tesis.persistence.entity.PictogramaAyudaPersonalizado;
+import com.vitaapp.backend.tesis.persistence.mapper.PictogramHelperCarerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,27 +16,27 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-public class PictogramaPersonalizadoRepository implements PictogramCarerRepository {
+public class PictogramaAyudaPersonalizadoRepository implements PictogramHelperCarerRepository {
     @Autowired
-    private PictogramaPersonalizadaCrudRepository crud;
+    PictogramaAyudaPersonalizadaCrudRepository crud;
 
     @Autowired
-    private PictogramCarerMapper mapper;
+    PictogramHelperCarerMapper mapper;
 
 
     @Override
-    public List<PictogramCarer> getAll() {
-        List<PictogramaPersonalizado> pictogramas = (List< PictogramaPersonalizado>) crud.findAll();
+    public List<PictogramHelperCarer> getAll() {
+        List<PictogramaAyudaPersonalizado> pictogramas = (List< PictogramaAyudaPersonalizado>) crud.findAll();
         return addColor(pictogramas);
     }
 
 
     @Override
     public ResponseEntity<?> getById(int id) {
-        Optional<PictogramaPersonalizado> pictograma = crud.findById(id);
+        Optional<PictogramaAyudaPersonalizado> pictograma = crud.findById(id);
         if(pictograma.isPresent()) {
-            PictogramCarer pictogram = mapper.toPictogram(pictograma.get());
-            pictogram.setColor(pictograma.get().getSubcategoriaPersonalizada().getCategoriaPersonalizada().getColor());
+            PictogramHelperCarer pictogram = mapper.toPictogram(pictograma.get());
+            pictogram.setColor(pictograma.get().getAyuda().getColor());
             return new ResponseEntity<>(pictogram, HttpStatus.OK);
         } else {
             ResponsePersonalized response = new ResponsePersonalized(404, "No existe el pictograma");
@@ -49,14 +47,14 @@ public class PictogramaPersonalizadoRepository implements PictogramCarerReposito
     }
 
     @Override
-    public List<PictogramCarer> getAllByIdSubcategory(int id) {
-        List<PictogramaPersonalizado> pictogramas = crud.findByIdSubcategoriaPersonalizadaOrderByPosicionAsc(id);
+    public List<PictogramHelperCarer> getAllByIdHelper(int id) {
+        List<PictogramaAyudaPersonalizado> pictogramas = crud.findByIdAyudaOrderByPosicionAsc(id);
         return addColor(pictogramas);
     }
 
     @Override
-    public ResponseEntity<PictogramCarer> save(PictogramCarer pictogram) {
-        Integer posicion = crud.findPosicionMaxima(pictogram.getSubcategoryId());
+    public ResponseEntity<PictogramHelperCarer> save(PictogramHelperCarer pictogram) {
+        Integer posicion = crud.findPosicionMaxima(pictogram.getHelperId());
         if(posicion == null) {
             posicion = 0;
         } else {
@@ -67,18 +65,18 @@ public class PictogramaPersonalizadoRepository implements PictogramCarerReposito
     }
 
     @Override
-    public ResponseEntity<?> saveList(List<PictogramCarer> pictograms) {
+    public ResponseEntity<?> saveList(List<PictogramHelperCarer> pictograms) {
 
         if (!pictograms.isEmpty()) {
-            Integer posicion = crud.findPosicionMaxima(pictograms.get(0).getSubcategoryId());
+            Integer posicion = crud.findPosicionMaxima(pictograms.get(0).getHelperId());
             if(posicion == null) {
                 posicion = 0;
             } else {
                 posicion += 1;
             }
-            Integer id = pictograms.get(0).getSubcategoryId();
-            for(PictogramCarer pictogram: pictograms) {
-                if(pictogram.getSubcategoryId() == id) {
+            Integer id = pictograms.get(0).getHelperId();
+            for(PictogramHelperCarer pictogram: pictograms) {
+                if(pictogram.getHelperId() == id) {
                     pictogram.setPosition(posicion);
                 } else {
                     ResponsePersonalized response = new ResponsePersonalized(404, "La lista debe pertenecer a la misma subcategoria");
@@ -90,14 +88,14 @@ public class PictogramaPersonalizadoRepository implements PictogramCarerReposito
         }
 
 
-        List<PictogramaPersonalizado> pictogramas = (List<PictogramaPersonalizado>) crud.saveAll(mapper.toPictogramas(pictograms));
+        List<PictogramaAyudaPersonalizado> pictogramas = (List<PictogramaAyudaPersonalizado>) crud.saveAll(mapper.toPictogramas(pictograms));
         ResponsePersonalized response = new ResponsePersonalized(200, "Pictogramas creados correctamente");
         response.setData(mapper.toPictograms(pictogramas));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<?> updatePosition(List<PictogramCarer> pictograms) {
+    public ResponseEntity<?> updatePosition(List<PictogramHelperCarer> pictograms) {
         pictograms.forEach(pictogram -> {
             update(pictogram.getPictogramCarerId(), pictogram);
         });
@@ -114,13 +112,13 @@ public class PictogramaPersonalizadoRepository implements PictogramCarerReposito
     }
 
     @Override
-    public ResponseEntity<?> update(int id, PictogramCarer pictogram) {
-        Optional<PictogramaPersonalizado> pictograma = crud.findById(id);
+    public ResponseEntity<?> update(int id, PictogramHelperCarer pictogram) {
+        Optional<PictogramaAyudaPersonalizado> pictograma = crud.findById(id);
         if(pictograma.isPresent()) {
-            PictogramaPersonalizado _pictograma = pictograma.get();
+            PictogramaAyudaPersonalizado _pictograma = pictograma.get();
             _pictograma.setNombre(pictogram.getName());
             _pictograma.setImagenUrl(pictogram.getImageUrl());
-            _pictograma.setIdSubcategoriaPersonalizada(pictogram.getSubcategoryId());
+            _pictograma.setIdAyuda(pictogram.getHelperId());
             _pictograma.setPosicion(pictogram.getPosition());
             return new ResponseEntity<>(mapper.toPictogram(crud.save(_pictograma)), HttpStatus.OK);
         } else {
@@ -130,25 +128,12 @@ public class PictogramaPersonalizadoRepository implements PictogramCarerReposito
         }
     }
 
-    public void deletePictogramsByCategoryId(Integer idCategoria) {
-        List<PictogramaPersonalizado> pictogramas = (List<PictogramaPersonalizado>) crud.findBySubcategoriaPersonalizadaCategoriaPersonalizadaIdCategoriaPersonalizada(idCategoria);
-        pictogramas.forEach(pictograma -> {
-            crud.deleteById(pictograma.getIdPictogramaPersonalizado());
-        });
-    }
-
-    public void deletePictogramsBySubcategoryId(Integer idSubcategoria) {
-        List<PictogramaPersonalizado> pictogramas = (List<PictogramaPersonalizado>) crud.findBySubcategoriaPersonalizadaIdSubcategoriaPersonalizada(idSubcategoria);
-        pictogramas.forEach(pictograma -> {
-            crud.deleteById(pictograma.getIdPictogramaPersonalizado());
-        });
-    }
-
-    public List<PictogramCarer> addColor(List<PictogramaPersonalizado> pictogramas) {
-       return pictogramas.stream().map(pictograma -> {
-            PictogramCarer pictogram = mapper.toPictogram(pictograma);
-            pictogram.setColor(pictograma.getSubcategoriaPersonalizada().getCategoriaPersonalizada().getColor());
+    public List<PictogramHelperCarer> addColor(List<PictogramaAyudaPersonalizado> pictogramas) {
+        return pictogramas.stream().map(pictograma -> {
+            PictogramHelperCarer pictogram = mapper.toPictogram(pictograma);
+            pictogram.setColor(pictograma.getAyuda().getColor());
             return pictogram;
         }).collect(Collectors.toList());
     }
+
 }

@@ -22,7 +22,7 @@ public class PictogramCarerService {
      return pictogramCarer.getAll();
     }
 
-    public ResponseEntity<PictogramCarer> getById(int id) {
+    public ResponseEntity<?> getById(int id) {
         return pictogramCarer.getById(id);
     }
 

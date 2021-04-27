@@ -18,10 +18,10 @@ public interface CategoryCarerMapper {
             @Mapping(source = "color", target = "color"),
             @Mapping(source = "imagenUrl", target = "imageUrl"),
             @Mapping(source = "idCategoria", target = "categoryId"),
-            @Mapping(source = "idCuidador", target = "carerId")
+            @Mapping(source = "idCuidador", target = "carerId"),
+            @Mapping(source = "idAyuda", target = "helperId")
     })
     CategoryCarer toCategory(CategoriaPersonalizada categoria);
-
     List<CategoryCarer> toCategories(List<CategoriaPersonalizada> categorias);
 
     @InheritInverseConfiguration
@@ -29,6 +29,7 @@ public interface CategoryCarerMapper {
             @Mapping(target = "subcategoriasPersonalizadas", ignore = true),
             @Mapping(target = "categoria", ignore = true),
             @Mapping(target = "cuidador", ignore = true),
+            @Mapping(target = "ayuda", ignore = true)
 
     })
     CategoriaPersonalizada toCategoria(CategoryCarer category);

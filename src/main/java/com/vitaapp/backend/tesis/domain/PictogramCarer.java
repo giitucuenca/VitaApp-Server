@@ -11,19 +11,18 @@ public class PictogramCarer {
 
     private Integer subcategoryId;
 
-    private boolean show;
-
     private Integer pictogramId;
 
-    private SubcategoryCarer subcategory;
+    private String color;
 
-    public boolean isShow() {
-        return show;
+    public String getColor() {
+        return color;
     }
 
-    public void setShow(boolean show) {
-        this.show = show;
+    public void setColor(String color) {
+        this.color = color;
     }
+
 
     public Integer getPosition() {
         return position;
@@ -65,13 +64,6 @@ public class PictogramCarer {
         this.subcategoryId = subcategoryId;
     }
 
-    public SubcategoryCarer getSubcategory() {
-        return subcategory;
-    }
-
-    public void setSubcategory(SubcategoryCarer subcategory) {
-        this.subcategory = subcategory;
-    }
 
     public Integer getPictogramCarerId() {
         return pictogramCarerId;

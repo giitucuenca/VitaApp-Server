@@ -44,10 +44,15 @@ public class Categoria {
 	@Column(name= "imagen_url")
 	@NotBlank(message = "Debe ingresar una imagen")
 	private String imagenUrl;
+
+	@Column(name = "id_ayuda")
+	private Integer idAyuda;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_color",insertable = false, updatable = false)
 	private Color color;
+
+
 	
 	@OneToMany(mappedBy = "categoria")
 	private List<Subcategoria> subcategorias;
@@ -138,4 +143,5 @@ public class Categoria {
 	public void setMostrar(boolean mostrar) {
 		this.mostrar = mostrar;
 	}
+
 }

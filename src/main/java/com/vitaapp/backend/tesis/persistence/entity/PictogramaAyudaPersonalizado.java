@@ -1,6 +1,10 @@
 package com.vitaapp.backend.tesis.persistence.entity;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
 @Entity
 @Table(name="pictogramas_ayuda_personalizados")
 public class PictogramaAyudaPersonalizado {
@@ -9,14 +13,16 @@ public class PictogramaAyudaPersonalizado {
     @Column(name = "id_pictograma_personalizado")
     private Integer idPictogramaPersonalizado;
 
+    @Column(length = 15)
+    @Length(max = 15, message = "Longitud maxima del campo nombre max 15 caracteres")
+    @NotBlank(message = "Debe ingresar un nombre de la categoria")
     private String nombre;
 
     @Column(name = "imagen_url")
+    @NotBlank(message = "Debe ingresar una imagen")
     private String imagenUrl;
 
     private Integer posicion;
-
-    private Boolean mostrar;
 
     @Column(name = "id_pictograma")
     private Integer idPictograma;
@@ -64,13 +70,6 @@ public class PictogramaAyudaPersonalizado {
         this.posicion = posicion;
     }
 
-    public Boolean getMostrar() {
-        return mostrar;
-    }
-
-    public void setMostrar(Boolean mostrar) {
-        this.mostrar = mostrar;
-    }
 
     public Integer getIdPictograma() {
         return idPictograma;

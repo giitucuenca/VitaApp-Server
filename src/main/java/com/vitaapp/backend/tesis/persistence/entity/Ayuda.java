@@ -1,6 +1,9 @@
 package com.vitaapp.backend.tesis.persistence.entity;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -8,13 +11,26 @@ import java.util.List;
 public class Ayuda {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "id_ayuda")
     private Integer idAyuda;
+
+    @Length(max = 15, message = "Longitud maxima del campo nombre max 15 caracteres")
+    @NotBlank(message = "Debe ingresar un nombre de la categoria")
     private String nombre;
+
+    @Column(name = "imagen_url")
+    @NotBlank(message = "Debe ingresar una imagen")
     private String imagenUrl;
+
+    @NotBlank(message = "Debe ingresar un color")
+    private String color;
 
     @OneToMany(mappedBy = "ayuda")
     List<PictogramaAyudaPersonalizado> pictogramas;
+
+    @OneToMany(mappedBy = "ayuda")
+    List<CategoriaPersonalizada> categorias;
+
 
     public Integer getIdAyuda() {
         return idAyuda;
@@ -48,5 +64,19 @@ public class Ayuda {
         this.pictogramas = pictogramas;
     }
 
+    public String getColor() {
+        return color;
+    }
 
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public List<CategoriaPersonalizada> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<CategoriaPersonalizada> categorias) {
+        this.categorias = categorias;
+    }
 }
