@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "adultos")
@@ -22,20 +24,24 @@ public class Adulto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_adulto")
 	private Integer idAdulto;
-	@Column(length = 40)
+	@Column(length = 60)
+	@NotBlank(message = "Debe ingresar un nombre")
 	private String nombre;
-	@Column(length = 40)
+	@Column(length = 60)
+	@NotBlank(message = "Debe ingresar un apellido")
 	private String apellido;
-	private String codigo;
-	private String correo;
-	private String contrasena;
+	@NotBlank(message = "Debe ingresar un nombre de usuario")
+	private String userName;
+
 	@Column(name = "id_cuidador")
 	private Integer idCuidador;
 	private char genero;
 
 	@Column(name = "id_escolaridad")
+	@NotNull(message = "Debe ingresar la escolaridad")
 	private Integer idEscolaridad;
 
+	@NotBlank(message = "Debe ingresar la laterabilidad")
 	private char lateralidad;
 
 	@ManyToOne
@@ -76,12 +82,15 @@ public class Adulto {
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-	public String getCodigo() {
-		return codigo;
+
+	public String getUserName() {
+		return userName;
 	}
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
+
 	public Integer getIdCuidador() {
 		return idCuidador;
 	}
@@ -124,19 +133,4 @@ public class Adulto {
 		this.escolaridad = escolaridad;
 	}
 
-	public String getCorreo() {
-		return correo;
-	}
-
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
-
-	public String getContrasena() {
-		return contrasena;
-	}
-
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
-	}
 }

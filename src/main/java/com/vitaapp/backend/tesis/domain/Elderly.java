@@ -1,7 +1,5 @@
 package com.vitaapp.backend.tesis.domain;
 
-import javax.persistence.Column;
-
 public class Elderly {
 
     private Integer elderlyId;
@@ -10,7 +8,7 @@ public class Elderly {
 
     private String surname;
 
-    private String code;
+    private String userName;
 
     private Integer carerId;
 
@@ -20,9 +18,6 @@ public class Elderly {
 
     private char laterality;
 
-    private String email;
-
-    private String password;
 
     public Integer getElderlyId() {
         return elderlyId;
@@ -48,12 +43,12 @@ public class Elderly {
         this.surname = surname;
     }
 
-    public String getCode() {
-        return code;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Integer getCarerId() {
@@ -88,19 +83,4 @@ public class Elderly {
         this.laterality = laterality;
     }
 
-    public String getEmail() {
-        return email;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-}
