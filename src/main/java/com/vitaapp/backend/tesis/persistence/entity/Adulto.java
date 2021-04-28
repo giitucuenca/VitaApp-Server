@@ -56,8 +56,8 @@ public class Adulto {
 	@JoinColumn(name = "id_escolaridad", insertable = false, updatable = false)
 	private NivelEscolaridad escolaridad;
 
-	//@OneToMany(mappedBy = "adulto")
-	//List<AdultoCategoriaPersonalizada> adultoCategoriaPersonalizadas;
+	@OneToMany(mappedBy = "adulto")
+	List<AdultoCategoriaPersonalizada> adultoCategoriaPersonalizadas;
 
 
 
@@ -142,5 +142,11 @@ public class Adulto {
 		this.password = password;
 	}
 
+	public List<AdultoCategoriaPersonalizada> getAdultoCategoriaPersonalizadas() {
+		return adultoCategoriaPersonalizadas;
+	}
 
+	public void setAdultoCategoriaPersonalizadas(List<AdultoCategoriaPersonalizada> adultoCategoriaPersonalizadas) {
+		this.adultoCategoriaPersonalizadas = adultoCategoriaPersonalizadas;
+	}
 }

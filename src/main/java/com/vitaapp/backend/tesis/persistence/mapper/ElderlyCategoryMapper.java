@@ -17,8 +17,8 @@ public interface ElderlyCategoryMapper {
     List<ElderlyCategory> toElderlyCategoryList(List<AdultoCategoriaPersonalizada> adultoCategoria);
 
     @InheritInverseConfiguration
-    //@Mapping(target = "categoriaPersonalizada", ignore = true)
-    //@Mapping(target = "adulto", ignore = true)
+    @Mapping(target = "categoriaPersonalizada", ignore = true)
+    @Mapping(target = "adulto", ignore = true)
     AdultoCategoriaPersonalizada toAdultoCategoria(ElderlyCategory adultoCategoria);
     List<AdultoCategoriaPersonalizada> toAdultoCategoriaList(List<ElderlyCategory> adultoCategoria);
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,12 +37,19 @@ public class AdultoCategoriaRepository implements ElderlyCategoryRepository {
     }
 
     @Override
-    public ResponseEntity<?> updateList(List<ElderlyCategory> elderlyCategoryList) {
-        //crud.deleteByIdIdAdulto(elderlyId);
+    @Transactional
+    public ResponseEntity<?> updateList(Integer elderlyId, List<ElderlyCategory> elderlyCategoryList) {
+        crud.deleteByIdIdAdulto(elderlyId);
         return saveList(elderlyCategoryList);
     }
 
+    @Transactional
     public void deleteByIdAdulto(Integer elderlyId) {
         crud.deleteByIdIdAdulto(elderlyId);
+    }
+
+    @Transactional
+    public void deleteByIdCategoria(Integer categoryId) {
+        crud.deleteByIdIdCategoria(categoryId);
     }
 }

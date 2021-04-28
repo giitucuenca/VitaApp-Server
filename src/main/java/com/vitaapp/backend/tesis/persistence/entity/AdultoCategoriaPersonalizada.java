@@ -10,16 +10,13 @@ public class AdultoCategoriaPersonalizada {
 	@EmbeddedId
 	private AdultoCategoriaPersonalizadaPK id;
 
-	/*@ManyToOne
-	@MapsId("idAdulto")
+	@ManyToOne
 	@JoinColumn(name = "id_adulto", insertable = false, updatable = false)
 	private Adulto adulto;
 
 	@ManyToOne
-	@MapsId("idCategoriaPersonalizada")
 	@JoinColumn(name = "id_categoria_personalizada", insertable = false, updatable = false)
 	private CategoriaPersonalizada categoriaPersonalizada;
-	*/
 
 
 	public AdultoCategoriaPersonalizadaPK getId() {
@@ -30,5 +27,19 @@ public class AdultoCategoriaPersonalizada {
 		this.id = id;
 	}
 
+	public Adulto getAdulto() {
+		return adulto;
+	}
 
+	public void setAdulto(Adulto adulto) {
+		this.adulto = adulto;
+	}
+
+	public CategoriaPersonalizada getCategoriaPersonalizada() {
+		return categoriaPersonalizada;
+	}
+
+	public void setCategoriaPersonalizada(CategoriaPersonalizada categoriaPersonalizada) {
+		this.categoriaPersonalizada = categoriaPersonalizada;
+	}
 }

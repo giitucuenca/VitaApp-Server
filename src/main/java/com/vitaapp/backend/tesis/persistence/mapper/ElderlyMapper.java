@@ -25,7 +25,7 @@ public interface ElderlyMapper {
 
     @InheritInverseConfiguration
     @Mappings({
-            //@Mapping(target = "adultoCategoriaPersonalizadas", ignore = true),
+            @Mapping(target = "adultoCategoriaPersonalizadas", ignore = true),
             @Mapping(target = "cuidador", ignore = true),
             @Mapping(target = "escolaridad", ignore = true)
     })

@@ -34,6 +34,9 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
     @Autowired
     private PictogramaPersonalizadoRepository pictograma;
 
+    @Autowired
+    private AdultoCategoriaRepository adultoCategoriaRepository;
+
 
     @Override
     public List<CategoryCarer> getAll() {
@@ -67,6 +70,7 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
     @Override
     public ResponseEntity<?> delete(Integer id) {
         if(crud.findById(id).isPresent()) {
+            adultoCategoriaRepository.deleteByIdCategoria(id);
             pictograma.deletePictogramsByCategoryId(id);
             subcategoria.deleteSubcategoriesByCategoryId(id);
             crud.deleteById(id);

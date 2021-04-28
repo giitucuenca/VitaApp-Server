@@ -54,8 +54,8 @@ public class CategoriaPersonalizada {
     @JoinColumn(name = "id_categoria", updatable = false, insertable = false)
     private Categoria categoria;
 
-    //@OneToMany(mappedBy = "categoriaPersonalizada")
-    //List<AdultoCategoriaPersonalizada> adultoCategoriaPersonalizadas;
+    @OneToMany(mappedBy = "categoriaPersonalizada")
+    List<AdultoCategoriaPersonalizada> adultoCategoriaPersonalizadas;
 
 
 
@@ -159,4 +159,11 @@ public class CategoriaPersonalizada {
         this.ayuda = ayuda;
     }
 
+    public List<AdultoCategoriaPersonalizada> getAdultoCategoriaPersonalizadas() {
+        return adultoCategoriaPersonalizadas;
+    }
+
+    public void setAdultoCategoriaPersonalizadas(List<AdultoCategoriaPersonalizada> adultoCategoriaPersonalizadas) {
+        this.adultoCategoriaPersonalizadas = adultoCategoriaPersonalizadas;
+    }
 }

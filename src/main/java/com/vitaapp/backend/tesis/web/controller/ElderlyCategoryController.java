@@ -20,8 +20,8 @@ public class ElderlyCategoryController {
     }
 
     @PostMapping("/list/{id}")
-    public ResponseEntity<?> updateList( @RequestBody List<ElderlyCategory> elderlyCategoryList) {
-        return service.updateList( elderlyCategoryList);
+    public ResponseEntity<?> updateList(@PathVariable Integer id, @RequestBody List<ElderlyCategory> elderlyCategoryList) {
+        return service.updateList(id, elderlyCategoryList);
     }
 
 }

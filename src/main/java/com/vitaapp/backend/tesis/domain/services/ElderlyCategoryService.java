@@ -17,8 +17,8 @@ public class ElderlyCategoryService {
         return repository.getElderlyCategoryByElderlyId(elderlyId);
     }
 
-    public ResponseEntity<?> updateList( List<ElderlyCategory> elderlyCategoryList) {
-        return repository.updateList(elderlyCategoryList);
+    public ResponseEntity<?> updateList(Integer elderlyId, List<ElderlyCategory> elderlyCategoryList) {
+        return repository.updateList(elderlyId, elderlyCategoryList);
     }
 
 
