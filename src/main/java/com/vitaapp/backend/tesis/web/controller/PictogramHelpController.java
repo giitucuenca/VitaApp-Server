@@ -22,7 +22,7 @@ public class PictogramHelpController {
 
 
     @GetMapping("/any/{id}")
-    public ResponseEntity<PictogramHelp> getById(@PathVariable int id) {
+    public ResponseEntity<?> getById(@PathVariable int id) {
         return pictogramService.getById(id);
     }
 
@@ -31,12 +31,12 @@ public class PictogramHelpController {
         return  pictogramService.save(pictogram);
     }
     @DeleteMapping("/admin/{id}")
-    public ResponseEntity<ResponsePersonalized> delete(@PathVariable int id) {
+    public ResponseEntity<?> delete(@PathVariable int id) {
         return pictogramService.delete(id);
     }
 
     @PutMapping("/admin/{id}")
-    public ResponseEntity<PictogramHelp> update(@Valid @PathVariable int id, @RequestBody PictogramHelp pictogram) {
+    public ResponseEntity<?> update(@Valid @PathVariable int id, @RequestBody PictogramHelp pictogram) {
         return pictogramService.update(id, pictogram);
     }
 

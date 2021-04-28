@@ -31,17 +31,21 @@ public class Adulto {
 	@NotBlank(message = "Debe ingresar un apellido")
 	private String apellido;
 	@NotBlank(message = "Debe ingresar un nombre de usuario")
-	private String userName;
+	private String username;
+
+	@NotBlank String password;
 
 	@Column(name = "id_cuidador")
 	private Integer idCuidador;
+
+	@NotNull(message = "Debe ingresar el genero")
 	private char genero;
 
 	@Column(name = "id_escolaridad")
 	@NotNull(message = "Debe ingresar la escolaridad")
 	private Integer idEscolaridad;
 
-	@NotBlank(message = "Debe ingresar la laterabilidad")
+	@NotNull(message = "Debe ingresar la laterabilidad")
 	private char lateralidad;
 
 	@ManyToOne
@@ -51,9 +55,11 @@ public class Adulto {
 	@ManyToOne
 	@JoinColumn(name = "id_escolaridad", insertable = false, updatable = false)
 	private NivelEscolaridad escolaridad;
-	
-	@OneToMany(mappedBy = "adulto", cascade = CascadeType.ALL)
-	private List<Mensaje> mensajes;
+
+	//@OneToMany(mappedBy = "adulto")
+	//List<AdultoCategoriaPersonalizada> adultoCategoriaPersonalizadas;
+
+
 
 	public char getLateralidad() {
 		return lateralidad;
@@ -83,12 +89,12 @@ public class Adulto {
 		this.apellido = apellido;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public Integer getIdCuidador() {
@@ -104,12 +110,7 @@ public class Adulto {
 	public void setCuidador(Cuidador cuidador) {
 		this.cuidador = cuidador;
 	}
-	public List<Mensaje> getMensajes() {
-		return mensajes;
-	}
-	public void setMensajes(List<Mensaje> mensajes) {
-		this.mensajes = mensajes;
-	}
+
 	public char getGenero() {
 		return genero;
 	}
@@ -132,5 +133,14 @@ public class Adulto {
 	public void setEscolaridad(NivelEscolaridad escolaridad) {
 		this.escolaridad = escolaridad;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 
 }

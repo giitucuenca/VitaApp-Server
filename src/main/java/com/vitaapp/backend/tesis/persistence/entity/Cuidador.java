@@ -39,8 +39,7 @@ public class Cuidador {
 	@OneToMany(mappedBy = "cuidador")
 	private List<Adulto> adultos;
 	
-	@OneToMany(mappedBy = "cuidador")
-	private List<Mensaje> mensajes;
+
 	
 	@OneToMany(mappedBy = "cuidador")
 	private List<CategoriaPersonalizada> categoriasPersonalizadas;
@@ -80,12 +79,6 @@ public class Cuidador {
 	}
 	public void setAdultos(List<Adulto> adultos) {
 		this.adultos = adultos;
-	}
-	public List<Mensaje> getMensajes() {
-		return mensajes;
-	}
-	public void setMensajes(List<Mensaje> mensajes) {
-		this.mensajes = mensajes;
 	}
 	public List<CategoriaPersonalizada> getCategoriasPersonalizadas() {
 		return categoriasPersonalizadas;

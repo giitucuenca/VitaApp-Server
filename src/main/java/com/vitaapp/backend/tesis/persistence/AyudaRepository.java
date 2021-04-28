@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,9 @@ public class AyudaRepository implements HelperRepository {
     private CategoriaPersonalizadaRepository categoriaRepository;
     @Autowired
     private CategoryCarerMapper categoryMapper;
+
+    @Autowired
+    private PictogramaAyudaPersonalizadoRepository pictogramaAyuda;
 
     @Override
     public ResponseEntity<?> save(Helper helper) {
@@ -62,7 +66,7 @@ public class AyudaRepository implements HelperRepository {
             ayuda.setColor(helper.getColor());
             Ayuda ayudaSave =  crud.save(ayuda);
             ResponsePersonalized response = new ResponsePersonalized(200, "La ayuda se modifico correctamente");
-            response.setData(ayudaSave);
+            response.setData(mapper.toHelper(ayudaSave));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             ResponsePersonalized response = new ResponsePersonalized(404, "No se encontro la ayuda");
@@ -72,6 +76,7 @@ public class AyudaRepository implements HelperRepository {
     }
 
     @Override
+    @Transactional(rollbackFor = {RuntimeException.class})
     public ResponseEntity<?> delete(Integer id) {
         Optional<Ayuda> _ayuda = crud.findById(id);
         if (_ayuda.isPresent()) {
@@ -79,6 +84,9 @@ public class AyudaRepository implements HelperRepository {
             ayuda.getCategorias().forEach(categoria -> {
                 categoria.setIdAyuda(null);
                 categoriaRepository.updateCategory(categoria.getIdCategoria(), categoryMapper.toCategory(categoria));
+            });
+            ayuda.getPictogramas().forEach(pictograma -> {
+                pictogramaAyuda.delete(pictograma.getIdPictogramaPersonalizado());
             });
             crud.deleteById(id);
             ResponsePersonalized response = new ResponsePersonalized(200, "Ayuda eliminada");

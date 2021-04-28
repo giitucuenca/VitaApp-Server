@@ -22,7 +22,6 @@ public interface CarerMapper {
     @InheritInverseConfiguration
     @Mappings({
             @Mapping(target = "adultos", ignore = true),
-            @Mapping(target = "mensajes", ignore = true),
             @Mapping(target = "categoriasPersonalizadas", ignore = true),
     })
     Cuidador toCuidador(Carer carer);

@@ -17,16 +17,16 @@ public class PictogramHelpServices {
     public ResponseEntity<?> getAll() {
         return pictogram.getAll();
     }
-    public ResponseEntity<PictogramHelp> getById(int id) {
+    public ResponseEntity<?> getById(int id) {
         return pictogram.getById(id);
     }
     public ResponseEntity<?> save(PictogramHelp pictogramHelp) {
         return pictogram.save(pictogramHelp);
     }
-    public ResponseEntity<ResponsePersonalized> delete(int id) {
+    public ResponseEntity<?> delete(int id) {
         return pictogram.delete(id);
     }
-    public ResponseEntity<PictogramHelp> update(int id, PictogramHelp pictogramHelp) {
+    public ResponseEntity<?> update(int id, PictogramHelp pictogramHelp) {
         return pictogram.update(id, pictogramHelp);
     }
 }

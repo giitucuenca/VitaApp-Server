@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +62,8 @@ public class PictogramaAyudaPersonalizadoRepository implements PictogramHelperCa
             posicion += 1;
         }
         pictogram.setPosition(posicion);
-        return new ResponseEntity<>(mapper.toPictogram(crud.save(mapper.toPictograma(pictogram))), HttpStatus.OK);
+        PictogramaAyudaPersonalizado pictogramaAyuda = mapper.toPictograma(pictogram);
+        return new ResponseEntity<>(mapper.toPictogram(crud.save(pictogramaAyuda)), HttpStatus.OK);
     }
 
     @Override
@@ -79,14 +81,13 @@ public class PictogramaAyudaPersonalizadoRepository implements PictogramHelperCa
                 if(pictogram.getHelperId() == id) {
                     pictogram.setPosition(posicion);
                 } else {
-                    ResponsePersonalized response = new ResponsePersonalized(404, "La lista debe pertenecer a la misma subcategoria");
-                    response.getErrors().add("La lista debe pertenecer a la misma subcategoria");
+                    ResponsePersonalized response = new ResponsePersonalized(404, "La lista debe pertenecer a la misma ayuda");
+                    response.getErrors().add("La lista debe pertenecer a la misma ayuda");
                     return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
                 }
                 posicion++;
             }
         }
-
 
         List<PictogramaAyudaPersonalizado> pictogramas = (List<PictogramaAyudaPersonalizado>) crud.saveAll(mapper.toPictogramas(pictograms));
         ResponsePersonalized response = new ResponsePersonalized(200, "Pictogramas creados correctamente");
@@ -95,15 +96,24 @@ public class PictogramaAyudaPersonalizadoRepository implements PictogramHelperCa
     }
 
     @Override
+    @Transactional(rollbackFor = {RuntimeException.class})
     public ResponseEntity<?> updatePosition(List<PictogramHelperCarer> pictograms) {
-        pictograms.forEach(pictogram -> {
-            update(pictogram.getPictogramCarerId(), pictogram);
-        });
+        Integer helperId = -1;
+        if(pictograms.size() > 0) {
+            helperId = pictograms.get(0).getHelperId();
+        }
+            for(PictogramHelperCarer pictogram : pictograms) {
+                if(helperId != pictogram.getHelperId()) {
+                    throw new RuntimeException("La lista debe pertenecer a la misma ayuda");
+                }
+                updateList(pictogram.getPictogramCarerId(), pictogram);
+            }
         ResponsePersonalized response = new ResponsePersonalized(200, "Pictogramas modificados correctamente");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
+
     public ResponseEntity<ResponsePersonalized> delete(int id) {
         return crud.findById(id).map(pictograma -> {
             crud.deleteById(id);
@@ -127,6 +137,23 @@ public class PictogramaAyudaPersonalizadoRepository implements PictogramHelperCa
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
+
+    public boolean updateList(int id, PictogramHelperCarer pictogram) {
+        Optional<PictogramaAyudaPersonalizado> pictograma = crud.findById(id);
+        if(pictograma.isPresent()) {
+            PictogramaAyudaPersonalizado _pictograma = pictograma.get();
+            _pictograma.setNombre(pictogram.getName());
+            _pictograma.setImagenUrl(pictogram.getImageUrl());
+            _pictograma.setIdAyuda(pictogram.getHelperId());
+            _pictograma.setPosicion(pictogram.getPosition());
+            mapper.toPictogram(crud.save(_pictograma));
+            return true;
+        } else {
+            throw new RuntimeException("Error no existe el pictograma");
+        }
+    }
+
+
 
     public List<PictogramHelperCarer> addColor(List<PictogramaAyudaPersonalizado> pictogramas) {
         return pictogramas.stream().map(pictograma -> {

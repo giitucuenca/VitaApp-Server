@@ -26,6 +26,8 @@ public class PictogramaAyuda {
     @NotBlank(message = "Debe ingresar un color")
     private String color;
 
+    private boolean mostrar;
+
     @OneToMany(mappedBy = "pictograma")
     List<PictogramaAyudaPersonalizado> pictogramasPersonalizados;
 
@@ -78,5 +80,13 @@ public class PictogramaAyuda {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public boolean isMostrar() {
+        return mostrar;
+    }
+
+    public void setMostrar(boolean mostrar) {
+        this.mostrar = mostrar;
     }
 }

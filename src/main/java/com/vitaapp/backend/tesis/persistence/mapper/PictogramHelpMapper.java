@@ -24,6 +24,7 @@ public interface PictogramHelpMapper {
 
     @InheritInverseConfiguration
     @Mapping(target = "pictogramasPersonalizados", ignore = true)
+    @Mapping(target = "mostrar", ignore = true)
     PictogramaAyuda toPictograma(PictogramHelp pictogram);
     List<PictogramaAyuda> toPictogramas(List<PictogramHelp> pictograms);
 }

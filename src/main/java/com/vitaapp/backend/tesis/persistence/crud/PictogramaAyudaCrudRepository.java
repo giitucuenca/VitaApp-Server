@@ -7,4 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface PictogramaAyudaCrudRepository extends CrudRepository<PictogramaAyuda, Integer> {
+    public List<PictogramaAyuda> findByMostrarOrderByNombre(boolean mostrar);
 }

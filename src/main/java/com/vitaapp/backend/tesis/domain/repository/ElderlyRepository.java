@@ -11,5 +11,6 @@ public interface ElderlyRepository {
     ResponseEntity<ResponsePersonalized> save(Elderly older);
     ResponseEntity<ResponsePersonalized> delete(Integer id);
     ResponseEntity<List<Elderly>> getByIdCarer(Integer id);
-    Elderly getByEmail(String email);
+    Elderly getByUsername(String email);
+    ResponseEntity<?> update(Integer id, Elderly elderly);
 }

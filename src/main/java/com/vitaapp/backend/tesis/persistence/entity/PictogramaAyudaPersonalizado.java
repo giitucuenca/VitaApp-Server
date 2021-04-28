@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="pictogramas_ayuda_personalizados")
@@ -25,9 +26,11 @@ public class PictogramaAyudaPersonalizado {
     private Integer posicion;
 
     @Column(name = "id_pictograma")
+    @NotNull(message = "Debe referenciar a algun pictograma")
     private Integer idPictograma;
 
     @Column(name = "id_ayuda")
+    @NotNull(message = "Debe referenciar a alguna ayuda")
     private Integer idAyuda;
 
     @ManyToOne

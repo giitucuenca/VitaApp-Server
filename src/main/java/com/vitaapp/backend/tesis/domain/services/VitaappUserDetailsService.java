@@ -1,11 +1,9 @@
 package com.vitaapp.backend.tesis.domain.services;
 
-import com.vitaapp.backend.tesis.domain.Admin;
-import com.vitaapp.backend.tesis.domain.AdminDetails;
-import com.vitaapp.backend.tesis.domain.Carer;
-import com.vitaapp.backend.tesis.domain.CarerDetails;
+import com.vitaapp.backend.tesis.domain.*;
 import com.vitaapp.backend.tesis.domain.repository.AdminRepository;
 import com.vitaapp.backend.tesis.domain.repository.CarerRepository;
+import com.vitaapp.backend.tesis.domain.repository.ElderlyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +22,9 @@ public class VitaappUserDetailsService implements UserDetailsService {
     @Autowired
     AdminRepository adminRepository;
 
+    @Autowired
+    ElderlyRepository elderlyRepository;
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         String user = s;
@@ -32,13 +33,19 @@ public class VitaappUserDetailsService implements UserDetailsService {
             Carer carer = carerRepository.getByEmail(user);
             carer.setEmail(s);
             return new CarerDetails(carer);
+        } else if(s.contains("older-")) {
+            user = s.substring(6);
+            Elderly elderly = elderlyRepository.getByUsername(user);
+            elderly.setUsername(s);
+            return new ElderlyDetails(elderly);
         }
-        else {
+        else if(s.contains("admin-")) {
             user = s.substring(6);
             Admin admin = adminRepository.getByEmail(user);
             admin.setEmail(s);
             return new AdminDetails(admin);
+        } else  {
+            return null;
         }
-
     }
 }

@@ -33,4 +33,9 @@ public class HelperController {
     public  ResponseEntity<?> update(@Valid @PathVariable Integer id, @RequestBody Helper helper) {
         return service.update(id, helper);
     }
+
+    @DeleteMapping("/{id}")
+    public  ResponseEntity<?> delete(@PathVariable Integer id) {
+        return service.delete(id);
+    }
 }

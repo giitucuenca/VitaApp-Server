@@ -102,7 +102,7 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
             crud.save(_categoria);
             return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria Modificada Correctamente"), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new RuntimeException("No se encontro el elmento con id: " + id + " a modificar");
         }
     }
 

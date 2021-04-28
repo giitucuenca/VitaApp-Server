@@ -13,7 +13,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface PictogramHelperCarerMapper {
     @Mappings({
-            @Mapping(source = "idPictograma", target = "pictogramCarerId"),
+            @Mapping(source = "idPictogramaPersonalizado", target = "pictogramCarerId"),
             @Mapping(source = "nombre", target = "name"),
             @Mapping(source = "imagenUrl", target = "imageUrl"),
             @Mapping(source = "posicion", target = "position"),

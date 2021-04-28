@@ -27,6 +27,7 @@ public interface CategoryCarerMapper {
     @InheritInverseConfiguration
     @Mappings({
             @Mapping(target = "subcategoriasPersonalizadas", ignore = true),
+            //@Mapping(target = "adultoCategoriaPersonalizadas", ignore = true),
             @Mapping(target = "categoria", ignore = true),
             @Mapping(target = "cuidador", ignore = true),
             @Mapping(target = "ayuda", ignore = true)

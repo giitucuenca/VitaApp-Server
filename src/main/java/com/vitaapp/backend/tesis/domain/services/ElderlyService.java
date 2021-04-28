@@ -31,7 +31,11 @@ public class ElderlyService {
         return elderly.getByIdCarer(id);
     }
 
-    public Elderly getByEmail(String email) {
-        return getByEmail(email);
+    public Elderly getByUsername(String username) {
+        return elderly.getByUsername(username);
+    }
+
+    public ResponseEntity<?> update(Integer id, Elderly elderlyUpdate) {
+        return elderly.update(id, elderlyUpdate);
     }
 }

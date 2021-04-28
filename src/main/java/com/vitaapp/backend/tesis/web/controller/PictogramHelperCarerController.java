@@ -21,7 +21,7 @@ public class PictogramHelperCarerController {
         return pictogramCarer.getAll();
     }
 
-    @GetMapping("/subcategory/{id}")
+    @GetMapping("/helper/{id}")
     public List<PictogramHelperCarer> getAllByIdHelper(@PathVariable int id){
         return pictogramCarer.getAllByIdHelper(id);
     }
@@ -41,7 +41,7 @@ public class PictogramHelperCarerController {
     }
 
     @PutMapping("/update-position")
-    public ResponseEntity<?> updatePosition(@Valid @RequestBody List<PictogramHelperCarer> pictograms){
+    public ResponseEntity<?> updatePosition(@Valid @RequestBody List<PictogramHelperCarer> pictograms) {
         return pictogramCarer.updatePosition(pictograms);
     }
 

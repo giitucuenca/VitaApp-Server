@@ -34,7 +34,7 @@ public class PictogramaAyudaRepository implements PictogramHelpRepository {
 
     @Override
     public ResponseEntity<?> getAll() {
-        List<PictogramaAyuda> pictogramas = (List<PictogramaAyuda>) crud.findAll();
+        List<PictogramaAyuda> pictogramas = (List<PictogramaAyuda>) crud.findByMostrarOrderByNombre(true);
         List<PictogramHelp> pictograms = pictogramas.stream().map(pictograma -> {
             PictogramHelp pictogram = mapper.toPictogram(pictograma);
             return pictogram;
@@ -43,22 +43,27 @@ public class PictogramaAyudaRepository implements PictogramHelpRepository {
     }
 
     @Override
-    public ResponseEntity<PictogramHelp> getById(int id) {
+    public ResponseEntity<?> getById(int id) {
         Optional<PictogramaAyuda> pictograma = crud.findById(id);
         if(pictograma.isPresent()) {
             PictogramaAyuda _pictograma = pictograma.get();
             PictogramHelp pictogram = mapper.toPictogram(_pictograma);
             return new ResponseEntity<>(pictogram, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            ResponsePersonalized response = new ResponsePersonalized(404, "No se existe el pictograma buscado");
+            response.getErrors().add("No se existe el pictograma buscado");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
 
     @Override
     public ResponseEntity<?> save(PictogramHelp pictogram) {
+
         if(pictogram.getImages() != null && !pictogram.getImages().isEmpty()) {
+            PictogramaAyuda pictogramaAyuda = mapper.toPictograma(pictogram);
+            pictogramaAyuda.setMostrar(true);
             PictogramHelp _pictogram = mapper
-                    .toPictogram(crud.save(mapper.toPictograma(pictogram)));
+                    .toPictogram(crud.save(pictogramaAyuda));
             pictogram.getImages().forEach(image -> {
                 image.setPictogramId(_pictogram.getPictogramId());
                 imagen.save(image);
@@ -76,17 +81,20 @@ public class PictogramaAyudaRepository implements PictogramHelpRepository {
     @Override
     public ResponseEntity<ResponsePersonalized> delete(int id) {
         return crud.findById(id).map(pictograma -> {
-            crud.deleteById(id);
+            PictogramaAyuda pictogramaAyuda = pictograma;
+            pictogramaAyuda.setMostrar(false);
+            crud.save(pictogramaAyuda);
             ResponsePersonalized response = new ResponsePersonalized(200, "Pictograma Eliminado");
             return new ResponseEntity<>(response, HttpStatus.OK);
         }).orElseGet(() -> {
-            ResponsePersonalized response = new ResponsePersonalized(200, "Pictograma no encontrado");
+            ResponsePersonalized response = new ResponsePersonalized(404, "Pictograma no encontrado");
+            response.getErrors().add("Pictograma no encontrado");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         });
     }
 
     @Override
-    public ResponseEntity<PictogramHelp> update(int id, PictogramHelp pictogram) {
+    public ResponseEntity<?> update(int id, PictogramHelp pictogram) {
         Optional<PictogramaAyuda> pictogramaData = crud.findById(id);
         PictogramaAyuda pictograma = mapper.toPictograma(pictogram);
         if(pictogramaData.isPresent()) {

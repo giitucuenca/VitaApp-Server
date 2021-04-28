@@ -1,5 +1,7 @@
 package com.vitaapp.backend.tesis.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Elderly {
 
     private Integer elderlyId;
@@ -8,7 +10,10 @@ public class Elderly {
 
     private String surname;
 
-    private String userName;
+    private String username;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
 
     private Integer carerId;
 
@@ -43,12 +48,12 @@ public class Elderly {
         this.surname = surname;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Integer getCarerId() {
@@ -83,4 +88,11 @@ public class Elderly {
         this.laterality = laterality;
     }
 
+    public String getPassword() {
+        return password;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}

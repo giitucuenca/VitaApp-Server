@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface PictogramHelpRepository {
     ResponseEntity<?> getAll();
-    ResponseEntity<PictogramHelp> getById(int id);
+    ResponseEntity<?> getById(int id);
     ResponseEntity<?> save(PictogramHelp pictogram);
-    ResponseEntity<ResponsePersonalized> delete(int id);
-    ResponseEntity<PictogramHelp> update(int id, PictogramHelp pictogram);
+    ResponseEntity<?> delete(int id);
+    ResponseEntity<?> update(int id, PictogramHelp pictogram);
 }
