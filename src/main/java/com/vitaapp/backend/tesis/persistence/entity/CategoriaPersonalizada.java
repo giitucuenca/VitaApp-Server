@@ -15,8 +15,8 @@ public class CategoriaPersonalizada {
     @Column(name = "id_categoria_personalizada")
     private Integer idCategoriaPersonalizada;
 
-    @Column(length = 15)
-    @Length(max = 15, message = "Longitud maxima del campo nombre max 15 caracteres")
+    @Column(length = 25)
+    @Length(max = 25, message = "Longitud maxima del campo nombre max 15 caracteres")
     @NotBlank(message = "Debe ingresar un nombre de la categoria")
     private String nombre;
 

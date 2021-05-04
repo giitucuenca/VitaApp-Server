@@ -101,7 +101,7 @@ public class PictogramaAyudaRepository implements PictogramHelpRepository {
             PictogramaAyuda _pictograma = pictogramaData.get();
             _pictograma.setNombre(pictograma.getNombre());
             _pictograma.setImagenUrl(pictogram.getImageUrl());
-            _pictograma.setColor(pictogram.getColor());
+            // _pictograma.setColor(pictogram.getColor());
             List<ImagePictogramHelp> images = imagen.getImagesByPictogramId(id);
             images.forEach(image -> {
                 boolean delete = true;

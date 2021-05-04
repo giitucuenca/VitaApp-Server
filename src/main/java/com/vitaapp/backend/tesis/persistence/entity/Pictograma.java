@@ -16,8 +16,8 @@ public class Pictograma {
 	@Column(name = "id_pictograma")
 	private Integer idPictograma;
 
-	@Column(length = 15)
-	@Length(max = 15, message = "Longitud maxima del campo nombre max 15 caracteres")
+	@Column(length = 20)
+	@Length(max = 20, message = "Longitud maxima del campo nombre max 15 caracteres")
 	@NotBlank(message = "Debe ingresar el nombre del pictograma")
 	private String nombre;
 

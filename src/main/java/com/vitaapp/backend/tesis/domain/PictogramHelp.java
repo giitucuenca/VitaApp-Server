@@ -6,7 +6,7 @@ public class PictogramHelp {
     private Integer pictogramId;
     private String name;
     private String imageUrl;
-    private String color;
+    // private String color;
     private List<ImagePictogramHelp> images;
 
 
@@ -42,12 +42,4 @@ public class PictogramHelp {
         this.imageUrl = imageUrl;
     }
 
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
 }

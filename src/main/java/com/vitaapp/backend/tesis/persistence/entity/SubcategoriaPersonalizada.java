@@ -14,8 +14,8 @@ public class SubcategoriaPersonalizada {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_subcategoria_personalizada")
 	private Integer idSubcategoriaPersonalizada;
-    @Column(length = 15)
-    @Length(max = 15, message = "Longitud maxima del campo nombre max 15 caracteres")
+    @Column(length = 25)
+    @Length(max = 25, message = "Longitud maxima del campo nombre max 15 caracteres")
     @NotBlank(message = "Debe ingresar un nombre de la categoria")
     private String nombre;
     @Column(length = 40)

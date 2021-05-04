@@ -14,8 +14,8 @@ public class PictogramaAyudaPersonalizado {
     @Column(name = "id_pictograma_personalizado")
     private Integer idPictogramaPersonalizado;
 
-    @Column(length = 15)
-    @Length(max = 15, message = "Longitud maxima del campo nombre max 15 caracteres")
+    @Column(length = 20)
+    @Length(max = 20, message = "Longitud maxima del campo nombre max 15 caracteres")
     @NotBlank(message = "Debe ingresar un nombre de la categoria")
     private String nombre;
 

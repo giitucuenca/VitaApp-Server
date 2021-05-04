@@ -14,8 +14,8 @@ public class PictogramaAyuda {
     @Column(name = "id_pictograma")
     private Integer idPictograma;
 
-    @Column(length = 15)
-    @Length(max = 15, message = "Longitud maxima del campo nombre max 15 caracteres")
+    @Column(length = 20)
+    @Length(max = 20, message = "Longitud maxima del campo nombre max 15 caracteres")
     @NotBlank(message = "Debe ingresar el nombre del pictograma")
     private String nombre;
 
@@ -23,9 +23,9 @@ public class PictogramaAyuda {
     @NotBlank(message = "Debe ingresar una imagen")
     private String imagenUrl;
 
-    @NotBlank(message = "Debe ingresar un color")
+    /* @NotBlank(message = "Debe ingresar un color")
     private String color;
-
+    */
     private boolean mostrar;
 
     @OneToMany(mappedBy = "pictograma")
@@ -74,13 +74,6 @@ public class PictogramaAyuda {
         this.imagenesPictogramas = imagenesPictogramas;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
 
     public boolean isMostrar() {
         return mostrar;
