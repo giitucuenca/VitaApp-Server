@@ -19,8 +19,8 @@ public class SubcategoryCarerService {
         return subcategoryCarer.getAll();
     }
 
-    public List<SubcategoryCarer> getByCategory(int categoryId) {
-        return subcategoryCarer.getByCategory(categoryId);
+    public List<SubcategoryCarer> getByCategory(int categoryId, String email) {
+        return subcategoryCarer.getByCategory(categoryId, email);
     }
 
     public ResponseEntity<?> getByIdSubcategory(int id) {

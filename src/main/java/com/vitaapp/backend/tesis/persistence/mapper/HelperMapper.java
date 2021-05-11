@@ -13,10 +13,12 @@ public interface HelperMapper {
     @Mapping(source = "idAyuda", target = "helperId")
     @Mapping(source = "nombre", target = "name")
     @Mapping(source = "imagenUrl", target = "imageUrl")
+    @Mapping(source = "idCuidador", target = "carerId")
     Helper toHelper(Ayuda ayuda);
     List<Helper> toHelpers(List<Ayuda> ayudas);
 
     @InheritInverseConfiguration
+    @Mapping(target = "cuidador", ignore = true)
     @Mapping(target = "pictogramas", ignore = true)
     @Mapping(target = "categorias", ignore = true)
     Ayuda toAyuda(Helper helper);

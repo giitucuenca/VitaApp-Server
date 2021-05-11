@@ -9,4 +9,6 @@ public interface HelperRepository {
     ResponseEntity<?> findById(Integer id);
     ResponseEntity<?> update(Integer id, Helper helper);
     ResponseEntity<?> delete(Integer id);
+    ResponseEntity<?> getByCarerId(Integer carerId);
+
 }

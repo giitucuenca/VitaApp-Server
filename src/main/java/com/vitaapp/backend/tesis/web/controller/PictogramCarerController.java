@@ -5,11 +5,13 @@ import com.vitaapp.backend.tesis.domain.PictogramCarer;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.PictogramCarerRepository;
 import com.vitaapp.backend.tesis.domain.services.PictogramCarerService;
+import com.vitaapp.backend.tesis.web.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,14 +20,26 @@ public class PictogramCarerController {
     @Autowired
     private PictogramCarerService pictogramCarer;
 
+    @Autowired
+    private JWTUtil jwtUtil;
+
     @GetMapping("/all")
     public List<PictogramCarer> getAll(){
         return pictogramCarer.getAll();
     }
 
     @GetMapping("/subcategory/{id}")
-    public List<PictogramCarer> getAllByIdSubcategory(@PathVariable int id){
-        return pictogramCarer.getAllByIdSubcategory(id);
+    public List<PictogramCarer> getAllByIdSubcategory(@PathVariable int id, @RequestHeader(name="Authorization") String token, @RequestParam(required = false) String email){
+        token = token.substring(7);
+        String emailCarer = jwtUtil.extractUsername(token);
+        if(emailCarer.substring(0, 6).equals("older-")) {
+            if(email != null) {
+                emailCarer = email;
+            } else {
+                return new ArrayList<>();
+            }
+        }
+        return pictogramCarer.getAllByIdSubcategory(id, emailCarer);
     }
     @PostMapping("/add")
     public ResponseEntity<?> save(@Valid @RequestBody PictogramCarer pictogram){

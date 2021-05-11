@@ -28,8 +28,8 @@ public class PictogramCarerService {
         return pictogramCarer.getById(id);
     }
 
-    public List<PictogramCarer> getAllByIdSubcategory(int id) {
-        return pictogramCarer.getAllByIdSubcategory(id);
+    public List<PictogramCarer> getAllByIdSubcategory(int id, String email) {
+        return pictogramCarer.getAllByIdSubcategory(id, email);
     }
 
     public ResponseEntity<?> save(PictogramCarer pictogram) {

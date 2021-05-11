@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface SubcategoryCarerRepository {
     List<SubcategoryCarer> getAll();
-    List<SubcategoryCarer> getByCategory(int categoryId);
+    List<SubcategoryCarer> getByCategory(int categoryId, String email);
     ResponseEntity<?> getByIdSubcategory(int id);
     ResponseEntity<?> save(SubcategoryCarer subcategory);
     ResponseEntity<ResponsePersonalized> deleteSubcategory(int id);

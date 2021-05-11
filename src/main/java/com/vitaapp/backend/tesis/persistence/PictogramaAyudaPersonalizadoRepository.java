@@ -3,7 +3,10 @@ package com.vitaapp.backend.tesis.persistence;
 import com.vitaapp.backend.tesis.domain.PictogramHelperCarer;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.PictogramHelperCarerRepository;
+import com.vitaapp.backend.tesis.persistence.crud.AyudaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.crud.PictogramaAyudaPersonalizadaCrudRepository;
+import com.vitaapp.backend.tesis.persistence.entity.Ayuda;
+import com.vitaapp.backend.tesis.persistence.entity.CategoriaPersonalizada;
 import com.vitaapp.backend.tesis.persistence.entity.PictogramaAyudaPersonalizado;
 import com.vitaapp.backend.tesis.persistence.mapper.PictogramHelperCarerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,9 @@ public class PictogramaAyudaPersonalizadoRepository implements PictogramHelperCa
 
     @Autowired
     PictogramHelperCarerMapper mapper;
+
+    @Autowired
+    private AyudaCrudRepository ayudaCrud;
 
 
     @Override
@@ -48,7 +54,13 @@ public class PictogramaAyudaPersonalizadoRepository implements PictogramHelperCa
     }
 
     @Override
-    public List<PictogramHelperCarer> getAllByIdHelper(int id) {
+    public List<PictogramHelperCarer> getAllByIdHelper(int id, String email) {
+        if(!email.substring(0, 6).equals("admin-")) {
+            String emailCarer = emailCarer(id);
+            if(!emailCarer.equals(email.substring(6))) {
+                throw new RuntimeException("No tiene permisos para acceder a esta información");
+            }
+        }
         List<PictogramaAyudaPersonalizado> pictogramas = crud.findByIdAyudaOrderByPosicionAsc(id);
         return addColor(pictogramas);
     }
@@ -161,6 +173,15 @@ public class PictogramaAyudaPersonalizadoRepository implements PictogramHelperCa
             pictogram.setColor(pictograma.getAyuda().getColor());
             return pictogram;
         }).collect(Collectors.toList());
+    }
+
+    public String emailCarer(Integer helperId) {
+        Optional<Ayuda> ayuda = ayudaCrud.findById(helperId);
+        if(ayuda.isPresent()) {
+            return ayuda.get().getCuidador().getCorreo();
+        } else {
+            throw new RuntimeException("No existe la categoria");
+        }
     }
 
 }

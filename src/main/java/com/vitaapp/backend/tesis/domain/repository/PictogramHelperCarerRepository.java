@@ -9,7 +9,7 @@ import java.util.List;
 public interface PictogramHelperCarerRepository {
     List<PictogramHelperCarer> getAll();
     ResponseEntity<?> getById(int id);
-    List<PictogramHelperCarer> getAllByIdHelper(int id);
+    List<PictogramHelperCarer> getAllByIdHelper(int id, String email);
     ResponseEntity<?> save(PictogramHelperCarer pictogram);
     ResponseEntity<?> saveList(List<PictogramHelperCarer> pictograms);
     ResponseEntity<?> updatePosition(List<PictogramHelperCarer> pictograms);

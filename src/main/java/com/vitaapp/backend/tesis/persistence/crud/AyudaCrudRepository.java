@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AyudaCrudRepository extends CrudRepository<Ayuda, Integer> {
     public List<Ayuda> findAllByOrderByNombreAsc();
+    public List<Ayuda> findByCuidadorIdCuidadorOrderByNombreAsc(Integer idCuidador);
 }

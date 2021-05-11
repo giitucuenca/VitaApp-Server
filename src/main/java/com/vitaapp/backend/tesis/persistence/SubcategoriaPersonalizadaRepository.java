@@ -3,6 +3,7 @@ package com.vitaapp.backend.tesis.persistence;
 import com.vitaapp.backend.tesis.domain.SubcategoryCarer;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.SubcategoryCarerRepository;
+import com.vitaapp.backend.tesis.persistence.crud.CategoriaPersonalizadaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.crud.PictogramaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.crud.PictogramaPersonalizadaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.crud.SubcategoriaPersonalizadaCrudRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Repository
@@ -29,6 +31,11 @@ public class SubcategoriaPersonalizadaRepository implements SubcategoryCarerRepo
     @Autowired
     private PictogramaPersonalizadoRepository pictograma;
 
+    @Autowired
+    private CategoriaPersonalizadaCrudRepository crudCategory;
+
+
+
     @Override
     public List<SubcategoryCarer> getAll() {
         List<SubcategoriaPersonalizada> subcategorias = (List<SubcategoriaPersonalizada>) crud.findAll();
@@ -41,7 +48,13 @@ public class SubcategoriaPersonalizadaRepository implements SubcategoryCarerRepo
     }
 
     @Override
-    public List<SubcategoryCarer> getByCategory(int categoryId) {
+    public List<SubcategoryCarer> getByCategory(int categoryId, String email) {
+       if(!email.substring(0, 6).equals("admin-")) {
+            String emailCarer = emailCarer(categoryId);
+            if(!emailCarer.equals(email.substring(6))) {
+                throw new RuntimeException("No tiene permisos para acceder a esta información");
+            }
+        }
         List<SubcategoriaPersonalizada> subcategorias = (List<SubcategoriaPersonalizada>) crud.findByIdCategoriaPersonalizadaOrderByNombreAsc(categoryId);
         List<SubcategoryCarer> subcategories = subcategorias.stream().map(subcategoria -> {
             SubcategoryCarer subcategory = mapper.toSubcategory(subcategoria);
@@ -84,6 +97,7 @@ public class SubcategoriaPersonalizadaRepository implements SubcategoryCarerRepo
 
     @Override
     public ResponseEntity<?> updateSubcategory(int id, SubcategoryCarer subcategory) {
+
         Optional<SubcategoriaPersonalizada> subcategoria = crud.findById(id);
         if(subcategoria.isPresent()) {
             SubcategoriaPersonalizada _subcategoria = subcategoria.get();
@@ -116,5 +130,14 @@ public class SubcategoriaPersonalizadaRepository implements SubcategoryCarerRepo
         categorias.forEach(categoria -> {
             crud.deleteById(categoria.getIdSubcategoriaPersonalizada());
         });
+    }
+
+    public String emailCarer(Integer categoryId) {
+        Optional<CategoriaPersonalizada> categoria = crudCategory.findById(categoryId);
+        if(categoria.isPresent()) {
+            return categoria.get().getCuidador().getCorreo();
+        } else {
+            throw new RuntimeException("No existe la categoria");
+        }
     }
 }

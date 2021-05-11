@@ -68,7 +68,16 @@ public class CarerController {
     @GetMapping("/me")
     public ResponseEntity<?> me(@RequestHeader(name="Authorization") String token) {
         token = token.substring(7);
+        String user = jwtUtil.extractUsername(token).substring(0, 6);
+        if(user.equals("older-") || user.equals("admin-")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         String email = jwtUtil.extractUsername(token).substring(6);
         return new ResponseEntity<>(this.carerService.getByEmail(email), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCarerById(@PathVariable Integer id) {
+        return  this.carerService.getByIdCarer(id);
     }
 }

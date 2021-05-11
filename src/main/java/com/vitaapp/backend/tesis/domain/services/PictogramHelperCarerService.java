@@ -25,8 +25,8 @@ public class PictogramHelperCarerService {
         return repository.getById(id);
     }
 
-    public List<PictogramHelperCarer> getAllByIdHelper(int id) {
-        return repository.getAllByIdHelper(id);
+    public List<PictogramHelperCarer> getAllByIdHelper(int id, String email) {
+        return repository.getAllByIdHelper(id, email);
     }
 
     public ResponseEntity<?> save(PictogramHelperCarer pictogram) {

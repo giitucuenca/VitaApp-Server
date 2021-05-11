@@ -5,6 +5,7 @@ public class Helper {
     private String name;
     private String imageUrl;
     private String color;
+    private Integer carerId;
 
     public Integer getHelperId() {
         return helperId;
@@ -36,5 +37,13 @@ public class Helper {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public Integer getCarerId() {
+        return carerId;
+    }
+
+    public void setCarerId(Integer carerId) {
+        this.carerId = carerId;
     }
 }

@@ -4,6 +4,7 @@ import com.vitaapp.backend.tesis.domain.PictogramCarer;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.PictogramCarerRepository;
 import com.vitaapp.backend.tesis.persistence.crud.PictogramaPersonalizadaCrudRepository;
+import com.vitaapp.backend.tesis.persistence.crud.SubcategoriaPersonalizadaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.entity.Pictograma;
 import com.vitaapp.backend.tesis.persistence.entity.PictogramaPersonalizado;
 import com.vitaapp.backend.tesis.persistence.entity.SubcategoriaPersonalizada;
@@ -24,6 +25,10 @@ public class PictogramaPersonalizadoRepository implements PictogramCarerReposito
 
     @Autowired
     private PictogramCarerMapper mapper;
+
+    @Autowired
+    private SubcategoriaPersonalizadaCrudRepository crudSubcategory;
+
 
 
     @Override
@@ -49,9 +54,20 @@ public class PictogramaPersonalizadoRepository implements PictogramCarerReposito
     }
 
     @Override
-    public List<PictogramCarer> getAllByIdSubcategory(int id) {
+    public List<PictogramCarer> getAllByIdSubcategory(int id, String email) {
+        if(!email.substring(0, 6).equals("admin-")) {
+            String emailCarer = emailCarer(id);
+            if(!emailCarer.equals(email.substring(6))) {
+                throw new RuntimeException("No tiene permisos para acceder a esta información");
+            }
+        }
         List<PictogramaPersonalizado> pictogramas = crud.findByIdSubcategoriaPersonalizadaOrderByPosicionAsc(id);
-        return addColor(pictogramas);
+        return pictogramas.stream().map(pictograma -> {
+
+            PictogramCarer pictogram = mapper.toPictogram(pictograma);
+            pictogram.setColor(pictograma.getSubcategoriaPersonalizada().getCategoriaPersonalizada().getColor());
+            return pictogram;
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -150,5 +166,14 @@ public class PictogramaPersonalizadoRepository implements PictogramCarerReposito
             pictogram.setColor(pictograma.getSubcategoriaPersonalizada().getCategoriaPersonalizada().getColor());
             return pictogram;
         }).collect(Collectors.toList());
+    }
+
+    public String emailCarer(Integer subcategoryId) {
+        Optional<SubcategoriaPersonalizada> subcategoria = crudSubcategory.findById(subcategoryId);
+        if(subcategoria.isPresent()) {
+            return subcategoria.get().getCategoriaPersonalizada().getCuidador().getCorreo();
+        } else {
+            throw new RuntimeException("No existe la subcategoria");
+        }
     }
 }

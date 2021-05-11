@@ -3,11 +3,14 @@ package com.vitaapp.backend.tesis.web.controller;
 import com.vitaapp.backend.tesis.domain.SubcategoryCarer;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.services.SubcategoryCarerService;
+import com.vitaapp.backend.tesis.web.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,9 +25,21 @@ public class SubcategoryCarerController {
         return subcategoryCarer.getAll();
     }
 
-    @GetMapping("/category/{categoryId}")
-    public List<SubcategoryCarer> getByCategory(@PathVariable int categoryId) {
-        return subcategoryCarer.getByCategory(categoryId);
+    @Autowired
+    private JWTUtil jwtUtil;
+
+    @GetMapping("/category/{categoryId}" )
+    public List<SubcategoryCarer> getByCategory(@PathVariable int categoryId, @RequestHeader(name="Authorization") String token, @RequestParam(required = false) String email) {
+        token = token.substring(7);
+        String emailCarer = jwtUtil.extractUsername(token);
+        if(emailCarer.substring(0, 6).equals("older-")) {
+            if(email != null) {
+                emailCarer = email;
+            } else {
+                return new ArrayList<>();
+            }
+        }
+        return subcategoryCarer.getByCategory(categoryId, emailCarer);
     }
 
     @GetMapping("/{id}")

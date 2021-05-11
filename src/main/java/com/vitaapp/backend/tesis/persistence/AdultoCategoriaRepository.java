@@ -5,6 +5,8 @@ import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.ElderlyCategoryRepository;
 import com.vitaapp.backend.tesis.persistence.crud.AdultoCategoriaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.entity.AdultoCategoriaPersonalizada;
+import com.vitaapp.backend.tesis.persistence.entity.CategoriaPersonalizada;
+import com.vitaapp.backend.tesis.persistence.mapper.CategoryCarerMapper;
 import com.vitaapp.backend.tesis.persistence.mapper.ElderlyCategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -21,6 +24,9 @@ public class AdultoCategoriaRepository implements ElderlyCategoryRepository {
 
     @Autowired
     private ElderlyCategoryMapper mapper;
+
+    @Autowired
+    private CategoryCarerMapper categoryMapper;
 
     @Override
     public ResponseEntity<?> saveList(List<ElderlyCategory> elderlyCategoryList) {
@@ -41,6 +47,16 @@ public class AdultoCategoriaRepository implements ElderlyCategoryRepository {
     public ResponseEntity<?> updateList(Integer elderlyId, List<ElderlyCategory> elderlyCategoryList) {
         crud.deleteByIdIdAdulto(elderlyId);
         return saveList(elderlyCategoryList);
+    }
+
+    @Override
+    public ResponseEntity<?> getCategoriesByElderlyId(Integer elderlyId) {
+        List<AdultoCategoriaPersonalizada> adultoCategorias = crud.findByIdIdAdulto(elderlyId);
+        List<CategoriaPersonalizada> categorias = new ArrayList<>();
+        adultoCategorias.forEach(adultoCategoriaPersonalizada ->  {
+            categorias.add(adultoCategoriaPersonalizada.getCategoriaPersonalizada());
+        });
+        return new ResponseEntity<>(categoryMapper.toCategories(categorias), HttpStatus.OK);
     }
 
     @Transactional

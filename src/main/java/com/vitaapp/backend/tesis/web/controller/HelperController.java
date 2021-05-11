@@ -24,6 +24,11 @@ public class HelperController {
         return service.getAll();
     }
 
+    @GetMapping("/by-carer/{id}")
+    public ResponseEntity<?> getHelperByCarerId(@PathVariable Integer id) {
+        return service.getHelperByCarerId(id);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Integer id) {
         return service.findById(id);

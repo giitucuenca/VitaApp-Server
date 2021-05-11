@@ -24,4 +24,9 @@ public class ElderlyCategoryController {
         return service.updateList(id, elderlyCategoryList);
     }
 
+    @GetMapping("/categories/elderly/{id}")
+    public ResponseEntity<?> getCategoriesByElderlyId(@PathVariable Integer id) {
+        return service.getCategoriesByElderlyId(id);
+    }
+
 }

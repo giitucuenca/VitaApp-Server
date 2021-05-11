@@ -9,4 +9,5 @@ public interface ElderlyCategoryRepository {
     public ResponseEntity<?> saveList(List<ElderlyCategory> elderlyCategoryList);
     public ResponseEntity<?> getElderlyCategoryByElderlyId(Integer elderlyId);
     public ResponseEntity<?> updateList(Integer elderlyId, List<ElderlyCategory> elderlyCategoryList);
+    public ResponseEntity<?> getCategoriesByElderlyId(Integer elderlyId);
 }

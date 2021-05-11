@@ -6,6 +6,7 @@ import com.vitaapp.backend.tesis.domain.Pictogram;
 import com.vitaapp.backend.tesis.domain.PictogramHelp;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.PictogramHelpRepository;
+import com.vitaapp.backend.tesis.persistence.crud.AyudaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.crud.PictogramaAyudaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.crud.PictogramaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.entity.Pictograma;
@@ -25,6 +26,8 @@ import java.util.stream.Collectors;
 public class PictogramaAyudaRepository implements PictogramHelpRepository {
     @Autowired
     private PictogramaAyudaCrudRepository crud;
+
+    
 
     @Autowired
     private PictogramHelpMapper mapper;
@@ -125,4 +128,7 @@ public class PictogramaAyudaRepository implements PictogramHelpRepository {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
+
 }

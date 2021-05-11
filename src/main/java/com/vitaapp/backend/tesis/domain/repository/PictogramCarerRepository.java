@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface PictogramCarerRepository {
     List<PictogramCarer> getAll();
     ResponseEntity<?> getById(int id);
-    List<PictogramCarer> getAllByIdSubcategory(int id);
+    List<PictogramCarer> getAllByIdSubcategory(int id, String email);
     ResponseEntity<?> save(PictogramCarer pictogram);
     ResponseEntity<?> saveList(List<PictogramCarer> pictograms);
     ResponseEntity<?> updatePosition(List<PictogramCarer> pictograms);

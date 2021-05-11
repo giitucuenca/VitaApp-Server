@@ -1,5 +1,6 @@
 package com.vitaapp.backend.tesis.persistence;
 
+import com.vitaapp.backend.tesis.domain.Carer;
 import com.vitaapp.backend.tesis.domain.CategoryCarer;
 import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.CategoryCarerRepository;
@@ -7,6 +8,7 @@ import com.vitaapp.backend.tesis.persistence.crud.CategoriaPersonalizadaCrudRepo
 import com.vitaapp.backend.tesis.persistence.crud.CuidadorCrudRepository;
 import com.vitaapp.backend.tesis.persistence.entity.CategoriaPersonalizada;
 import com.vitaapp.backend.tesis.persistence.entity.Cuidador;
+import com.vitaapp.backend.tesis.persistence.entity.SubcategoriaPersonalizada;
 import com.vitaapp.backend.tesis.persistence.mapper.CategoryCarerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -117,4 +119,9 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
         response.setData(mapper.toCategories(categorias));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
+
+
+
 }

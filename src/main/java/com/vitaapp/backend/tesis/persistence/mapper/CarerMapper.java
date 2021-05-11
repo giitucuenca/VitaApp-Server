@@ -23,6 +23,7 @@ public interface CarerMapper {
     @Mappings({
             @Mapping(target = "adultos", ignore = true),
             @Mapping(target = "categoriasPersonalizadas", ignore = true),
+            @Mapping(target = "ayudas", ignore = true)
     })
     Cuidador toCuidador(Carer carer);
 }

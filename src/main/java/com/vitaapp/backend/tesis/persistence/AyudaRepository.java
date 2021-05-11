@@ -97,4 +97,9 @@ public class AyudaRepository implements HelperRepository {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
+
+    @Override
+    public ResponseEntity<?> getByCarerId(Integer carerId) {
+        return new ResponseEntity<>(mapper.toHelpers((List<Ayuda>) crud.findByCuidadorIdCuidadorOrderByNombreAsc(carerId)), HttpStatus.OK);
+    }
 }

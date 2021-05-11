@@ -7,6 +7,7 @@ import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.SubcategoryRepository;
 import com.vitaapp.backend.tesis.persistence.crud.SubcategoriaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.entity.Subcategoria;
+import com.vitaapp.backend.tesis.persistence.entity.SubcategoriaPersonalizada;
 import com.vitaapp.backend.tesis.persistence.mapper.SubcategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -134,4 +135,6 @@ public class SubcategoriaRepository implements SubcategoryRepository {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
 }

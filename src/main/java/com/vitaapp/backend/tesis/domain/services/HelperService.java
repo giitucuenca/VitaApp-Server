@@ -19,6 +19,10 @@ public class HelperService {
         return helperRepository.getAll();
     }
 
+    public ResponseEntity<?> getHelperByCarerId(Integer carerId) {
+        return helperRepository.getByCarerId(carerId);
+    }
+
     public ResponseEntity<?> findById(Integer id) {
         return helperRepository.findById(id);
     }

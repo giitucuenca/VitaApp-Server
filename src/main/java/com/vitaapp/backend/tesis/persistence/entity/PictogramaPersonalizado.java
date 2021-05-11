@@ -21,7 +21,7 @@ public class PictogramaPersonalizado {
     @Column(name = "imagen_url")
     @NotBlank(message = "Debe ingresar una imagen")
     private String imagenUrl;
-
+    @NotNull(message = "Debe ingresar una posición")
     private Integer posicion;
 
     @Column(name = "id_pictograma")

@@ -21,5 +21,9 @@ public class ElderlyCategoryService {
         return repository.updateList(elderlyId, elderlyCategoryList);
     }
 
+    public ResponseEntity<?> getCategoriesByElderlyId(Integer elderlyId) {
+        return repository.getCategoriesByElderlyId(elderlyId);
+    }
+
 
 }

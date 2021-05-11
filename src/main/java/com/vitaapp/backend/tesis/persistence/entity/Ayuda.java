@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -14,8 +15,8 @@ public class Ayuda {
     @Column(name = "id_ayuda")
     private Integer idAyuda;
 
-    @Length(max = 15, message = "Longitud maxima del campo nombre max 15 caracteres")
-    @NotBlank(message = "Debe ingresar un nombre de la categoria")
+    @Length(max = 30, message = "Longitud maxima del campo nombre max 30 caracteres")
+    @NotBlank(message = "Debe ingresar un nombre de la ayuda")
     private String nombre;
 
     @Column(name = "imagen_url")
@@ -24,6 +25,14 @@ public class Ayuda {
 
     @NotBlank(message = "Debe ingresar un color")
     private String color;
+
+    @Column(name = "id_cuidador")
+    @NotNull(message = "Debe ingresar el id del cuidador que creo la ayuda")
+    private Integer idCuidador;
+
+    @ManyToOne
+    @JoinColumn(name = "id_cuidador", insertable = false, updatable = false)
+    private Cuidador cuidador;
 
     @OneToMany(mappedBy = "ayuda")
     List<PictogramaAyudaPersonalizado> pictogramas;
@@ -78,5 +87,21 @@ public class Ayuda {
 
     public void setCategorias(List<CategoriaPersonalizada> categorias) {
         this.categorias = categorias;
+    }
+
+    public Integer getIdCuidador() {
+        return idCuidador;
+    }
+
+    public void setIdCuidador(Integer idCuidador) {
+        this.idCuidador = idCuidador;
+    }
+
+    public Cuidador getCuidador() {
+        return cuidador;
+    }
+
+    public void setCuidador(Cuidador cuidador) {
+        this.cuidador = cuidador;
     }
 }

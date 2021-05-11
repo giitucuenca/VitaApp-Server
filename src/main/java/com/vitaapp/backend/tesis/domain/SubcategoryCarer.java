@@ -74,5 +74,4 @@ public class SubcategoryCarer {
         this.subcategoryCarerId = subcategoryCarerId;
     }
 
-
 }
