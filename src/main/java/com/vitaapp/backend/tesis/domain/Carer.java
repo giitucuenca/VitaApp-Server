@@ -9,6 +9,7 @@ public class Carer {
     private String name;
 
     private String surname;
+    private String uid;
 
     private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -61,5 +62,13 @@ public class Carer {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

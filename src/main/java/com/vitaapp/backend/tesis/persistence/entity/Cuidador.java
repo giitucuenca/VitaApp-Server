@@ -26,6 +26,7 @@ public class Cuidador {
 	@Column(length = 40)
 	@NotBlank(message = "Debe ingresar un nombre")
 	private String nombre;
+	private String uid;
 	@Column(length = 40)
 	@NotBlank(message = "Debe ingresar un apellido")
 	private String apellido;
@@ -94,5 +95,13 @@ public class Cuidador {
 
 	public void setAyudas(List<Ayuda> ayudas) {
 		this.ayudas = ayudas;
+	}
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 }
