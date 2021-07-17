@@ -142,7 +142,9 @@ public class PictogramaAyudaPersonalizadoRepository implements PictogramHelperCa
             _pictograma.setImagenUrl(pictogram.getImageUrl());
             _pictograma.setIdAyuda(pictogram.getHelperId());
             _pictograma.setPosicion(pictogram.getPosition());
-            return new ResponseEntity<>(mapper.toPictogram(crud.save(_pictograma)), HttpStatus.OK);
+            crud.save(_pictograma);
+            ResponsePersonalized response = new ResponsePersonalized(200,"Pictograma Modificada Correctamente");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             ResponsePersonalized response = new ResponsePersonalized(404, "No se encontro el pictograma");
             response.getErrors().add("No se encontro el pictograma");

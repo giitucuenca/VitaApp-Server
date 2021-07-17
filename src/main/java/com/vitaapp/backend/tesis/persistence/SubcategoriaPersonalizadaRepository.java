@@ -105,8 +105,9 @@ public class SubcategoriaPersonalizadaRepository implements SubcategoryCarerRepo
             _subcategoria.setDescripcion(subcategory.getDescription());
             _subcategoria.setImagenUrl(subcategory.getImageUrl());
             _subcategoria.setIdCategoriaPersonalizada(subcategory.getCategoryId());
-            ResponsePersonalized response = new ResponsePersonalized(200, "Subcategoria creada correctamente");
-            response.setData(crud.save(_subcategoria));
+            crud.save(_subcategoria);
+            ResponsePersonalized response = new ResponsePersonalized(200,"Subcategoria Modificada Correctamente");
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             ResponsePersonalized response = new ResponsePersonalized(404, "No existe la subcategoria");
