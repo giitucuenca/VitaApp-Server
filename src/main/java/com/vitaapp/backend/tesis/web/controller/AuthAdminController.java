@@ -39,9 +39,13 @@ public class AuthAdminController {
         }
         try {
             userName = "admin-" + userName;
+            System.out.println("antes token");
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userName,
+                    request.getPassword());
+            System.out.println("antes autenticator");
             authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(userName,
-                            request.getPassword()));
+                    .authenticate(token);
+            System.out.println("despues autenticator");
             UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
             String jwt = jwtUtil.generateToken(userDetails);
             return new ResponseEntity<String>("hey", HttpStatus.OK);
