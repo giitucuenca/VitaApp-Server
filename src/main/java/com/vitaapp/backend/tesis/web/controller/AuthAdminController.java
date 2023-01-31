@@ -31,7 +31,7 @@ public class AuthAdminController {
     private JWTUtil jwtUtil;
 
     @PostMapping("/auth")
-    public ResponseEntity<String> createToken(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> createToken(@RequestBody AuthenticationRequest request) {
         Admin admin = adminService.getByEmail(request.getUsername());
         String userName = request.getUsername();
         if (admin == null) {
@@ -39,17 +39,13 @@ public class AuthAdminController {
         }
         try {
             userName = "admin-" + userName;
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userName,
-                    request.getPassword());
             authenticationManager
-                    .authenticate(token);
+                    .authenticate(new UsernamePasswordAuthenticationToken(userName, request.getPassword()));
             UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-            // String jwt = jwtUtil.generateToken(userDetails);
-            return new ResponseEntity<String>(userDetails.getPassword(), HttpStatus.OK);
-            // return new ResponseEntity<>(new AuthenticationResponse(jwt), HttpStatus.OK);
+            String jwt = jwtUtil.generateToken(userDetails);
+            return new ResponseEntity<>(new AuthenticationResponse(jwt), HttpStatus.OK);
         } catch (BadCredentialsException exception) {
-            return new ResponseEntity<String>("BadCredentialsException", HttpStatus.OK);
-            // return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 
