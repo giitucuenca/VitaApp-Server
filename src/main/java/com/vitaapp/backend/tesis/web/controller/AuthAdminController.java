@@ -32,8 +32,8 @@ public class AuthAdminController {
 
     @PostMapping("/auth")
     public ResponseEntity<String> createToken(@RequestBody AuthenticationRequest request) {
-        return new ResponseEntity<String>(request.getUsername(), HttpStatus.OK);
-        // Admin admin = adminService.getByEmail(request.getUsername());
+        Admin admin = adminService.getByEmail(request.getUsername());
+        return new ResponseEntity<String>(admin.getEmail(), HttpStatus.OK);
         // String userName = request.getUsername();
         // if (admin == null) {
         // return new ResponseEntity<>(HttpStatus.FORBIDDEN);
