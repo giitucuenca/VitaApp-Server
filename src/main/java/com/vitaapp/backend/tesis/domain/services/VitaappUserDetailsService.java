@@ -40,11 +40,8 @@ public class VitaappUserDetailsService implements UserDetailsService {
             return new ElderlyDetails(elderly);
         } else if (s.contains("admin-")) {
             user = s.substring(6);
-            System.out.println(user);
             Admin admin = adminRepository.getByEmail(user);
-            System.out.println(admin.getEmail());
             admin.setEmail(s);
-            System.out.println(s);
             return new AdminDetails(admin);
         } else {
             return null;
