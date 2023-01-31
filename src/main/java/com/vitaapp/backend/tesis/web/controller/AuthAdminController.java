@@ -31,21 +31,24 @@ public class AuthAdminController {
     private JWTUtil jwtUtil;
 
     @PostMapping("/auth")
-    public ResponseEntity<AuthenticationResponse> createToken(@RequestBody AuthenticationRequest request) {
-        Admin admin = adminService.getByEmail(request.getUsername());
-        String userName = request.getUsername();
-        if(admin == null) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-        try {
-            userName = "admin-" + userName;
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, request.getPassword()));
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-            String jwt = jwtUtil.generateToken(userDetails);
-            return new ResponseEntity<>(new AuthenticationResponse(jwt), HttpStatus.OK);
-        } catch (BadCredentialsException exception) {
-            return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+    public ResponseEntity<String> createToken(@RequestBody AuthenticationRequest request) {
+        return new ResponseEntity<String>(request.getUsername(), HttpStatus.OK);
+        // Admin admin = adminService.getByEmail(request.getUsername());
+        // String userName = request.getUsername();
+        // if (admin == null) {
+        // return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        // }
+        // try {
+        // userName = "admin-" + userName;
+        // authenticationManager
+        // .authenticate(new UsernamePasswordAuthenticationToken(userName,
+        // request.getPassword()));
+        // UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+        // String jwt = jwtUtil.generateToken(userDetails);
+        // return new ResponseEntity<>(new AuthenticationResponse(jwt), HttpStatus.OK);
+        // } catch (BadCredentialsException exception) {
+        // return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        // }
     }
 
     @GetMapping("/valid")
