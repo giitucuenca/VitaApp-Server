@@ -28,19 +28,14 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Arrays;
 
-
 @Configuration
 public class SecurityUserConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private VitaappUserDetailsService adminService;
 
-
-
     @Autowired
     private JWTFilterUserRequest jwtFilterRequest;
-
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -62,10 +57,11 @@ public class SecurityUserConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/**/auth","/**/register").permitAll()
+                .antMatchers("/**/auth", "/**/register").permitAll()
                 .antMatchers("/**/admin", "/**/admin/**/").hasAnyAuthority("ADMIN")
                 .antMatchers("/**/any/**/", "/**/carer", "/**/carer/**/").hasAnyAuthority("CARER", "ADMIN", "OLDER")
-                .anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .anyRequest().authenticated().and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);
     }
@@ -75,7 +71,6 @@ public class SecurityUserConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -89,8 +84,5 @@ public class SecurityUserConfig extends WebSecurityConfigurerAdapter {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
-
-
-
 
 }
