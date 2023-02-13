@@ -6,8 +6,10 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface PictogramaAyudaPersonalizadaCrudRepository extends CrudRepository<PictogramaAyudaPersonalizado, Integer> {
-    List<PictogramaAyudaPersonalizado> findByIdAyudaOrderByPosicionAsc(Integer idAyuda);
-    @Query(value = "SELECT MAX(posicion) FROM PictogramaAyudaPersonalizado WHERE idAyuda = ?1")
-    Integer findPosicionMaxima(Integer idAyuda);
+public interface PictogramaAyudaPersonalizadaCrudRepository
+                extends CrudRepository<PictogramaAyudaPersonalizado, Integer> {
+        List<PictogramaAyudaPersonalizado> findByIdAyudaOrderByPosicionAsc(Integer idAyuda);
+
+        @Query(value = "SELECT MAX(posicion) FROM PictogramaAyudaPersonalizado WHERE idAyuda = ?1")
+        Integer findPosicionMaxima(Integer idAyuda);
 }
