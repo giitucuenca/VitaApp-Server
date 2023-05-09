@@ -33,7 +33,7 @@ public class CategoryCarerController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ResponsePersonalized> save(@Valid  @RequestBody CategoryCarer category) {
+    public ResponseEntity<ResponsePersonalized> save(@Valid @RequestBody CategoryCarer category) {
         return categoryService.save(category);
     }
 
@@ -43,13 +43,19 @@ public class CategoryCarerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponsePersonalized> updateCategory(@PathVariable Integer id, @RequestBody CategoryCarer category) {
+    public ResponseEntity<ResponsePersonalized> updateCategory(@PathVariable Integer id,
+            @RequestBody CategoryCarer category) {
         return categoryService.updateCategory(id, category);
     }
 
     @PostMapping("/add/list")
     public ResponseEntity<?> saveList(@Valid @RequestBody List<CategoryCarer> categories) {
         return categoryService.saveList(categories);
+    }
+
+    @PostMapping("/addAll/list")
+    public ResponseEntity<?> saveAllList(@Valid @RequestBody List<CategoryCarer> categories) {
+        return categoryService.saveAllList(categories);
     }
 
 }

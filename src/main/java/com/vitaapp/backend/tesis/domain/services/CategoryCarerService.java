@@ -18,24 +18,33 @@ public class CategoryCarerService {
     public List<CategoryCarer> getAll() {
         return categoryCarer.getAll();
     }
+
     public ResponseEntity<?> getCategoryByCarerId(int carerId) {
         return categoryCarer.getCategoryByCarerId(carerId);
     }
+
     public ResponseEntity<CategoryCarer> getByIdCategory(int id) {
         return categoryCarer.getByIdCategory(id);
     }
+
     public ResponseEntity<ResponsePersonalized> save(CategoryCarer category) {
         return categoryCarer.save(category);
     }
+
     public ResponseEntity<?> delete(Integer id) {
         return categoryCarer.delete(id);
     }
+
     public ResponseEntity<ResponsePersonalized> updateCategory(Integer id, CategoryCarer category) {
         return categoryCarer.updateCategory(id, category);
     }
 
     public ResponseEntity<?> saveList(List<CategoryCarer> categories) {
         return categoryCarer.saveList(categories);
+    }
+
+    public ResponseEntity<?> saveAllList(List<CategoryCarer> categories) {
+        return categoryCarer.saveAllList(categories);
     }
 
 }

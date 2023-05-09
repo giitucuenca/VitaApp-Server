@@ -1,6 +1,5 @@
 package com.vitaapp.backend.tesis.domain;
 
-
 import java.util.List;
 
 public class Subcategory {
@@ -10,9 +9,8 @@ public class Subcategory {
 	private String name;
 
 	private String description;
-	
-	private Integer categoryId;
 
+	private Integer categoryId;
 
 	private String imageUrl;
 
@@ -21,7 +19,6 @@ public class Subcategory {
 	private boolean show;
 
 	private List<ImageSubcategory> images;
-
 
 	public String getImageUrl() {
 		return imageUrl;
@@ -86,4 +83,5 @@ public class Subcategory {
 	public void setColor(String color) {
 		this.color = color;
 	}
+
 }

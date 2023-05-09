@@ -34,28 +34,27 @@ public class SubcategoriaPersonalizadaRepository implements SubcategoryCarerRepo
     @Autowired
     private CategoriaPersonalizadaCrudRepository crudCategory;
 
-
-
     @Override
     public List<SubcategoryCarer> getAll() {
         List<SubcategoriaPersonalizada> subcategorias = (List<SubcategoriaPersonalizada>) crud.findAll();
         List<SubcategoryCarer> subcategories = subcategorias.stream().map(subcategoria -> {
-           SubcategoryCarer subcategory = mapper.toSubcategory(subcategoria);
-           subcategory.setColor(subcategoria.getCategoriaPersonalizada().getColor());
-           return subcategory;
+            SubcategoryCarer subcategory = mapper.toSubcategory(subcategoria);
+            subcategory.setColor(subcategoria.getCategoriaPersonalizada().getColor());
+            return subcategory;
         }).collect(Collectors.toList());
         return subcategories;
     }
 
     @Override
     public List<SubcategoryCarer> getByCategory(int categoryId, String email) {
-       if(!email.substring(0, 6).equals("admin-")) {
+        if (!email.substring(0, 6).equals("admin-")) {
             String emailCarer = emailCarer(categoryId);
-            if(!emailCarer.equals(email.substring(6))) {
+            if (!emailCarer.equals(email.substring(6))) {
                 throw new RuntimeException("No tiene permisos para acceder a esta información");
             }
         }
-        List<SubcategoriaPersonalizada> subcategorias = (List<SubcategoriaPersonalizada>) crud.findByIdCategoriaPersonalizadaOrderByNombreAsc(categoryId);
+        List<SubcategoriaPersonalizada> subcategorias = (List<SubcategoriaPersonalizada>) crud
+                .findByIdCategoriaPersonalizadaOrderByNombreAsc(categoryId);
         List<SubcategoryCarer> subcategories = subcategorias.stream().map(subcategoria -> {
             SubcategoryCarer subcategory = mapper.toSubcategory(subcategoria);
             subcategory.setColor(subcategoria.getCategoriaPersonalizada().getColor());
@@ -67,11 +66,11 @@ public class SubcategoriaPersonalizadaRepository implements SubcategoryCarerRepo
     @Override
     public ResponseEntity<?> getByIdSubcategory(int id) {
         Optional<SubcategoriaPersonalizada> subcategoria = crud.findById(id);
-        if(subcategoria.isPresent()) {
+        if (subcategoria.isPresent()) {
             SubcategoryCarer subcategory = mapper.toSubcategory(subcategoria.get());
             subcategory.setColor(subcategoria.get().getCategoriaPersonalizada().getColor());
             return new ResponseEntity<>(subcategory, HttpStatus.OK);
-        } else  {
+        } else {
             ResponsePersonalized response = new ResponsePersonalized(404, "No se encontro la subcategoria");
             response.getErrors().add("No se encontro la subcategoria");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -92,42 +91,46 @@ public class SubcategoriaPersonalizadaRepository implements SubcategoryCarerRepo
             pictograma.deletePictogramsBySubcategoryId(id);
             crud.deleteById(id);
             return new ResponseEntity(new ResponsePersonalized(200, "Subcategoria eliminada"), HttpStatus.OK);
-        }).orElse(new ResponseEntity(new ResponsePersonalized(404, "No se encontro el elemento a eliminar"), HttpStatus.NOT_FOUND));
+        }).orElse(new ResponseEntity(new ResponsePersonalized(404, "No se encontro el elemento a eliminar"),
+                HttpStatus.NOT_FOUND));
     }
 
     @Override
     public ResponseEntity<?> updateSubcategory(int id, SubcategoryCarer subcategory) {
 
         Optional<SubcategoriaPersonalizada> subcategoria = crud.findById(id);
-        if(subcategoria.isPresent()) {
+        if (subcategoria.isPresent()) {
             SubcategoriaPersonalizada _subcategoria = subcategoria.get();
             _subcategoria.setNombre(subcategory.getName());
             _subcategoria.setDescripcion(subcategory.getDescription());
             _subcategoria.setImagenUrl(subcategory.getImageUrl());
             _subcategoria.setIdCategoriaPersonalizada(subcategory.getCategoryId());
             crud.save(_subcategoria);
-            ResponsePersonalized response = new ResponsePersonalized(200,"Subcategoria Modificada Correctamente");
+            ResponsePersonalized response = new ResponsePersonalized(200, "Subcategoria Modificada Correctamente");
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             ResponsePersonalized response = new ResponsePersonalized(404, "No existe la subcategoria");
             response.getErrors().add("No existe la subcategoria");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-            //return new ResponseEntity(new ResponsePersonalized(404, "No se encontro el elemento a eliminar"), HttpStatus.NOT_FOUND);
+            // return new ResponseEntity(new ResponsePersonalized(404, "No se encontro el
+            // elemento a eliminar"), HttpStatus.NOT_FOUND);
         }
 
     }
 
     @Override
     public ResponseEntity<?> saveList(List<SubcategoryCarer> subcategories) {
-        List<SubcategoriaPersonalizada> subcategorias = (List<SubcategoriaPersonalizada>) crud.saveAll(mapper.toSubcategorias(subcategories));
+        List<SubcategoriaPersonalizada> subcategorias = (List<SubcategoriaPersonalizada>) crud
+                .saveAll(mapper.toSubcategorias(subcategories));
         ResponsePersonalized response = new ResponsePersonalized(200, "Subcategorias creadas correctamente");
         response.setData(mapper.toSubcategories(subcategorias));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     public void deleteSubcategoriesByCategoryId(Integer categoryId) {
-        List<SubcategoriaPersonalizada> categorias = (List<SubcategoriaPersonalizada>) crud.findByIdCategoriaPersonalizadaOrderByNombreAsc(categoryId);
+        List<SubcategoriaPersonalizada> categorias = (List<SubcategoriaPersonalizada>) crud
+                .findByIdCategoriaPersonalizadaOrderByNombreAsc(categoryId);
         categorias.forEach(categoria -> {
             crud.deleteById(categoria.getIdSubcategoriaPersonalizada());
         });
@@ -135,7 +138,7 @@ public class SubcategoriaPersonalizadaRepository implements SubcategoryCarerRepo
 
     public String emailCarer(Integer categoryId) {
         Optional<CategoriaPersonalizada> categoria = crudCategory.findById(categoryId);
-        if(categoria.isPresent()) {
+        if (categoria.isPresent()) {
             return categoria.get().getCuidador().getCorreo();
         } else {
             throw new RuntimeException("No existe la categoria");

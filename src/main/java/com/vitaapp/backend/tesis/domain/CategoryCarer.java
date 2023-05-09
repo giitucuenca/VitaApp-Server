@@ -80,4 +80,11 @@ public class CategoryCarer {
     public void setCategoryCarerId(Integer categoryCarerId) {
         this.categoryCarerId = categoryCarerId;
     }
+
+    @Override
+    public String toString() {
+        return "CategoryCarer{categoryCarerId=" + categoryCarerId + ", categoryId=" + categoryId + ", name=" + name
+                + ", description=" + description + ", color=" + color + ", imageUrl=" + imageUrl + ", carerId="
+                + carerId + ", helperId=" + helperId + "}";
+    }
 }

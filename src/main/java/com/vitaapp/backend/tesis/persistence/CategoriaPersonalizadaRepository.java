@@ -6,6 +6,7 @@ import com.vitaapp.backend.tesis.domain.message.ResponsePersonalized;
 import com.vitaapp.backend.tesis.domain.repository.CategoryCarerRepository;
 import com.vitaapp.backend.tesis.persistence.crud.CategoriaPersonalizadaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.crud.CuidadorCrudRepository;
+import com.vitaapp.backend.tesis.persistence.crud.SubcategoriaPersonalizadaCrudRepository;
 import com.vitaapp.backend.tesis.persistence.entity.CategoriaPersonalizada;
 import com.vitaapp.backend.tesis.persistence.entity.Cuidador;
 import com.vitaapp.backend.tesis.persistence.entity.SubcategoriaPersonalizada;
@@ -15,6 +16,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
+import com.vitaapp.backend.tesis.domain.repository.SubcategoryCarerRepository;
+import com.vitaapp.backend.tesis.domain.repository.SubcategoryRepository;
+import com.vitaapp.backend.tesis.domain.repository.PictogramRepository;
+import com.vitaapp.backend.tesis.domain.repository.PictogramCarerRepository;
+import com.vitaapp.backend.tesis.domain.SubcategoryCarer;
+import com.vitaapp.backend.tesis.domain.PictogramCarer;
+import com.vitaapp.backend.tesis.domain.Pictogram;
+import com.vitaapp.backend.tesis.domain.Subcategory;
+import com.vitaapp.backend.tesis.persistence.mapper.SubcategoryCarerMapper;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -23,22 +34,30 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
 
     @Autowired
     private CategoriaPersonalizadaCrudRepository crud;
-
     @Autowired
     private CuidadorCrudRepository cuidadorCrud;
-
     @Autowired
     private CategoryCarerMapper mapper;
-
+    @Autowired
+    private SubcategoryCarerMapper mapperSub;
     @Autowired
     private SubcategoriaPersonalizadaRepository subcategoria;
-
     @Autowired
     private PictogramaPersonalizadoRepository pictograma;
-
     @Autowired
     private AdultoCategoriaRepository adultoCategoriaRepository;
+    @Autowired
+    private SubcategoriaPersonalizadaCrudRepository subcategoriaCrud;
 
+    // maybe
+    @Autowired
+    private SubcategoryCarerRepository subcategoryCarer;
+    @Autowired
+    private SubcategoryRepository subcategoryRepository;
+    @Autowired
+    private PictogramCarerRepository pictogramCarer;
+    @Autowired
+    private PictogramRepository pictogramRepository;
 
     @Override
     public List<CategoryCarer> getAll() {
@@ -49,7 +68,8 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
     public ResponseEntity<?> getCategoryByCarerId(int carerId) {
         Optional<Cuidador> cuidador = cuidadorCrud.findById(carerId);
         if (cuidador.isPresent()) {
-            return new ResponseEntity<>(mapper.toCategories(crud.findByIdCuidadorOrderByNombreAsc(carerId)), HttpStatus.OK);
+            return new ResponseEntity<>(mapper.toCategories(crud.findByIdCuidadorOrderByNombreAsc(carerId)),
+                    HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -59,19 +79,20 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
     public ResponseEntity<CategoryCarer> getByIdCategory(int id) {
         return crud
                 .findById(id)
-                .map(categoriaPersonalizada -> new ResponseEntity<>(mapper.toCategory(categoriaPersonalizada), HttpStatus.OK))
+                .map(categoriaPersonalizada -> new ResponseEntity<>(mapper.toCategory(categoriaPersonalizada),
+                        HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @Override
     public ResponseEntity<ResponsePersonalized> save(CategoryCarer category) {
-            crud.save(mapper.toCategoria(category));
-            return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria creada"), HttpStatus.OK);
+        crud.save(mapper.toCategoria(category));
+        return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria creada"), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> delete(Integer id) {
-        if(crud.findById(id).isPresent()) {
+        if (crud.findById(id).isPresent()) {
             adultoCategoriaRepository.deleteByIdCategoria(id);
             pictograma.deletePictogramsByCategoryId(id);
             subcategoria.deleteSubcategoriesByCategoryId(id);
@@ -86,12 +107,16 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
 
-        /* return crud.findById(id).map(categoria -> {
-            crud.deleteById(id);
-            return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria Eliminada"), HttpStatus.OK);
-        }).orElseGet(() -> {
-            return new ResponseEntity<>(new ResponsePersonalized(404, "Categoria no encontrada"), HttpStatus.NOT_FOUND);
-        }); */
+        /*
+         * return crud.findById(id).map(categoria -> {
+         * crud.deleteById(id);
+         * return new ResponseEntity<>(new ResponsePersonalized(200,
+         * "Categoria Eliminada"), HttpStatus.OK);
+         * }).orElseGet(() -> {
+         * return new ResponseEntity<>(new ResponsePersonalized(404,
+         * "Categoria no encontrada"), HttpStatus.NOT_FOUND);
+         * });
+         */
     }
 
     @Override
@@ -106,7 +131,8 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
             _categoria.setColor(categoria.getColor());
             _categoria.setIdAyuda(categoria.getIdAyuda());
             crud.save(_categoria);
-            return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria Modificada Correctamente"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponsePersonalized(200, "Categoria Modificada Correctamente"),
+                    HttpStatus.OK);
         } else {
             throw new RuntimeException("No se encontro el elmento con id: " + id + " a modificar");
         }
@@ -114,14 +140,37 @@ public class CategoriaPersonalizadaRepository implements CategoryCarerRepository
 
     @Override
     public ResponseEntity<?> saveList(List<CategoryCarer> categories) {
-        List<CategoriaPersonalizada> categorias = (List<CategoriaPersonalizada>) crud.saveAll(mapper.toCategorias(categories));
+        List<CategoriaPersonalizada> categorias = (List<CategoriaPersonalizada>) crud
+                .saveAll(mapper.toCategorias(categories));
         ResponsePersonalized response = new ResponsePersonalized(200, "Categorias creadas correctamente");
         response.setData(mapper.toCategories(categorias));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<?> saveAllList(List<CategoryCarer> categories) {
+        List<CategoriaPersonalizada> categorias = (List<CategoriaPersonalizada>) crud
+                .saveAll(mapper.toCategorias(categories));
+        categorias.stream().forEach((categoria) -> {
+            List<SubcategoryCarer> subcategories = subcategoryRepository.getByCategory(categoria.getIdCategoria())
+                    .stream()
+                    .map(subcategory -> new SubcategoryCarer(subcategory, categoria))
+                    .toList();
+            List<SubcategoriaPersonalizada> subcategorias = (List<SubcategoriaPersonalizada>) subcategoriaCrud
+                    .saveAll(mapperSub.toSubcategorias(subcategories));
 
-
-
+            subcategorias.stream().forEach((subcategoria) -> {
+                List<PictogramCarer> pictograms = pictogramRepository
+                        .getAllByIdSubcategory(subcategoria.getIdSubcategoria())
+                        .stream()
+                        .map(pictogram -> new PictogramCarer(pictogram, subcategoria))
+                        .toList();
+                pictograma.saveList(pictograms);
+            });
+        });
+        ResponsePersonalized response = new ResponsePersonalized(200, "Categorias creadas correctamente");
+        response.setData(mapper.toCategories(categorias));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
 }

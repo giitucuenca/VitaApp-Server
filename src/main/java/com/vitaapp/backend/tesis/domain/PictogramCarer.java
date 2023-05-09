@@ -1,19 +1,33 @@
 package com.vitaapp.backend.tesis.domain;
 
+import com.vitaapp.backend.tesis.persistence.entity.SubcategoriaPersonalizada;
+
 public class PictogramCarer {
     private Integer pictogramCarerId;
-
     private String name;
-
     private String imageUrl;
-
     private Integer position;
-
     private Integer subcategoryId;
-
     private Integer pictogramId;
-
     private String color;
+
+    public PictogramCarer(Pictogram pictogram, SubcategoriaPersonalizada subcategoria) {
+        this.name = pictogram.getName();
+        this.imageUrl = pictogram.getImageUrl();
+        this.pictogramId = pictogram.getPictogramId();
+        this.color = pictogram.getColor();
+        this.subcategoryId = subcategoria.getIdSubcategoriaPersonalizada();
+    }
+
+    @Override
+    public String toString() {
+        return "PictogramCarer{pictogramCarerId=" + pictogramCarerId + ", name=" + name + ", imageUrl=" + imageUrl
+                + ", position=" + position + ", subcategoryId=" + subcategoryId + ", pictogramId=" + pictogramId
+                + ", color=" + color + "}";
+    }
+
+    public PictogramCarer() {
+    }
 
     public String getColor() {
         return color;
@@ -22,7 +36,6 @@ public class PictogramCarer {
     public void setColor(String color) {
         this.color = color;
     }
-
 
     public Integer getPosition() {
         return position;
@@ -63,7 +76,6 @@ public class PictogramCarer {
     public void setSubcategoryId(Integer subcategoryId) {
         this.subcategoryId = subcategoryId;
     }
-
 
     public Integer getPictogramCarerId() {
         return pictogramCarerId;
